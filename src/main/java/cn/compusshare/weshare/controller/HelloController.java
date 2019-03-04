@@ -1,7 +1,6 @@
 package cn.compusshare.weshare.controller;
 
 import cn.compusshare.weshare.service.HelloService;
-import cn.compusshare.weshare.service.impl.HelloServiceImpl;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
 import org.slf4j.Logger;
