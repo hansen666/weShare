@@ -1270,3 +1270,47 @@ Consider defining a bean of type 'cn.compusshare.weshare.repository.mapper.Schoo
 2019-03-05 21:05:02.963  INFO 29180 --- [http-nio-8080-exec-6] org.slf4j.Logger                         : HelloController.getSchools(),入参：count=5
 2019-03-05 21:05:03.015  INFO 29180 --- [http-nio-8080-exec-6] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
 2019-03-05 21:05:03.469  INFO 29180 --- [http-nio-8080-exec-6] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2019-03-05 21:25:24.063  INFO 12320 --- [main] c.c.weshare.WeshareApplication           : Starting WeshareApplication on DESKTOP-I22MD8D with PID 12320 (D:\EAPro\weshare\target\classes started by LZing in D:\EAPro\weshare)
+2019-03-05 21:25:24.068  INFO 12320 --- [main] c.c.weshare.WeshareApplication           : No active profile set, falling back to default profiles: default
+2019-03-05 21:25:26.358  INFO 12320 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-03-05 21:25:26.383  INFO 12320 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-03-05 21:25:26.383  INFO 12320 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.16]
+2019-03-05 21:25:26.389  INFO 12320 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.16] of the APR based Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [1.2.21]
+2019-03-05 21:25:26.390  INFO 12320 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded APR based Apache Tomcat Native library [1.2.16] using APR version [1.6.3].
+2019-03-05 21:25:26.390  INFO 12320 --- [main] o.a.catalina.core.AprLifecycleListener   : APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2019-03-05 21:25:26.391  INFO 12320 --- [main] o.a.catalina.core.AprLifecycleListener   : APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2019-03-05 21:25:27.493  INFO 12320 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 1.0.2m  2 Nov 2017]
+2019-03-05 21:25:27.613  INFO 12320 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-03-05 21:25:27.613  INFO 12320 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3481 ms
+2019-03-05 21:25:28.051  INFO 12320 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-05 21:25:28.053  INFO 12320 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-05 21:25:28.661  INFO 12320 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-03-05 21:25:28.664  INFO 12320 --- [main] c.c.weshare.WeshareApplication           : Started WeshareApplication in 5.253 seconds (JVM running for 7.176)
+2019-03-05 21:25:32.804  INFO 12320 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-03-05 21:25:32.804  INFO 12320 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-03-05 21:25:32.820  INFO 12320 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 15 ms
+2019-03-05 21:25:39.825  INFO 12320 --- [http-nio-8080-exec-4] org.slf4j.Logger                         : HelloController.getSchools(),入参：count=5
+2019-03-05 21:25:39.856  INFO 12320 --- [http-nio-8080-exec-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2019-03-05 21:25:40.253  INFO 12320 --- [http-nio-8080-exec-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2019-03-05 21:26:20.718  INFO 15512 --- [main] c.c.weshare.WeshareApplication           : Starting WeshareApplication on DESKTOP-I22MD8D with PID 15512 (D:\EAPro\weshare\target\classes started by LZing in D:\EAPro\weshare)
+2019-03-05 21:26:20.725  INFO 15512 --- [main] c.c.weshare.WeshareApplication           : No active profile set, falling back to default profiles: default
+2019-03-05 21:26:22.952  INFO 15512 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-03-05 21:26:22.976  INFO 15512 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-03-05 21:26:22.976  INFO 15512 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.16]
+2019-03-05 21:26:22.985  INFO 15512 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.16] of the APR based Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [1.2.21]
+2019-03-05 21:26:22.985  INFO 15512 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded APR based Apache Tomcat Native library [1.2.16] using APR version [1.6.3].
+2019-03-05 21:26:22.985  INFO 15512 --- [main] o.a.catalina.core.AprLifecycleListener   : APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2019-03-05 21:26:22.985  INFO 15512 --- [main] o.a.catalina.core.AprLifecycleListener   : APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2019-03-05 21:26:24.080  INFO 15512 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 1.0.2m  2 Nov 2017]
+2019-03-05 21:26:24.194  INFO 15512 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-03-05 21:26:24.195  INFO 15512 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3343 ms
+2019-03-05 21:26:24.694  INFO 15512 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-05 21:26:24.698  INFO 15512 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-05 21:26:25.304  INFO 15512 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-03-05 21:26:25.308  INFO 15512 --- [main] c.c.weshare.WeshareApplication           : Started WeshareApplication in 5.251 seconds (JVM running for 7.586)
+2019-03-05 21:28:00.453  INFO 15512 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-03-05 21:28:00.453  INFO 15512 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-03-05 21:28:00.461  INFO 15512 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2019-03-05 21:28:02.324  INFO 15512 --- [http-nio-8080-exec-3] org.slf4j.Logger                         : HelloController.getSchools(),入参：count=5
+2019-03-05 21:28:02.349  INFO 15512 --- [http-nio-8080-exec-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2019-03-05 21:28:02.741  INFO 15512 --- [http-nio-8080-exec-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
