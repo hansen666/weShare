@@ -1,6 +1,7 @@
 package cn.compusshare.weshare.controller;
 
 import cn.compusshare.weshare.service.HelloService;
+import cn.compusshare.weshare.utils.AsynTaskUtil;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
 import org.slf4j.Logger;
@@ -26,6 +27,8 @@ public class HelloController {
     @Autowired
     private HelloService helloService;
 
+
+
     @GetMapping("/sayHello")
     public ResultResponse sayHello(){
         logger.info("HelloController.sayHello(),入参：null");
@@ -36,6 +39,12 @@ public class HelloController {
     public  ResultResponse getSchools(@RequestParam int count){
         logger.info("HelloController.getSchools(),入参：count={}",count);
         return ResultUtil.success(helloService.dataBaseTest(count));
+    }
+
+    @GetMapping("/asyn")
+    public ResultResponse testAsyn(){
+        helloService.testAsynTask();
+        return ResultUtil.success("wait for asyn");
     }
 
 

@@ -2,12 +2,12 @@ package cn.compusshare.weshare.repository.entity;
 
 import java.util.Date;
 
-public class School {
+public class Collection {
     private Integer id;
 
-    private String province;
+    private String userId;
 
-    private String name;
+    private Integer goodsId;
 
     private Date createTime;
 
@@ -21,20 +21,20 @@ public class School {
         this.id = id;
     }
 
-    public String getProvince() {
-        return province;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setProvince(String province) {
-        this.province = province == null ? null : province.trim();
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
     }
 
-    public String getName() {
-        return name;
+    public Integer getGoodsId() {
+        return goodsId;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setGoodsId(Integer goodsId) {
+        this.goodsId = goodsId;
     }
 
     public Date getCreateTime() {

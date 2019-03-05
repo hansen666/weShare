@@ -14,4 +14,6 @@ import java.util.List;
 public interface HelloService {
 
      List<School> dataBaseTest(int count);
+
+     void testAsynTask();
 }
