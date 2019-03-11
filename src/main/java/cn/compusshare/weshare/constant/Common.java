@@ -12,5 +12,8 @@ public class Common {
     public final static int FAIL=-1;//失败
 
 
+    public final static String NULL_SESSIONKEY_OR_OPENID="sessionKey或openid为空";
+
+
 
 }
