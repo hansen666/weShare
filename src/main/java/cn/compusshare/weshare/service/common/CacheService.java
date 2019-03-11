@@ -19,9 +19,6 @@ public class CacheService {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Autowired
-    private JedisPool jedisPool;
-
     /**
      * 设置过期时限
      * @param key

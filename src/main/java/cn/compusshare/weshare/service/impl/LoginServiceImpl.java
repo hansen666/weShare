@@ -2,13 +2,15 @@ package cn.compusshare.weshare.service.impl;
 
 import cn.compusshare.weshare.constant.Common;
 import cn.compusshare.weshare.service.LoginService;
+import cn.compusshare.weshare.service.UserService;
 import cn.compusshare.weshare.utils.CommonUtil;
 import cn.compusshare.weshare.utils.HttpUtil;
+import cn.compusshare.weshare.utils.ResultResponse;
+import cn.compusshare.weshare.utils.ResultUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,21 +32,40 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private Environment environment;
 
+    @Autowired
+    private UserService userService;
 
+
+    /**
+     * 根据code获取sessionKey和openID，并生成token
+     * @param code
+     * @return
+     * @throws Exception
+     */
     @Override
-    public String getToken(String code) throws Exception{
+    public ResultResponse getToken(String code) throws Exception{
         String sessionAndOpenID=getSessionKeyAndOpenID(code);
         JSONObject jsonObject=(JSONObject)JSONObject.parse(sessionAndOpenID);
         String sessionKey=jsonObject.getString("session_key");
         String openId=jsonObject.getString("openid");
         if( CommonUtil.isEmpty(sessionKey)||CommonUtil.isEmpty(openId) ){
-            return Common.NULL_SESSIONKEY_OR_OPENID;
+            return ResultUtil.fail(Common.CODE_INVALID,Common.CODE_INVALID_MSG);
         }
-        return generatorToken(sessionKey,openId);
+        Map<String,Object> result=new HashMap<>();
+        String token=generatorToken(sessionKey,openId);
+        boolean isNewUser=userService.isUserExist(openId);
+        result.put("token",token);
+        result.put("isNewUser",isNewUser);
+        return ResultUtil.success(result);
     }
 
+    /**
+     * 从token中解析出openID
+     * @param token
+     * @return
+     */
     @Override
-    public String parseToken(String token) {
+    public String getOpenIDFromToken(String token) {
         JWTVerifier verifier=null;
         DecodedJWT jwt=null;
         try {
@@ -75,12 +96,19 @@ public class LoginServiceImpl implements LoginService {
         return result;
     }
 
+    /**
+     * 生成token
+     * @param sessionKey
+     * @param openID
+     * @return
+     * @throws Exception
+     */
     private String generatorToken(String sessionKey,String openID) throws Exception{
         Calendar now=Calendar.getInstance();
         //签发时间
         Date date=now.getTime();
         //过期时间
-        now .add(Calendar.MINUTE,15);
+        now .add(Calendar.MINUTE,60);
         Date expireDate=now.getTime();
         //密钥
         String key=environment.getProperty("tokenKey");

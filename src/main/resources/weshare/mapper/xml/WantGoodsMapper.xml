@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.compusshare.weshare.repository.mapper.WantGoodsMapper">
+  <resultMap id="BaseResultMap" type="cn.compusshare.weshare.repository.entity.WantGoods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="want_buyer_id" jdbcType="VARCHAR" property="wantBuyerId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="label" jdbcType="TINYINT" property="label" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="discription" jdbcType="VARCHAR" property="discription" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="browse_count" jdbcType="INTEGER" property="browseCount" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime" />
+    <result column="longitude" jdbcType="REAL" property="longitude" />
+    <result column="latitude" jdbcType="REAL" property="latitude" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, want_buyer_id, name, label, pic_url, discription, price, browse_count, status, 
+    pub_time, longitude, latitude, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from want_goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from want_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.WantGoods">
+    insert into want_goods (id, want_buyer_id, name, 
+      label, pic_url, discription, 
+      price, browse_count, status, 
+      pub_time, longitude, latitude, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{wantBuyerId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{label,jdbcType=TINYINT}, #{picUrl,jdbcType=VARCHAR}, #{discription,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{browseCount,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+      #{pubTime,jdbcType=TIMESTAMP}, #{longitude,jdbcType=REAL}, #{latitude,jdbcType=REAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.compusshare.weshare.repository.entity.WantGoods">
+    insert into want_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="wantBuyerId != null">
+        want_buyer_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="label != null">
+        label,
+      </if>
+      <if test="picUrl != null">
+        pic_url,
+      </if>
+      <if test="discription != null">
+        discription,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="browseCount != null">
+        browse_count,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="pubTime != null">
+        pub_time,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="wantBuyerId != null">
+        #{wantBuyerId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        #{label,jdbcType=TINYINT},
+      </if>
+      <if test="picUrl != null">
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="discription != null">
+        #{discription,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="browseCount != null">
+        #{browseCount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="pubTime != null">
+        #{pubTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=REAL},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=REAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.compusshare.weshare.repository.entity.WantGoods">
+    update want_goods
+    <set>
+      <if test="wantBuyerId != null">
+        want_buyer_id = #{wantBuyerId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        label = #{label,jdbcType=TINYINT},
+      </if>
+      <if test="picUrl != null">
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="discription != null">
+        discription = #{discription,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="browseCount != null">
+        browse_count = #{browseCount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="pubTime != null">
+        pub_time = #{pubTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=REAL},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=REAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.compusshare.weshare.repository.entity.WantGoods">
+    update want_goods
+    set want_buyer_id = #{wantBuyerId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      label = #{label,jdbcType=TINYINT},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      discription = #{discription,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      browse_count = #{browseCount,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      pub_time = #{pubTime,jdbcType=TIMESTAMP},
+      longitude = #{longitude,jdbcType=REAL},
+      latitude = #{latitude,jdbcType=REAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

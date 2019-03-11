@@ -3,14 +3,12 @@ package cn.compusshare.weshare.repository.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Goods {
+public class WantGoods {
     private Integer id;
 
-    private String publisherId;
+    private String wantBuyerId;
 
     private String name;
-
-    private Byte type;
 
     private Byte label;
 
@@ -42,12 +40,12 @@ public class Goods {
         this.id = id;
     }
 
-    public String getPublisherId() {
-        return publisherId;
+    public String getWantBuyerId() {
+        return wantBuyerId;
     }
 
-    public void setPublisherId(String publisherId) {
-        this.publisherId = publisherId == null ? null : publisherId.trim();
+    public void setWantBuyerId(String wantBuyerId) {
+        this.wantBuyerId = wantBuyerId == null ? null : wantBuyerId.trim();
     }
 
     public String getName() {
@@ -56,14 +54,6 @@ public class Goods {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
     }
 
     public Byte getLabel() {

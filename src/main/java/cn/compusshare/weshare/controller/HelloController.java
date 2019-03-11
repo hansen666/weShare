@@ -1,6 +1,7 @@
 package cn.compusshare.weshare.controller;
 
 import cn.compusshare.weshare.service.HelloService;
+import cn.compusshare.weshare.service.common.CacheService;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
 import org.slf4j.Logger;
@@ -26,6 +27,8 @@ public class HelloController {
     @Autowired
     private HelloService helloService;
 
+    @Autowired
+    private CacheService cacheService;
 
 
     @GetMapping("/sayHello")
@@ -46,6 +49,20 @@ public class HelloController {
         return ResultUtil.success("wait for asyn");
     }
 
+    @GetMapping("/testRedis")
+    public ResultResponse testRedis(){
+        cacheService.set("name","LZing");
+        System.out.println(cacheService.get("name"));
+        System.out.println(cacheService.expire("name", 10));
+        System.out.println(cacheService.getExpire("name"));
+        try{
+            Thread.sleep(3000);
+            System.out.println(cacheService.getExpire("name"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResultUtil.success(cacheService.get("name"));
+    }
 
 
 }

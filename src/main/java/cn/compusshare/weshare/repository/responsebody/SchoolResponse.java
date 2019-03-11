@@ -1,4 +1,4 @@
-package cn.compusshare.weshare.responsebody;
+package cn.compusshare.weshare.repository.responsebody;
 
 import lombok.Builder;
 import lombok.Data;

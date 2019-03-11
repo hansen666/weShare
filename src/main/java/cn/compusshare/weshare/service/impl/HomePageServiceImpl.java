@@ -2,7 +2,7 @@ package cn.compusshare.weshare.service.impl;
 
 import cn.compusshare.weshare.repository.entity.School;
 import cn.compusshare.weshare.repository.mapper.SchoolMapper;
-import cn.compusshare.weshare.responsebody.SchoolResponse;
+import cn.compusshare.weshare.repository.responsebody.SchoolResponse;
 import cn.compusshare.weshare.service.HomePageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

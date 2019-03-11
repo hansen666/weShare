@@ -23,6 +23,12 @@
     from user
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
+  <select id="isUserExist" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select case when
+    EXISTS(select 1 from `user` where `id`=#{userID,jdbcType=VARCHAR})
+    then 1 else 0 end as result
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from user
     where id = #{id,jdbcType=VARCHAR}

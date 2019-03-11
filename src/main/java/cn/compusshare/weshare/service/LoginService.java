@@ -1,9 +1,8 @@
 package cn.compusshare.weshare.service;
 
-import com.auth0.jwt.interfaces.Claim;
+import cn.compusshare.weshare.utils.ResultResponse;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 
 /**
  * @Author: LZing
@@ -13,7 +12,7 @@ import java.util.Map;
 @Service
 public interface LoginService {
 
-    String getToken(String code) throws Exception;
+    ResultResponse getToken(String code) throws Exception;
 
-    String parseToken(String token);
+    String getOpenIDFromToken(String token);
 }

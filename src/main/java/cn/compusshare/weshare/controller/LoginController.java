@@ -28,6 +28,6 @@ public class LoginController {
     @GetMapping("/getToken")
     public ResultResponse  getToken(@RequestParam String code) throws Exception{
         logger.info("LoginController.getToken(),入参：code={}",code);
-        return ResultUtil.success(loginService.getToken(code));
+        return loginService.getToken(code);
     }
 }
