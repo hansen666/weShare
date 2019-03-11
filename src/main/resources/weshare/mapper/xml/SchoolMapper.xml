@@ -17,6 +17,15 @@
     from school
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from school
+  </select>
+  <select id="selectAllName" resultType="java.lang.String">
+    select name
+    from school
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from school
     where id = #{id,jdbcType=INTEGER}
