@@ -53,7 +53,7 @@ public class LoginServiceImpl implements LoginService {
         }
         Map<String,Object> result=new HashMap<>();
         String token=generatorToken(sessionKey,openId);
-        boolean isNewUser=userService.isUserExist(openId);
+        boolean isNewUser=!userService.isUserExist(openId);
         result.put("token",token);
         result.put("isNewUser",isNewUser);
         return ResultUtil.success(result);
@@ -72,7 +72,8 @@ public class LoginServiceImpl implements LoginService {
              verifier = JWT.require(Algorithm.HMAC256(environment.getProperty("tokenKey"))).build();
              jwt=verifier.verify(token);
         }catch (Exception e){
-            logger.info("token已失效");
+            e.printStackTrace();
+            logger.info(e.getMessage());
             return null;
         }
         String openID=jwt.getClaims().get("openID").asString();

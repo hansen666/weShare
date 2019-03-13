@@ -1,6 +1,5 @@
 package cn.compusshare.weshare.repository.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class WantGoods {
@@ -16,9 +15,11 @@ public class WantGoods {
 
     private String discription;
 
-    private BigDecimal price;
+    private Float price;
 
     private Integer browseCount;
+
+    private String phone;
 
     private Byte status;
 
@@ -80,11 +81,11 @@ public class WantGoods {
         this.discription = discription == null ? null : discription.trim();
     }
 
-    public BigDecimal getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
@@ -94,6 +95,14 @@ public class WantGoods {
 
     public void setBrowseCount(Integer browseCount) {
         this.browseCount = browseCount;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public Byte getStatus() {

@@ -8,8 +8,9 @@
     <result column="label" jdbcType="TINYINT" property="label" />
     <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
     <result column="discription" jdbcType="VARCHAR" property="discription" />
-    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="price" jdbcType="REAL" property="price" />
     <result column="browse_count" jdbcType="INTEGER" property="browseCount" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime" />
     <result column="longitude" jdbcType="REAL" property="longitude" />
@@ -18,8 +19,8 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, publisher_id, name, label, pic_url, discription, price, browse_count, status, 
-    pub_time, longitude, latitude, create_time, update_time
+    id, publisher_id, name, label, pic_url, discription, price, browse_count, phone, 
+    status, pub_time, longitude, latitude, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -34,14 +35,16 @@
   <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.PublishGoods">
     insert into publish_goods (id, publisher_id, name, 
       label, pic_url, discription, 
-      price, browse_count, status, 
-      pub_time, longitude, latitude, 
-      create_time, update_time)
+      price, browse_count, phone, 
+      status, pub_time, longitude, 
+      latitude, create_time, update_time
+      )
     values (#{id,jdbcType=INTEGER}, #{publisherId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{label,jdbcType=TINYINT}, #{picUrl,jdbcType=VARCHAR}, #{discription,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DECIMAL}, #{browseCount,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
-      #{pubTime,jdbcType=TIMESTAMP}, #{longitude,jdbcType=REAL}, #{latitude,jdbcType=REAL}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{price,jdbcType=REAL}, #{browseCount,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{pubTime,jdbcType=TIMESTAMP}, #{longitude,jdbcType=REAL}, 
+      #{latitude,jdbcType=REAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.compusshare.weshare.repository.entity.PublishGoods">
     insert into publish_goods
@@ -69,6 +72,9 @@
       </if>
       <if test="browseCount != null">
         browse_count,
+      </if>
+      <if test="phone != null">
+        phone,
       </if>
       <if test="status != null">
         status,
@@ -109,10 +115,13 @@
         #{discription,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
-        #{price,jdbcType=DECIMAL},
+        #{price,jdbcType=REAL},
       </if>
       <if test="browseCount != null">
         #{browseCount,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -153,10 +162,13 @@
         discription = #{discription,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
-        price = #{price,jdbcType=DECIMAL},
+        price = #{price,jdbcType=REAL},
       </if>
       <if test="browseCount != null">
         browse_count = #{browseCount,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
@@ -186,8 +198,9 @@
       label = #{label,jdbcType=TINYINT},
       pic_url = #{picUrl,jdbcType=VARCHAR},
       discription = #{discription,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
+      price = #{price,jdbcType=REAL},
       browse_count = #{browseCount,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       pub_time = #{pubTime,jdbcType=TIMESTAMP},
       longitude = #{longitude,jdbcType=REAL},
