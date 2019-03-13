@@ -20,8 +20,8 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping("/upload")
-    public ResultResponse upload(@RequestParam("files")MultipartFile[] files){
-        logger.info("ImageController.upload(),传入图片数量={}",files.length);
-        return imageService.uploadImage(files);
+    public ResultResponse upload(@RequestBody MultipartFile file, int id){
+        logger.info("ImageController.upload(),传入图片数量={}",file.getOriginalFilename());
+        return imageService.uploadImage(file,id);
     }
 }
