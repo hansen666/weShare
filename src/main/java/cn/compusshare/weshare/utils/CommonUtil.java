@@ -1,6 +1,8 @@
 package cn.compusshare.weshare.utils;
 
 
+import java.util.List;
+
 /**
  * @Author: LZing
  * @Date: 2019/3/7
@@ -28,6 +30,18 @@ public class CommonUtil {
      */
     public static boolean isEmpty(String s){
         if( null==s || s.length()==0 ){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 空List判断
+     * @param list
+     * @return
+     */
+    public static boolean isNullList(List list){
+        if (list == null || list.size() == 0) {
             return true;
         }
         return false;

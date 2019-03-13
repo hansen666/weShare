@@ -4,28 +4,36 @@ package cn.compusshare.weshare.service.impl;
 import cn.compusshare.weshare.repository.RequestBody.PublishGoodsRequest;
 import cn.compusshare.weshare.repository.entity.PublishGoods;
 import cn.compusshare.weshare.repository.mapper.PublishGoodsMapper;
+import cn.compusshare.weshare.repository.mapper.TransactionRecordMapper;
 import cn.compusshare.weshare.service.GoodsService;
+import cn.compusshare.weshare.service.LoginService;
+import cn.compusshare.weshare.utils.CommonUtil;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Date;
 
 @Component
 public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
+    private LoginService loginService;
+
+    @Autowired
+    private TransactionRecordMapper transactionRecordMapper;
+    @Autowired
     private PublishGoodsMapper publishGoodsMapper;
 
     @Override
-    public ResultResponse publishGoods(PublishGoodsRequest publishGoodsRequest) {
+    public ResultResponse publishGoods(String token,PublishGoodsRequest publishGoodsRequest) {
         Date date = new Date();
         PublishGoods publishGoods = PublishGoods.builder()
-                .publisherId(publishGoodsRequest.getUserId())
+                .publisherId(loginService.getOpenIDFromToken(token))
                 .name(publishGoodsRequest.getGoodsName())
-                .label(publishGoodsRequest.getLable())
+                .label(publishGoodsRequest.getLabel())
                 .description(publishGoodsRequest.getDescription())
                 .price(publishGoodsRequest.getPrice())
                 .picUrl(publishGoodsRequest.getPicUrl())
@@ -44,5 +52,18 @@ public class GoodsServiceImpl implements GoodsService {
         }
 
         return ResultUtil.success();
+    }
+
+    public void getSoldGoods(String token){
+        String openID = loginService.getOpenIDFromToken(token);
+        List<String> goodsIds = transactionRecordMapper.selectGoodsIdByUserId(openID);
+        if (CommonUtil.isNullList(goodsIds)) {
+            return;
+        }
+        for (String goodsId : goodsIds) {
+
+        }
+
+
     }
 }

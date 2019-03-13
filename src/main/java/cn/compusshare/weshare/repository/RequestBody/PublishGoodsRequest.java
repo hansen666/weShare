@@ -8,11 +8,10 @@ import java.math.BigDecimal;
 @Data
 public class PublishGoodsRequest {
 
-    private String userId;
 
     private String goodsName;
 
-    private Byte lable;
+    private Byte label;
 
     private String picUrl;
 

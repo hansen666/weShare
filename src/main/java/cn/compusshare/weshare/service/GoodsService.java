@@ -8,5 +8,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface GoodsService {
 
-    ResultResponse publishGoods(PublishGoodsRequest publishGoodsRequest);
+    ResultResponse publishGoods(String token,PublishGoodsRequest publishGoodsRequest);
 }

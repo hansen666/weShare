@@ -6,10 +6,7 @@ import cn.compusshare.weshare.utils.ResultResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/goods")
@@ -21,12 +18,12 @@ public class GoodsController {
     private GoodsService goodsService;
 
     @PostMapping("/publish")
-    public ResultResponse publish(@RequestBody PublishGoodsRequest publishGoodsRequest){
-        logger.info("GoodsController.publish(),入参：userId={}，goodsName={},lable={},picUrl={},description={},price={}," +
-                "phone={},longitude={},latitude={}",publishGoodsRequest.getUserId(),publishGoodsRequest.getGoodsName(),
-                publishGoodsRequest.getLable(),publishGoodsRequest.getPicUrl(),publishGoodsRequest.getDescription(),
+    public ResultResponse publish(@RequestHeader String token,@RequestBody PublishGoodsRequest publishGoodsRequest){
+        logger.info("GoodsController.publish(),入参：token={}，goodsName={},label={},picUrl={},description={},price={}," +
+                "phone={},longitude={},latitude={}",token,publishGoodsRequest.getGoodsName(),
+                publishGoodsRequest.getLabel(),publishGoodsRequest.getPicUrl(),publishGoodsRequest.getDescription(),
                 publishGoodsRequest.getPrice(),publishGoodsRequest.getPhone(),publishGoodsRequest.getLongitude(),
                 publishGoodsRequest.getLatitude());
-        return goodsService.publishGoods(publishGoodsRequest);
+        return goodsService.publishGoods(token,publishGoodsRequest);
     }
 }
