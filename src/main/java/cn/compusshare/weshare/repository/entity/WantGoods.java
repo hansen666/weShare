@@ -1,7 +1,10 @@
 package cn.compusshare.weshare.repository.entity;
 
+import lombok.Builder;
+
 import java.util.Date;
 
+@Builder
 public class WantGoods {
     private Integer id;
 

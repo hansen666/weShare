@@ -1,6 +1,6 @@
 package cn.compusshare.weshare.controller;
 
-import cn.compusshare.weshare.repository.RequestBody.PublishGoodsRequest;
+import cn.compusshare.weshare.repository.RequestBody.GoodsRequest;
 import cn.compusshare.weshare.service.GoodsService;
 import cn.compusshare.weshare.utils.ResultResponse;
 import org.slf4j.Logger;
@@ -18,12 +18,22 @@ public class GoodsController {
     private GoodsService goodsService;
 
     @PostMapping("/publish")
-    public ResultResponse publish(@RequestHeader String token,@RequestBody PublishGoodsRequest publishGoodsRequest){
+    public ResultResponse publish(@RequestHeader String token,@RequestBody GoodsRequest goodsRequest){
         logger.info("GoodsController.publish(),入参：token={}，goodsName={},label={},picUrl={},description={},price={}," +
-                "phone={},longitude={},latitude={}",token,publishGoodsRequest.getGoodsName(),
-                publishGoodsRequest.getLabel(),publishGoodsRequest.getPicUrl(),publishGoodsRequest.getDescription(),
-                publishGoodsRequest.getPrice(),publishGoodsRequest.getPhone(),publishGoodsRequest.getLongitude(),
-                publishGoodsRequest.getLatitude());
-        return goodsService.publishGoods(token,publishGoodsRequest);
+                "phone={},longitude={},latitude={}",token, goodsRequest.getGoodsName(),
+                goodsRequest.getLabel(), goodsRequest.getPicUrl(), goodsRequest.getDescription(),
+                goodsRequest.getPrice(), goodsRequest.getPhone(), goodsRequest.getLongitude(),
+                goodsRequest.getLatitude());
+        return goodsService.publishGoods(token, goodsRequest);
+    }
+
+    @PostMapping("/want")
+    public ResultResponse want(@RequestHeader String token,@RequestBody GoodsRequest goodsRequest){
+        logger.info("GoodsController.publish(),入参：token={}，goodsName={},label={},picUrl={},description={},price={}," +
+                        "phone={},longitude={},latitude={}",token, goodsRequest.getGoodsName(),
+                goodsRequest.getLabel(), goodsRequest.getPicUrl(), goodsRequest.getDescription(),
+                goodsRequest.getPrice(), goodsRequest.getPhone(), goodsRequest.getLongitude(),
+                goodsRequest.getLatitude());
+        return goodsService.wantGoods(token, goodsRequest);
     }
 }

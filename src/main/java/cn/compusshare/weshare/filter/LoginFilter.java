@@ -28,9 +28,9 @@ public class LoginFilter implements Filter{
 
     //需要进行登录态校验的路径前缀
     private String[] needCheckPathPrefix={
-            "/llogin123",
-            "/hello",
-            "/user"
+//            "/llogin123",
+//            "/hello",
+//            "/user"
 
     };
 
