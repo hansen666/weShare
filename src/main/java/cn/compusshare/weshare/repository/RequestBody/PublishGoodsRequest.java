@@ -1,8 +1,9 @@
 package cn.compusshare.weshare.repository.RequestBody;
 
+import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 @Data
 public class PublishGoodsRequest {
@@ -11,15 +12,15 @@ public class PublishGoodsRequest {
 
     private String goodsName;
 
-    private String lable;
+    private Byte lable;
 
     private String picUrl;
 
-    private String discription;
+    private String description;
+
+    private float price;
 
     private String phone;
-
-    private Date pubTime;
 
     private float longitude;
 

@@ -7,7 +7,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="label" jdbcType="TINYINT" property="label" />
     <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
-    <result column="discription" jdbcType="VARCHAR" property="discription" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="price" jdbcType="REAL" property="price" />
     <result column="browse_count" jdbcType="INTEGER" property="browseCount" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
@@ -19,7 +19,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, publisher_id, name, label, pic_url, discription, price, browse_count, phone, 
+    id, publisher_id, name, label, pic_url, description, price, browse_count, phone,
     status, pub_time, longitude, latitude, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -33,14 +33,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.PublishGoods">
-    insert into publish_goods (id, publisher_id, name, 
-      label, pic_url, discription, 
+    insert into publish_goods (id, publisher_id, name,
+      label, pic_url, description,
       price, browse_count, phone, 
       status, pub_time, longitude, 
       latitude, create_time, update_time
       )
-    values (#{id,jdbcType=INTEGER}, #{publisherId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{label,jdbcType=TINYINT}, #{picUrl,jdbcType=VARCHAR}, #{discription,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{publisherId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{label,jdbcType=TINYINT}, #{picUrl,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
       #{price,jdbcType=REAL}, #{browseCount,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{pubTime,jdbcType=TIMESTAMP}, #{longitude,jdbcType=REAL}, 
       #{latitude,jdbcType=REAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
@@ -64,8 +64,8 @@
       <if test="picUrl != null">
         pic_url,
       </if>
-      <if test="discription != null">
-        discription,
+      <if test="description != null">
+        description,
       </if>
       <if test="price != null">
         price,
@@ -111,8 +111,8 @@
       <if test="picUrl != null">
         #{picUrl,jdbcType=VARCHAR},
       </if>
-      <if test="discription != null">
-        #{discription,jdbcType=VARCHAR},
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         #{price,jdbcType=REAL},
@@ -158,8 +158,8 @@
       <if test="picUrl != null">
         pic_url = #{picUrl,jdbcType=VARCHAR},
       </if>
-      <if test="discription != null">
-        discription = #{discription,jdbcType=VARCHAR},
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=REAL},
@@ -197,7 +197,7 @@
       name = #{name,jdbcType=VARCHAR},
       label = #{label,jdbcType=TINYINT},
       pic_url = #{picUrl,jdbcType=VARCHAR},
-      discription = #{discription,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
       price = #{price,jdbcType=REAL},
       browse_count = #{browseCount,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},

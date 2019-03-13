@@ -1,5 +1,6 @@
 package cn.compusshare.weshare.controller;
 
+import cn.compusshare.weshare.repository.RequestBody.PublishGoodsRequest;
 import cn.compusshare.weshare.service.GoodsService;
 import cn.compusshare.weshare.utils.ResultResponse;
 import org.slf4j.Logger;
@@ -19,9 +20,13 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
-    @PostMapping("publish")
-    public ResultResponse publish(@RequestBody){
-
-        return goodsService.publishGoods();
+    @PostMapping("/publish")
+    public ResultResponse publish(@RequestBody PublishGoodsRequest publishGoodsRequest){
+        logger.info("GoodsController.publish(),入参：userId={}，goodsName={},lable={},picUrl={},description={},price={}," +
+                "phone={},longitude={},latitude={}",publishGoodsRequest.getUserId(),publishGoodsRequest.getGoodsName(),
+                publishGoodsRequest.getLable(),publishGoodsRequest.getPicUrl(),publishGoodsRequest.getDescription(),
+                publishGoodsRequest.getPrice(),publishGoodsRequest.getPhone(),publishGoodsRequest.getLongitude(),
+                publishGoodsRequest.getLatitude());
+        return goodsService.publishGoods(publishGoodsRequest);
     }
 }

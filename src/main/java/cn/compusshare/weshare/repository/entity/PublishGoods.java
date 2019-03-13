@@ -1,7 +1,10 @@
 package cn.compusshare.weshare.repository.entity;
 
+import lombok.Builder;
+
 import java.util.Date;
 
+@Builder
 public class PublishGoods {
     private Integer id;
 
@@ -13,7 +16,7 @@ public class PublishGoods {
 
     private String picUrl;
 
-    private String discription;
+    private String description;
 
     private Float price;
 
@@ -73,12 +76,12 @@ public class PublishGoods {
         this.picUrl = picUrl == null ? null : picUrl.trim();
     }
 
-    public String getDiscription() {
-        return discription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDiscription(String discription) {
-        this.discription = discription == null ? null : discription.trim();
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
     }
 
     public Float getPrice() {
