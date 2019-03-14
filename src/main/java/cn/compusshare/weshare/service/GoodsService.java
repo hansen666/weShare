@@ -6,6 +6,7 @@ import cn.compusshare.weshare.repository.responsebody.GoodsInfo;
 import cn.compusshare.weshare.utils.ResultResponse;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 
 @Service

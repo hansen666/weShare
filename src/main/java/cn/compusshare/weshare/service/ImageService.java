@@ -7,5 +7,5 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public interface ImageService {
 
-    ResultResponse uploadImage(MultipartFile file, int id);
+    ResultResponse uploadImage(MultipartFile file, int id, String filePath);
 }

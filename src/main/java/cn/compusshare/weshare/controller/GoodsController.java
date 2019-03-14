@@ -19,7 +19,7 @@ public class GoodsController {
     private GoodsService goodsService;
 
     @PostMapping("/publish")
-    public ResultResponse publish(@RequestHeader String token,@RequestBody GoodsRequest goodsRequest){
+    public ResultResponse publish(@RequestHeader String token,@RequestBody GoodsRequest goodsRequest) {
         logger.info("GoodsController.publish(),入参：token={}，goodsName={},label={},picUrl={},description={},price={}," +
                 "phone={},longitude={},latitude={}",token, goodsRequest.getGoodsName(),
                 goodsRequest.getLabel(), goodsRequest.getPicUrl(), goodsRequest.getDescription(),

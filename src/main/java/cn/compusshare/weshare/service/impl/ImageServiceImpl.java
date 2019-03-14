@@ -4,6 +4,8 @@ import cn.compusshare.weshare.repository.responsebody.ImageResponse;
 import cn.compusshare.weshare.service.ImageService;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -17,12 +19,11 @@ import java.util.*;
 @Component
 public class ImageServiceImpl implements ImageService {
 
-    @Autowired
-    private Environment environment;
+    private final static Logger logger= LoggerFactory.getLogger(Logger.class);
 
     @Override
-    public ResultResponse uploadImage(MultipartFile file, int id) {
-        String filePath = environment.getProperty("image.path");
+    public ResultResponse uploadImage(MultipartFile file, int id, String filePath) {
+//        String filePath = environment.getProperty("image.path");
         Random rand = new Random();
         String originName = file.getOriginalFilename();
         String typeName = originName.substring(originName.lastIndexOf("."));
@@ -34,8 +35,8 @@ public class ImageServiceImpl implements ImageService {
         try {
             file.transferTo(newFile);
         } catch (IOException e) {
-            e.printStackTrace();
-            return ResultUtil.fail();
+            logger.info("图片{}上传失败",originName );
+            return ResultUtil.fail(-1,"图片"+originName+"上传失败");
         }
         ImageResponse imageResponse = ImageResponse.builder()
                 .fileName(fileName)

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
+
 @Component
 public class GoodsServiceImpl implements GoodsService {
 
@@ -57,7 +58,6 @@ public class GoodsServiceImpl implements GoodsService {
                 .status((byte)0)
                 .pubTime(date)
                 .build();
-
         try {
             publishGoodsMapper.insertSelective(publishGoods);
         } catch (Exception e){
@@ -119,7 +119,7 @@ public class GoodsServiceImpl implements GoodsService {
                         .description(goods.getDescription())
                         .price(goods.getPrice())
                         .phone(goods.getPhone())
-                        .time(CommonUtil.getDate(goods.getUpdateTime()))
+                        //.time(CommonUtil.getDate(goods.getUpdateTime()))
                         .build();
                 if (!CommonUtil.isEmpty(goods.getPicUrl())) {
                     goodsInfo.setPicUrl(goods.getPicUrl().split(","));
@@ -155,7 +155,7 @@ public class GoodsServiceImpl implements GoodsService {
                         .price(goods.getPrice())
                         .phone(goods.getPhone())
                         .status(goods.getStatus())
-                        .time(CommonUtil.getDate(goods.getPubTime()))
+ //                       .time(CommonUtil.getDate(goods.getPubTime()))
                         .build();
                 if (!CommonUtil.isEmpty(goods.getPicUrl())) {
                     goodsInfo.setPicUrl(goods.getPicUrl().split(","));
