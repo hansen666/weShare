@@ -3,6 +3,7 @@ package cn.compusshare.weshare.controller;
 import cn.compusshare.weshare.repository.RequestBody.PublishGoodsRequest;
 import cn.compusshare.weshare.service.GoodsService;
 import cn.compusshare.weshare.utils.ResultResponse;
+import cn.compusshare.weshare.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,16 @@ public class GoodsController {
                 publishGoodsRequest.getPrice(),publishGoodsRequest.getPhone(),publishGoodsRequest.getLongitude(),
                 publishGoodsRequest.getLatitude());
         return goodsService.publishGoods(token,publishGoodsRequest);
+    }
+
+    /**
+     * 获取卖出的物品
+     * @param token
+     * @return
+     */
+    @GetMapping("/sold")
+    public ResultResponse sold(@RequestHeader String token) {
+        logger.info("GoodsController.sold(),入参：token={}", token);
+        return ResultUtil.success(goodsService.getSoldGoods(token));
     }
 }

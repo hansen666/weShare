@@ -21,7 +21,7 @@ public class PublishGoodsRequest {
 
     private String phone;
 
-    private float longitude;
+    private double longitude;
 
-    private float latitude;
+    private double latitude;
 }

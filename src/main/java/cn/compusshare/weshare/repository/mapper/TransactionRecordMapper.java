@@ -19,5 +19,5 @@ public interface TransactionRecordMapper {
 
     int updateByPrimaryKey(TransactionRecord record);
 
-    List<String> selectGoodsIdByUserId(String userID);
+    List<Integer> selectGoodsId(String userID);
 }
