@@ -28,9 +28,9 @@ public class PublishGoods {
 
     private Date pubTime;
 
-    private Float longitude;
+    private Double longitude;
 
-    private Float latitude;
+    private Double latitude;
 
     private Date createTime;
 
@@ -124,19 +124,19 @@ public class PublishGoods {
         this.pubTime = pubTime;
     }
 
-    public Float getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public Float getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 

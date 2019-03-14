@@ -13,13 +13,13 @@
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime" />
-    <result column="longitude" jdbcType="REAL" property="longitude" />
-    <result column="latitude" jdbcType="REAL" property="latitude" />
+    <result column="longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="latitude" jdbcType="DOUBLE" property="latitude" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, want_buyer_id, name, label, pic_url, description, price, browse_count, phone,
+    id, want_buyer_id, name, label, pic_url, description, price, browse_count, phone, 
     status, pub_time, longitude, latitude, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -34,16 +34,16 @@
   </delete>
   <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.WantGoods">
     insert into want_goods (id, want_buyer_id, name, 
-      label, pic_url, description,
+      label, pic_url, description, 
       price, browse_count, phone, 
       status, pub_time, longitude, 
       latitude, create_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{wantBuyerId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{label,jdbcType=TINYINT}, #{picUrl,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+      #{label,jdbcType=TINYINT}, #{picUrl,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{price,jdbcType=REAL}, #{browseCount,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{pubTime,jdbcType=TIMESTAMP}, #{longitude,jdbcType=REAL}, 
-      #{latitude,jdbcType=REAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      #{status,jdbcType=TINYINT}, #{pubTime,jdbcType=TIMESTAMP}, #{longitude,jdbcType=DOUBLE}, 
+      #{latitude,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.compusshare.weshare.repository.entity.WantGoods">
@@ -130,10 +130,10 @@
         #{pubTime,jdbcType=TIMESTAMP},
       </if>
       <if test="longitude != null">
-        #{longitude,jdbcType=REAL},
+        #{longitude,jdbcType=DOUBLE},
       </if>
       <if test="latitude != null">
-        #{latitude,jdbcType=REAL},
+        #{latitude,jdbcType=DOUBLE},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -177,10 +177,10 @@
         pub_time = #{pubTime,jdbcType=TIMESTAMP},
       </if>
       <if test="longitude != null">
-        longitude = #{longitude,jdbcType=REAL},
+        longitude = #{longitude,jdbcType=DOUBLE},
       </if>
       <if test="latitude != null">
-        latitude = #{latitude,jdbcType=REAL},
+        latitude = #{latitude,jdbcType=DOUBLE},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -203,8 +203,8 @@
       phone = #{phone,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       pub_time = #{pubTime,jdbcType=TIMESTAMP},
-      longitude = #{longitude,jdbcType=REAL},
-      latitude = #{latitude,jdbcType=REAL},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

@@ -17,6 +17,11 @@
     from transaction_record
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectGoodsIdByUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select goods_id from transaction_record where seller_id = #{userID,jdbcType=VARCHAR}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from transaction_record
     where id = #{id,jdbcType=INTEGER}
