@@ -18,6 +18,7 @@ HELP.md
 *.ipr
 *.gz
 *.log
+weShare.log
 
 ### NetBeans ###
 /nbproject/private/
