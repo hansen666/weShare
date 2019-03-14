@@ -1,12 +1,9 @@
 package cn.compusshare.weshare.repository.RequestBody;
 
-import lombok.Builder;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 @Data
-public class PublishGoodsRequest {
+public class GoodsRequest {
 
 
     private String goodsName;

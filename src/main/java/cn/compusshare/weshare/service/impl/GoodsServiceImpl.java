@@ -1,11 +1,13 @@
 package cn.compusshare.weshare.service.impl;
 
 
-import cn.compusshare.weshare.repository.RequestBody.PublishGoodsRequest;
+import cn.compusshare.weshare.repository.RequestBody.GoodsRequest;
 import cn.compusshare.weshare.repository.entity.PublishGoods;
+import cn.compusshare.weshare.repository.entity.WantGoods;
 import cn.compusshare.weshare.repository.mapper.CollectionMapper;
 import cn.compusshare.weshare.repository.mapper.PublishGoodsMapper;
 import cn.compusshare.weshare.repository.mapper.TransactionRecordMapper;
+import cn.compusshare.weshare.repository.mapper.WantGoodsMapper;
 import cn.compusshare.weshare.repository.responsebody.GoodsInfo;
 import cn.compusshare.weshare.service.GoodsService;
 import cn.compusshare.weshare.service.LoginService;
@@ -28,25 +30,29 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private TransactionRecordMapper transactionRecordMapper;
 
+
     @Autowired
     private CollectionMapper collectionMapper;
 
     @Autowired
     private PublishGoodsMapper publishGoodsMapper;
 
+    @Autowired
+    private WantGoodsMapper wantGoodsMapper;
+
     @Override
-    public ResultResponse publishGoods(String token,PublishGoodsRequest publishGoodsRequest) {
+    public ResultResponse publishGoods(String token, GoodsRequest goodsRequest) {
         Date date = new Date();
         PublishGoods publishGoods = PublishGoods.builder()
                 .publisherId(loginService.getOpenIDFromToken(token))
-                .name(publishGoodsRequest.getGoodsName())
-                .label(publishGoodsRequest.getLabel())
-                .description(publishGoodsRequest.getDescription())
-                .price(publishGoodsRequest.getPrice())
-                .picUrl(publishGoodsRequest.getPicUrl())
-                .phone(publishGoodsRequest.getPhone())
-                .longitude(publishGoodsRequest.getLongitude())
-                .latitude(publishGoodsRequest.getLatitude())
+                .name(goodsRequest.getGoodsName())
+                .label(goodsRequest.getLabel())
+                .description(goodsRequest.getDescription())
+                .price(goodsRequest.getPrice())
+                .picUrl(goodsRequest.getPicUrl())
+                .phone(goodsRequest.getPhone())
+                .longitude(goodsRequest.getLongitude())
+                .latitude(goodsRequest.getLatitude())
                 .browseCount(0)
                 .status((byte)0)
                 .pubTime(date)
@@ -61,6 +67,34 @@ public class GoodsServiceImpl implements GoodsService {
         return ResultUtil.success();
     }
 
+    @Override
+    public ResultResponse wantGoods(String token, GoodsRequest goodsRequest){
+        Date date = new Date();
+        WantGoods wantGoods = WantGoods.builder()
+                .wantBuyerId(loginService.getOpenIDFromToken(token))
+                .name(goodsRequest.getGoodsName())
+                .label(goodsRequest.getLabel())
+                .description(goodsRequest.getDescription())
+                .price(goodsRequest.getPrice())
+                .picUrl(goodsRequest.getPicUrl())
+                .phone(goodsRequest.getPhone())
+                .longitude(goodsRequest.getLongitude())
+                .latitude(goodsRequest.getLatitude())
+                .browseCount(0)
+                .status((byte)0)
+                .pubTime(date)
+                .build();
+
+        try {
+            wantGoodsMapper.insertSelective(wantGoods);
+        } catch (Exception e){
+            return ResultUtil.fail(-1, "数据库保存错误");
+        }
+
+        return ResultUtil.success();
+    }
+
+
     /**
      * 查询卖出的物品
      * @param token
@@ -68,7 +102,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public List<GoodsInfo> getSoldGoods(String token){
-      //  String openID = loginService.getOpenIDFromToken(token);
+        //  String openID = loginService.getOpenIDFromToken(token);
         String openID = "testAccount1";
         List<Integer> goodsIds = transactionRecordMapper.selectGoodsId(openID);
         if (CommonUtil.isNullList(goodsIds)) {

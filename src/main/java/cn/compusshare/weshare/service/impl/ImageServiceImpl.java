@@ -1,5 +1,6 @@
 package cn.compusshare.weshare.service.impl;
 
+import cn.compusshare.weshare.repository.responsebody.ImageResponse;
 import cn.compusshare.weshare.service.ImageService;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
@@ -20,29 +21,28 @@ public class ImageServiceImpl implements ImageService {
     private Environment environment;
 
     @Override
-    public ResultResponse uploadImage(MultipartFile[] files) {
+    public ResultResponse uploadImage(MultipartFile file, int id) {
         String filePath = environment.getProperty("image.path");
         Random rand = new Random();
-        String result = "";
-
-        for (MultipartFile file : files) {
-            String originName = file.getOriginalFilename();
-            String typeName = originName.substring(originName.lastIndexOf("."));
-            long time = System.currentTimeMillis();
-            String nowTimeStamp = String.valueOf(time / 1000);
-            int randNum = rand.nextInt(899) + 100;
-            String fileName = filePath + nowTimeStamp + randNum + typeName;
-            result += fileName + ",";
-            File newFile = new File(fileName);
-            try {
-                file.transferTo(newFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return ResultUtil.fail();
-            }
+        String originName = file.getOriginalFilename();
+        String typeName = originName.substring(originName.lastIndexOf("."));
+        long time = System.currentTimeMillis();
+        String nowTimeStamp = String.valueOf(time / 1000);
+        int randNum = rand.nextInt(899) + 100;
+        String fileName = nowTimeStamp + randNum + typeName;
+        File newFile = new File(filePath+fileName);
+        try {
+            file.transferTo(newFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResultUtil.fail();
         }
+        ImageResponse imageResponse = ImageResponse.builder()
+                .fileName(fileName)
+                .id(id)
+                .build();
 
-        return ResultUtil.success(result.substring(0, result.length() - 1));
+        return ResultUtil.success(imageResponse);
     }
 
 
