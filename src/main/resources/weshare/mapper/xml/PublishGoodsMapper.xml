@@ -18,15 +18,42 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+  <resultMap id="ShowGoodsMap" type="java.util.HashMap">
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="label" jdbcType="TINYINT" property="label" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="price" jdbcType="REAL" property="price" />
+    <result column="browse_count" jdbcType="INTEGER" property="browseCount" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime" />
+    <result column="longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="latitude" jdbcType="DOUBLE" property="latitude" />
+  </resultMap>
   <sql id="Base_Column_List">
     id, publisher_id, name, label, pic_url, description, price, browse_count, phone, 
     status, pub_time, longitude, latitude, create_time, update_time
+  </sql>
+  <sql id="Show_Goods_List">
+    name, label, pic_url, description, price, browse_count, phone,status,
+    pub_time, longitude, latitude
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from publish_goods
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectShowGoods" resultMap="ShowGoodsMap">
+    select
+    <include refid="Show_Goods_List" />
+    from publish_goods
+    where publisher_id != #{publisherId} and status = 1
+    <if test="label!=null">and label=#{label}</if>
+    <if test="keyword!=null">and (name like '%${keyword}%' or description like '%${keyword}%')</if>
+    order by id
+    limit #{pageIndex},3
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from publish_goods

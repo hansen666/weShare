@@ -31,7 +31,6 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private TransactionRecordMapper transactionRecordMapper;
 
-
     @Autowired
     private CollectionMapper collectionMapper;
 

@@ -3,6 +3,9 @@ package cn.compusshare.weshare.repository.mapper;
 import cn.compusshare.weshare.repository.entity.PublishGoods;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashMap;
+import java.util.List;
+
 @Mapper
 public interface PublishGoodsMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +19,6 @@ public interface PublishGoodsMapper {
     int updateByPrimaryKeySelective(PublishGoods record);
 
     int updateByPrimaryKey(PublishGoods record);
+
+    List<HashMap<String, Object>> selectShowGoods(String publisherId, int pageIndex, Byte label, String keyword);
 }

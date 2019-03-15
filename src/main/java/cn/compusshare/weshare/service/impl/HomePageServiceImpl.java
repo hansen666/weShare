@@ -1,9 +1,16 @@
 package cn.compusshare.weshare.service.impl;
 
 import cn.compusshare.weshare.repository.entity.School;
+import cn.compusshare.weshare.repository.mapper.PublishGoodsMapper;
 import cn.compusshare.weshare.repository.mapper.SchoolMapper;
 import cn.compusshare.weshare.repository.responsebody.SchoolResponse;
 import cn.compusshare.weshare.service.HomePageService;
+import cn.compusshare.weshare.service.LoginService;
+import cn.compusshare.weshare.utils.CommonUtil;
+import cn.compusshare.weshare.utils.ResultResponse;
+import cn.compusshare.weshare.utils.ResultUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +19,16 @@ import java.util.*;
 @Component
 public class HomePageServiceImpl implements HomePageService {
 
+    private final static Logger logger= LoggerFactory.getLogger(Logger.class);
+
+    @Autowired
+    private LoginService loginService;
+
     @Autowired
     private SchoolMapper schoolMapper;
+
+    @Autowired
+    private PublishGoodsMapper publishGoodsMapper;
 
     @Override
     public List<SchoolResponse> selectAllSchool() {
@@ -31,9 +46,6 @@ public class HomePageServiceImpl implements HomePageService {
             result.get(province).add(allSchool.get(i).getName());
         }
         for (Map.Entry<String, List<String>> entry : result.entrySet()) {
-//              SchoolResponse schoolResponse = new SchoolResponse();
-//            schoolResponse.setProvince(entry.getKey());
-//            schoolResponse.setSchoolName(entry.getValue());
             SchoolResponse schoolResponse = SchoolResponse.builder()
                     .province(entry.getKey())
                     .schoolName(entry.getValue())
@@ -47,5 +59,19 @@ public class HomePageServiceImpl implements HomePageService {
     public List<String> allSchoolName() {
 
         return schoolMapper.selectAllName();
+    }
+
+
+    @Override
+    public ResultResponse showGoods(String token, int pageIndex, Byte label, String keyword) {
+        String publisherId = "tcz";   //loginService.getOpenIDFromToken(token);
+        String key = CommonUtil.isEmpty(keyword)? null:keyword.trim();
+        try {
+            List<HashMap<String, Object>> goodsList = publishGoodsMapper.selectShowGoods(publisherId, 3*pageIndex, label, key);
+            return ResultUtil.success(goodsList);
+        }catch (Exception e){
+            logger.info("数据库查询失败"+e.getMessage());
+            return ResultUtil.fail(-1,"数据库查询失败"+e.getMessage());
+        }
     }
 }
