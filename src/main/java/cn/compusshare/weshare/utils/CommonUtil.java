@@ -37,6 +37,32 @@ public class CommonUtil {
     }
 
     /**
+     * 计算与当前的时间间隔
+     * @param date
+     * @return
+     */
+    public static String timeFromNow(Date date){
+        Date now = new Date();
+        long timeGap = now.getTime() - date.getTime();
+        long day = timeGap /1000 / 60 / 60 / 24;
+        if (day >= 1) {
+            if (day == 1) {
+                return "1天前";
+            }
+            return getDate(date);
+        }
+        long hour = timeGap /1000 / 60 / 60;
+        if (hour >= 1) {
+            return hour+"小时前";
+        }
+        long minute = timeGap /1000 / 60;
+        if (minute >= 1) {
+            return minute+"分钟前";
+        }
+        return "刚刚";
+    }
+
+    /**
      * 从date获取日期
      * @param date
      * @return

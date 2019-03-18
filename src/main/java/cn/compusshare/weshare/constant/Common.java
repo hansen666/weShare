@@ -15,7 +15,7 @@ public class Common {
     public final static int TOKEN_NULL = -3;  //token为空
     public final static int CODE_INVALID = -2;  //code无效
 
-
+    //接口返回提示信息
     public final static String SUCCESS_MSG = "success";
     public final static String FAIL_MSG = "fail";
     public final static String CODE_INVALID_MSG = "code无效";
