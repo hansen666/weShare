@@ -20,9 +20,6 @@ public class WeshareApplicationTests {
 	private GoodsService goodsService;
 	@Test
 	public void contextLoads() {
-		List<GoodsInfo> list=goodsService.getSoldGoods("8742");
-		assertNotNull(list);
-		System.out.println(JSONObject.toJSON(list));
 	}
 
 }

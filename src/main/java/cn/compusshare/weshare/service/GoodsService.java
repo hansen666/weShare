@@ -2,7 +2,6 @@ package cn.compusshare.weshare.service;
 
 
 import cn.compusshare.weshare.repository.RequestBody.GoodsRequest;
-import cn.compusshare.weshare.repository.entity.PublishGoods;
 import cn.compusshare.weshare.utils.ResultResponse;
 import org.springframework.stereotype.Service;
 
@@ -22,4 +21,6 @@ public interface GoodsService {
     List<Map<String,Object>> collections(String token, int currentPage);
 
     List<Map<String,Object>> myPublish(String token, int currentPage);
+
+    ResultResponse wishWall(String token, int pageIndex);
 }

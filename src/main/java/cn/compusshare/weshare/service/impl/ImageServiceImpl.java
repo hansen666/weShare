@@ -19,11 +19,10 @@ import java.util.*;
 @Component
 public class ImageServiceImpl implements ImageService {
 
-    private final static Logger logger= LoggerFactory.getLogger(Logger.class);
+    private final static Logger logger = LoggerFactory.getLogger(Logger.class);
 
     @Override
     public ResultResponse uploadImage(MultipartFile file, int id, String filePath) {
-//        String filePath = environment.getProperty("image.path");
         Random rand = new Random();
         String originName = file.getOriginalFilename();
         String typeName = originName.substring(originName.lastIndexOf("."));
@@ -31,12 +30,12 @@ public class ImageServiceImpl implements ImageService {
         String nowTimeStamp = String.valueOf(time / 1000);
         int randNum = rand.nextInt(899) + 100;
         String fileName = nowTimeStamp + randNum + typeName;
-        File newFile = new File(filePath+fileName);
+        File newFile = new File(filePath + fileName);
         try {
             file.transferTo(newFile);
         } catch (IOException e) {
-            logger.info("图片{}上传失败",originName );
-            return ResultUtil.fail(-1,"图片"+originName+"上传失败");
+            logger.info("图片{}上传失败", originName);
+            return ResultUtil.fail(-1, "图片" + originName + "上传失败");
         }
         ImageResponse imageResponse = ImageResponse.builder()
                 .fileName(fileName)

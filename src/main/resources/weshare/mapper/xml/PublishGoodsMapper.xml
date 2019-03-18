@@ -26,13 +26,11 @@
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="price" jdbcType="REAL" property="price" />
     <result column="browse_count" jdbcType="INTEGER" property="browseCount" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime" />
     <result column="longitude" jdbcType="DOUBLE" property="longitude" />
     <result column="latitude" jdbcType="DOUBLE" property="latitude" />
   </resultMap>
-
 
   <resultMap id="SoldGoodsMap" type="java.util.HashMap">
     <id column="id" jdbcType="INTEGER" property="id" />
@@ -51,12 +49,12 @@
     status, pub_time, longitude, latitude, create_time, update_time
   </sql>
   <sql id="Show_Goods_List">
-    id, name, label, pic_url, description, price, browse_count, phone,status,
+    publish_goods.id, name, label, pic_url, description, price, browse_count, status,
     pub_time, longitude, latitude
   </sql>
 
   <sql id="Sold_Goods_List">
-    id, publisher_id, name, label, pic_url, description, price, phone,
+    id, name, label, pic_url, description, price, phone,
     pub_time,update_time
   </sql>
 
@@ -70,12 +68,13 @@
   <select id="selectShowGoods" resultMap="ShowGoodsMap">
     select
     <include refid="Show_Goods_List" />
-    from publish_goods
+    from publish_goods,user
     where publisher_id != #{publisherId} and status = 1
+    and publish_goods.publisher_id = user.id and user.school_name = #{school}
     <if test="label!=null">and label=#{label}</if>
     <if test="keyword!=null">and (name like '%${keyword}%' or description like '%${keyword}%')</if>
-    order by id
-    limit #{pageIndex},3
+    order by publish_goods.id
+    limit #{pageIndex},6
   </select>
 
   <select id="selectSoldGoods" resultMap="SoldGoodsMap">

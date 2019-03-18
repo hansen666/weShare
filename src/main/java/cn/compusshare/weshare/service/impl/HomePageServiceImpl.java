@@ -3,6 +3,7 @@ package cn.compusshare.weshare.service.impl;
 import cn.compusshare.weshare.repository.entity.School;
 import cn.compusshare.weshare.repository.mapper.PublishGoodsMapper;
 import cn.compusshare.weshare.repository.mapper.SchoolMapper;
+import cn.compusshare.weshare.repository.mapper.UserMapper;
 import cn.compusshare.weshare.repository.responsebody.SchoolResponse;
 import cn.compusshare.weshare.service.HomePageService;
 import cn.compusshare.weshare.service.LoginService;
@@ -15,11 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class HomePageServiceImpl implements HomePageService {
 
-    private final static Logger logger= LoggerFactory.getLogger(Logger.class);
+    private final static Logger logger = LoggerFactory.getLogger(Logger.class);
 
     @Autowired
     private LoginService loginService;
@@ -29,6 +31,9 @@ public class HomePageServiceImpl implements HomePageService {
 
     @Autowired
     private PublishGoodsMapper publishGoodsMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public List<SchoolResponse> selectAllSchool() {
@@ -64,14 +69,16 @@ public class HomePageServiceImpl implements HomePageService {
 
     @Override
     public ResultResponse showGoods(String token, int pageIndex, Byte label, String keyword) {
-        String publisherId = "tcz";   //loginService.getOpenIDFromToken(token);
-        String key = CommonUtil.isEmpty(keyword)? null:keyword.trim();
+        String publisherId = loginService.getOpenIDFromToken(token);
+        String key = CommonUtil.isEmpty(keyword) ? null : keyword.trim();
         try {
-            List<HashMap<String, Object>> goodsList = publishGoodsMapper.selectShowGoods(publisherId, 3*pageIndex, label, key);
+            List<HashMap<String, Object>> goodsList = publishGoodsMapper.selectShowGoods(publisherId,
+                    6 * pageIndex, label, key, userMapper.selectByPrimaryKey(publisherId).getSchoolName());
+            goodsList.forEach(t -> t.put("pubTime", CommonUtil.timeFromNow((Date) t.get("pubTime"))));
             return ResultUtil.success(goodsList);
-        }catch (Exception e){
-            logger.info("数据库查询失败"+e.getMessage());
-            return ResultUtil.fail(-1,"数据库查询失败"+e.getMessage());
+        } catch (Exception e) {
+            logger.info("首页商品数据库查询失败" + e.getMessage());
+            return ResultUtil.fail(-1, "首页商品数据库查询失败" + e.getMessage());
         }
     }
 }

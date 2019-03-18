@@ -18,10 +18,42 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+
+  <resultMap id="WantGoodsMap" type="java.util.HashMap">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="label" jdbcType="TINYINT" property="label" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="price" jdbcType="REAL" property="price" />
+    <result column="browse_count" jdbcType="INTEGER" property="browseCount" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime" />
+    <result column="longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="latitude" jdbcType="DOUBLE" property="latitude" />
+  </resultMap>
+
+  <sql id="Want_Goods_List">
+    want_goods.id, name, label, pic_url, description, price, browse_count, status,
+    pub_time, longitude, latitude
+  </sql>
+  
   <sql id="Base_Column_List">
     id, want_buyer_id, name, label, pic_url, description, price, browse_count, phone, 
     status, pub_time, longitude, latitude, create_time, update_time
   </sql>
+  
+  <select id="selectWantGoods" resultMap="WantGoodsMap">
+    select
+    <include refid="Want_Goods_List" />
+    from want_goods,user
+    where want_buyer_id != #{wantBuyerId} and status = 1
+    and want_goods.want_buyer_id = user.id and user.school_name = #{school}
+    order by want_goods.id
+    limit #{pageIndex},6
+  </select>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -30,7 +30,7 @@ public class HomePageController {
         return ResultUtil.success(homePageService.allSchoolName());
     }
 
-    @PostMapping("/showGoods")
+    @GetMapping("/showGoods")
     public ResultResponse showGoods(@RequestHeader String token, @RequestBody ShowGoodsRequest showGoodsRequest) {
         logger.info("HomePageController.showGoods(),入参:token={},pageIndex={},label={},keyword={}", token,
                 showGoodsRequest.getPageIndex(), showGoodsRequest.getLabel(), showGoodsRequest.getKeyword());

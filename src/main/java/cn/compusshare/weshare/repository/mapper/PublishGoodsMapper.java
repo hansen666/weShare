@@ -24,7 +24,8 @@ public interface PublishGoodsMapper {
 
     Map<String,Object> selectCollection(Integer id);
 
-    List<HashMap<String, Object>> selectShowGoods(String publisherId, int pageIndex, Byte label, String keyword);
+    List<HashMap<String, Object>> selectShowGoods(@Param("publisherId")String publisherId,@Param("pageIndex")
+            int pageIndex,@Param("label") Byte label,@Param("keyword") String keyword,@Param("school") String school);
 
     Map<String, Object> selectSoldGoods(Integer id);
 
