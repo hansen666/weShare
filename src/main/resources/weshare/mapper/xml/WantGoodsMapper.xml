@@ -51,7 +51,7 @@
     where want_buyer_id != #{wantBuyerId} and status = 1
     and want_goods.want_buyer_id = user.id and user.school_name = #{school}
     order by want_goods.id
-    limit #{pageIndex},6
+    limit #{currentPage},6
   </select>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

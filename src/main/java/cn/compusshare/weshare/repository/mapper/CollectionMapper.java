@@ -20,5 +20,5 @@ public interface CollectionMapper {
 
     int updateByPrimaryKey(Collection record);
 
-    List<Integer> selectGoodsId(@Param("userID") String userID, @Param("pageIndex") int pageIndex);
+    List<Integer> selectGoodsId(@Param("userID") String userID, @Param("currentPage") int currentPage);
 }

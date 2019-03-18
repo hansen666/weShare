@@ -74,7 +74,7 @@
     <if test="label!=null">and label=#{label}</if>
     <if test="keyword!=null">and (name like '%${keyword}%' or description like '%${keyword}%')</if>
     order by publish_goods.id
-    limit #{pageIndex},6
+    limit #{currentPage},6
   </select>
 
   <select id="selectSoldGoods" resultMap="SoldGoodsMap">
@@ -99,7 +99,7 @@
     <include refid="Show_Goods_List" />
     from publish_goods
     where publisher_id = #{userID}
-    order by id limit #{pageIndex}, 10
+    order by id limit #{currentPage}, 10
   </select>
 
 

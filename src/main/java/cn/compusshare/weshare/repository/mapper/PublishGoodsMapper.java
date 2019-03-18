@@ -24,10 +24,10 @@ public interface PublishGoodsMapper {
 
     Map<String,Object> selectCollection(Integer id);
 
-    List<HashMap<String, Object>> selectShowGoods(@Param("publisherId")String publisherId,@Param("pageIndex")
-            int pageIndex,@Param("label") Byte label,@Param("keyword") String keyword,@Param("school") String school);
+    List<HashMap<String, Object>> selectShowGoods(@Param("publisherId")String publisherId,@Param("currentPage")
+            int currentPage,@Param("label") Byte label,@Param("keyword") String keyword,@Param("school") String school);
 
     Map<String, Object> selectSoldGoods(Integer id);
 
-    List<Map<String, Object>> selectMyPublish(@Param("userID") String userID,@Param("pageIndex") int pageIndex);
+    List<Map<String, Object>> selectMyPublish(@Param("userID") String userID,@Param("currentPage") int currentPage);
 }

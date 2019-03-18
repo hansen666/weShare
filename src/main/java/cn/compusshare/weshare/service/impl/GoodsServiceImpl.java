@@ -172,10 +172,10 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public ResultResponse wishWall(String token, int pageIndex) {
+    public ResultResponse wishWall(String token, int currentPage) {
         String wantBuyer = loginService.getOpenIDFromToken(token);
         try {
-            List<HashMap<String, Object>> goodsList = wantGoodsMapper.selectWantGoods(wantBuyer, pageIndex * 6,
+            List<HashMap<String, Object>> goodsList = wantGoodsMapper.selectWantGoods(wantBuyer, currentPage * 6,
                     userMapper.selectByPrimaryKey(wantBuyer).getSchoolName());
             goodsList.forEach(t -> t.put("pubTime", CommonUtil.timeFromNow((Date) t.get("pubTime"))));
             return ResultUtil.success(goodsList);

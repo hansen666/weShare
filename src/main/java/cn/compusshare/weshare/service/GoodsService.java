@@ -22,5 +22,5 @@ public interface GoodsService {
 
     List<Map<String,Object>> myPublish(String token, int currentPage);
 
-    ResultResponse wishWall(String token, int pageIndex);
+    ResultResponse wishWall(String token, int currentPage);
 }

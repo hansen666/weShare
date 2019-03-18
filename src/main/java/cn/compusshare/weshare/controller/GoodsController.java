@@ -78,9 +78,9 @@ public class GoodsController {
 
 
     @GetMapping("/wishWall")
-    public ResultResponse wishWall(@RequestHeader String token, @RequestParam int pageIndex) {
-        logger.info("GoodsController.wishwall(),入参:token={},pageIndex={}", token, pageIndex);
-        return goodsService.wishWall(token, pageIndex);
+    public ResultResponse wishWall(@RequestHeader String token, @RequestParam int currentPage) {
+        logger.info("GoodsController.wishwall(),入参:token={},currentPage={}", token, currentPage);
+        return goodsService.wishWall(token, currentPage);
     }
 
 }

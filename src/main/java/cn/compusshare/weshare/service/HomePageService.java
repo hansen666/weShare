@@ -13,6 +13,6 @@ public interface HomePageService {
 
     List<String> allSchoolName();
 
-    ResultResponse showGoods(String token, int pageIndex, Byte label, String keyword);
+    ResultResponse showGoods(String token, int currentPage, Byte label, String keyword);
 
 }

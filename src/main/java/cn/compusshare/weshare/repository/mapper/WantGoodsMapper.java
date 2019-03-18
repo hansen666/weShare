@@ -21,7 +21,7 @@ public interface WantGoodsMapper {
 
     int updateByPrimaryKey(WantGoods record);
 
-    List<HashMap<String, Object>> selectWantGoods(@Param("wantBuyerId") String wantBuyerId,@Param("pageIndex") int pageIndex,
+    List<HashMap<String, Object>> selectWantGoods(@Param("wantBuyerId") String wantBuyerId,@Param("currentPage") int currentPage,
                                                   @Param("school") String school);
 
 }

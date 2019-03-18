@@ -68,12 +68,12 @@ public class HomePageServiceImpl implements HomePageService {
 
 
     @Override
-    public ResultResponse showGoods(String token, int pageIndex, Byte label, String keyword) {
+    public ResultResponse showGoods(String token, int currentPage, Byte label, String keyword) {
         String publisherId = loginService.getOpenIDFromToken(token);
         String key = CommonUtil.isEmpty(keyword) ? null : keyword.trim();
         try {
             List<HashMap<String, Object>> goodsList = publishGoodsMapper.selectShowGoods(publisherId,
-                    6 * pageIndex, label, key, userMapper.selectByPrimaryKey(publisherId).getSchoolName());
+                    6 * currentPage, label, key, userMapper.selectByPrimaryKey(publisherId).getSchoolName());
             goodsList.forEach(t -> t.put("pubTime", CommonUtil.timeFromNow((Date) t.get("pubTime"))));
             return ResultUtil.success(goodsList);
         } catch (Exception e) {
