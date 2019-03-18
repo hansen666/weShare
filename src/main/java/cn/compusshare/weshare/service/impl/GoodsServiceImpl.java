@@ -114,6 +114,8 @@ public class GoodsServiceImpl implements GoodsService {
         for (Integer goodsId : goodsIds) {
             Map<String,Object> goods=publishGoodsMapper.selectSoldGoods(goodsId);
             if (goods != null) {
+                goods.put("pubTime",CommonUtil.timeFromNow((Date)goods.get("pubTime")));
+                goods.put("updateTime",CommonUtil.timeFromNow((Date)goods.get("updateTime")));
                 soldGoodsList.add(goods);
             }
         }
@@ -139,6 +141,7 @@ public class GoodsServiceImpl implements GoodsService {
         for (Integer goodsId : goodsIds) {
             Map<String,Object> goods=publishGoodsMapper.selectCollection(goodsId);
             if (goods != null) {
+                goods.put("pubTime",CommonUtil.timeFromNow((Date)goods.get("pubTime")));
                 collectionGoodsList.add(goods);
             }
         }
@@ -153,11 +156,14 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public List<Map<String,Object>> myPublish(String token,int currentPage) {
+    public List<Map<String,Object>> myPublish(String token, int currentPage) {
         //TODO
         //String openID = loginService.getOpenIDFromToken(token);
         String openID = "testAccount1";
         List<Map<String,Object>> result = publishGoodsMapper.selectMyPublish(openID, 10 * currentPage);
+        for (Map<String,Object> map : result) {
+            map.put("pubTime",CommonUtil.timeFromNow((Date)map.get("pubTime")));
+        }
         return result;
     }
 }
