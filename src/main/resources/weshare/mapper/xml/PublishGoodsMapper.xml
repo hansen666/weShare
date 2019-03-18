@@ -19,6 +19,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <resultMap id="ShowGoodsMap" type="java.util.HashMap">
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="label" jdbcType="TINYINT" property="label" />
     <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
@@ -31,14 +32,35 @@
     <result column="longitude" jdbcType="DOUBLE" property="longitude" />
     <result column="latitude" jdbcType="DOUBLE" property="latitude" />
   </resultMap>
+
+
+  <resultMap id="SoldGoodsMap" type="java.util.HashMap">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="label" jdbcType="TINYINT" property="label" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="price" jdbcType="REAL" property="price" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, publisher_id, name, label, pic_url, description, price, browse_count, phone, 
     status, pub_time, longitude, latitude, create_time, update_time
   </sql>
   <sql id="Show_Goods_List">
-    name, label, pic_url, description, price, browse_count, phone,status,
+    id, name, label, pic_url, description, price, browse_count, phone,status,
     pub_time, longitude, latitude
   </sql>
+
+  <sql id="Sold_Goods_List">
+    id, publisher_id, name, label, pic_url, description, price, phone,
+    pub_time,update_time
+  </sql>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -55,6 +77,37 @@
     order by id
     limit #{pageIndex},3
   </select>
+
+  <select id="selectSoldGoods" resultMap="SoldGoodsMap">
+    select
+    <include refid="Sold_Goods_List" />
+    from publish_goods
+    where id = #{id,jdbcType=INTEGER}
+    order by id
+  </select>
+
+  <select id="selectCollection" resultMap="ShowGoodsMap">
+    select
+    <include refid="Show_Goods_List" />
+    from publish_goods
+    where id = #{id,jdbcType=INTEGER} and status <![CDATA[!= ]]> 0
+    order by id
+  </select>
+
+
+  <select id="selectMyPublish"   resultMap="ShowGoodsMap">
+    select
+    <include refid="Show_Goods_List" />
+    from publish_goods
+    where publisher_id = #{userID}
+    order by id limit #{pageIndex}, 10
+  </select>
+
+
+
+
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from publish_goods
     where id = #{id,jdbcType=INTEGER}

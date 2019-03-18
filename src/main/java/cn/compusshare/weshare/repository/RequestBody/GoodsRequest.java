@@ -2,6 +2,7 @@ package cn.compusshare.weshare.repository.RequestBody;
 
 import lombok.Data;
 
+
 @Data
 public class GoodsRequest {
 

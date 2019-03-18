@@ -11,6 +11,8 @@ import cn.compusshare.weshare.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+
+
 /**
  * @Author: LZing
  * @Date: 2019/3/6
@@ -46,6 +48,24 @@ public class UserServiceImpl implements UserService {
         //数据库插入失败
         if(result==0){
             return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
+        }
+        return ResultUtil.success();
+    }
+
+
+    /**
+     * 修改用户资料
+     * @param user
+     * @return
+     */
+    @Override
+    public ResultResponse modify(String token, User user) {
+        //String openID = loginService.getOpenIDFromToken(token);
+        String openID = "testAccount1";
+        user.setId(openID);
+        int result = userMapper.updateByPrimaryKeySelective(user);
+        if (result == 0) {
+            return ResultUtil.fail();
         }
         return ResultUtil.success();
     }

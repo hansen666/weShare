@@ -16,6 +16,8 @@ public class Common {
     public final static int CODE_INVALID = -2;  //code无效
 
 
+    public final static String SUCCESS_MSG = "success";
+    public final static String FAIL_MSG = "fail";
     public final static String CODE_INVALID_MSG = "code无效";
     public final static String TOKEN_INVALID_MSG = "token已失效";
     public final static String TOKEN_NULL_MSG = "token为空";

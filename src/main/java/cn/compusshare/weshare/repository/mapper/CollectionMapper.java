@@ -2,6 +2,7 @@ package cn.compusshare.weshare.repository.mapper;
 
 import cn.compusshare.weshare.repository.entity.Collection;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,5 +20,5 @@ public interface CollectionMapper {
 
     int updateByPrimaryKey(Collection record);
 
-    List<Integer> selectGoodsId(String userID);
+    List<Integer> selectGoodsId(@Param("userID") String userID, @Param("pageIndex") int pageIndex);
 }

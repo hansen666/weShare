@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
@@ -45,8 +44,31 @@ public class GoodsController {
      * @return
      */
     @GetMapping("/sold")
-    public ResultResponse sold(@RequestHeader String token) {
-        logger.info("GoodsController.sold(),入参：token={}", token);
-        return ResultUtil.success(goodsService.getSoldGoods(token));
+    public ResultResponse sold(@RequestHeader String token,@RequestParam int currentPage) {
+        logger.info("GoodsController.sold(),入参：token={},currentPage={}", token, currentPage);
+        return ResultUtil.success(goodsService.getSoldGoods(token, currentPage));
+    }
+
+    /**
+     * 获取收藏物品
+     * @param token
+     * @return
+     */
+    @GetMapping("/collection")
+    public ResultResponse collection(@RequestHeader String token, @RequestParam int currentPage) {
+        logger.info("GoodsController.collection(),入参：token={},currentPage={}", token, currentPage);
+        return ResultUtil.success(goodsService.collections(token,currentPage));
+    }
+
+    /**
+     * 我的发布
+     * @param token
+     * @param currentPage
+     * @return
+     */
+    @GetMapping("myPublish")
+    public ResultResponse myPublish(@RequestHeader String token, @RequestParam int currentPage ) {
+        logger.info("GoodsController.myPublish(),入参：token={},currentPage={}", token, currentPage);
+        return ResultUtil.success(goodsService.myPublish(token, currentPage));
     }
 }

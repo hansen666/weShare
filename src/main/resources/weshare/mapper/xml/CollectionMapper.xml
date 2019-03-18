@@ -18,8 +18,9 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
-  <select id="selectGoodsIdByUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
+  <select id="selectGoodsId"  resultType="java.lang.Integer">
     select goods_id from collection where user_id = #{userID,jdbcType=VARCHAR}
+    order by goods_id  limit #{pageIndex},10
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

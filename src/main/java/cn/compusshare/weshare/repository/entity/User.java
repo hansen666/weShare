@@ -1,5 +1,7 @@
 package cn.compusshare.weshare.repository.entity;
 
+import cn.compusshare.weshare.utils.CommonUtil;
+
 import java.util.Date;
 
 public class User {
@@ -101,5 +103,28 @@ public class User {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String toStringSelective() {
+        StringBuffer buffer = new StringBuffer();
+        if (!CommonUtil.isEmpty(nickname)) {
+            buffer.append("nickname=" + nickname + "; ");
+        }
+        if (!CommonUtil.isEmpty(realName)) {
+            buffer.append("realname=" + realName + "; ");
+        }
+        if (!CommonUtil.isEmpty(avatarUrl)) {
+            buffer.append("avatarUrl=" + avatarUrl + "; ");
+        }
+        if (!CommonUtil.isEmpty(wxNumber)) {
+            buffer.append("wxNumber=" + wxNumber + "; ");
+        }
+        if (!CommonUtil.isEmpty(phone)) {
+            buffer.append("phone=" + phone + "; ");
+        }
+        if (!CommonUtil.isEmpty(schoolName)) {
+            buffer.append("schoolName=" + schoolName + "; ");
+        }
+        return buffer.toString();
     }
 }

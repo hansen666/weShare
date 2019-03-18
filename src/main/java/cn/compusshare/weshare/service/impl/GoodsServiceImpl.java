@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
+import java.util.Map;
 
 
 @Component
@@ -100,69 +101,63 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public List<GoodsInfo> getSoldGoods(String token){
+    public List<Map<String,Object>> getSoldGoods(String token,int currentPage){
         //  String openID = loginService.getOpenIDFromToken(token);
         String openID = "testAccount1";
-        List<Integer> goodsIds = transactionRecordMapper.selectGoodsId(openID);
+        //到交易记录表中查该用户的交易记录中的物品ID
+        List<Integer> goodsIds = transactionRecordMapper.selectGoodsId(openID,10 * currentPage);
         if (CommonUtil.isNullList(goodsIds)) {
             return null;
         }
-        List<GoodsInfo> goodsInfoList=new ArrayList<>();
+        //根据物品ID查物品详情
+        List<Map<String,Object>> soldGoodsList=new ArrayList<>();
         for (Integer goodsId : goodsIds) {
-            PublishGoods goods=publishGoodsMapper.selectByPrimaryKey(goodsId);
+            Map<String,Object> goods=publishGoodsMapper.selectSoldGoods(goodsId);
             if (goods != null) {
-                GoodsInfo goodsInfo= GoodsInfo.builder()
-                        .id(goods.getId())
-                        .name(goods.getName())
-                        .label(goods.getLabel())
-                        .description(goods.getDescription())
-                        .price(goods.getPrice())
-                        .phone(goods.getPhone())
-                        //.time(CommonUtil.getDate(goods.getUpdateTime()))
-                        .build();
-                if (!CommonUtil.isEmpty(goods.getPicUrl())) {
-                    goodsInfo.setPicUrl(goods.getPicUrl().split(","));
-                }
-                goodsInfoList.add(goodsInfo);
+                soldGoodsList.add(goods);
             }
         }
-        return goodsInfoList;
+        return soldGoodsList;
     }
-
 
     /**
      * 我的收藏
      * @param token
      * @return
      */
-    public List<GoodsInfo> collections(String token) {
+    @Override
+    public List<Map<String,Object>> collections(String token,int currentPage) {
         //String openID = loginService.getOpenIDFromToken(token);
         String openID = "testAccount1";
-        List<Integer> goodsIds = collectionMapper.selectGoodsId(openID);
+        //到收藏表中查该用户的收藏记录中的物品ID
+        List<Integer> goodsIds = collectionMapper.selectGoodsId(openID, 10 * currentPage);
         if (CommonUtil.isNullList(goodsIds)) {
             return null;
         }
-        List<GoodsInfo> goodsInfoList=new ArrayList<>();
+        //根据物品ID查物品详情,筛选审核中的物品
+        List<Map<String,Object>> collectionGoodsList=new ArrayList<>();
         for (Integer goodsId : goodsIds) {
-            PublishGoods goods=publishGoodsMapper.selectByPrimaryKey(goodsId);
+            Map<String,Object> goods=publishGoodsMapper.selectCollection(goodsId);
             if (goods != null) {
-                GoodsInfo goodsInfo= GoodsInfo.builder()
-                        .id(goods.getId())
-                        .name(goods.getName())
-                        .label(goods.getLabel())
-                        .description(goods.getDescription())
-                        .price(goods.getPrice())
-                        .phone(goods.getPhone())
-                        .status(goods.getStatus())
- //                       .time(CommonUtil.getDate(goods.getPubTime()))
-                        .build();
-                if (!CommonUtil.isEmpty(goods.getPicUrl())) {
-                    goodsInfo.setPicUrl(goods.getPicUrl().split(","));
-                }
-                goodsInfoList.add(goodsInfo);
+                collectionGoodsList.add(goods);
             }
         }
-        return goodsInfoList;
+        return collectionGoodsList;
 
+    }
+
+    /**
+     * 我的发布
+     * @param token
+     * @param currentPage
+     * @return
+     */
+    @Override
+    public List<Map<String,Object>> myPublish(String token,int currentPage) {
+        //TODO
+        //String openID = loginService.getOpenIDFromToken(token);
+        String openID = "testAccount1";
+        List<Map<String,Object>> result = publishGoodsMapper.selectMyPublish(openID, 10 * currentPage);
+        return result;
     }
 }
