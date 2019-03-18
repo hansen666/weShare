@@ -60,8 +60,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResultResponse modify(String token, User user) {
-        //String openID = loginService.getOpenIDFromToken(token);
-        String openID = "testAccount1";
+        //TOD O
+        String openID = loginService.getOpenIDFromToken(token);
+        //String openID = "testAccount1";
         user.setId(openID);
         int result = userMapper.updateByPrimaryKeySelective(user);
         if (result == 0) {

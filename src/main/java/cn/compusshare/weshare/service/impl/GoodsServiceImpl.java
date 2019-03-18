@@ -8,7 +8,6 @@ import cn.compusshare.weshare.repository.mapper.CollectionMapper;
 import cn.compusshare.weshare.repository.mapper.PublishGoodsMapper;
 import cn.compusshare.weshare.repository.mapper.TransactionRecordMapper;
 import cn.compusshare.weshare.repository.mapper.WantGoodsMapper;
-import cn.compusshare.weshare.repository.responsebody.GoodsInfo;
 import cn.compusshare.weshare.service.GoodsService;
 import cn.compusshare.weshare.service.LoginService;
 import cn.compusshare.weshare.utils.CommonUtil;
@@ -102,8 +101,9 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public List<Map<String,Object>> getSoldGoods(String token,int currentPage){
-        //  String openID = loginService.getOpenIDFromToken(token);
-        String openID = "testAccount1";
+        //TOD O
+        String openID = loginService.getOpenIDFromToken(token);
+       // String openID = "testAccount1";
         //到交易记录表中查该用户的交易记录中的物品ID
         List<Integer> goodsIds = transactionRecordMapper.selectGoodsId(openID,10 * currentPage);
         if (CommonUtil.isNullList(goodsIds)) {
@@ -129,8 +129,9 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public List<Map<String,Object>> collections(String token,int currentPage) {
-        //String openID = loginService.getOpenIDFromToken(token);
-        String openID = "testAccount1";
+        //TOD O
+        String openID = loginService.getOpenIDFromToken(token);
+        //String openID = "testAccount1";
         //到收藏表中查该用户的收藏记录中的物品ID
         List<Integer> goodsIds = collectionMapper.selectGoodsId(openID, 10 * currentPage);
         if (CommonUtil.isNullList(goodsIds)) {
@@ -157,13 +158,11 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public List<Map<String,Object>> myPublish(String token, int currentPage) {
-        //TODO
-        //String openID = loginService.getOpenIDFromToken(token);
-        String openID = "testAccount1";
+        //T ODO
+        String openID = loginService.getOpenIDFromToken(token);
+       // String openID = "testAccount1";
         List<Map<String,Object>> result = publishGoodsMapper.selectMyPublish(openID, 10 * currentPage);
-        for (Map<String,Object> map : result) {
-            map.put("pubTime",CommonUtil.timeFromNow((Date)map.get("pubTime")));
-        }
+        result.forEach(map -> map.put("pubTime",CommonUtil.timeFromNow((Date)map.get("pubTime"))));
         return result;
     }
 }
