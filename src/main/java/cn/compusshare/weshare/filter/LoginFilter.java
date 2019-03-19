@@ -21,17 +21,24 @@ import java.io.PrintWriter;
  * @Date: 2019/3/11
  * 登录过滤器
  */
-@WebFilter(urlPatterns = "/*",filterName = "login")
-public class LoginFilter implements Filter{
+@WebFilter(urlPatterns = "/*", filterName = "login")
+public class LoginFilter implements Filter {
 
-    private final static Logger logger= LoggerFactory.getLogger(Logger.class);
+    private final static Logger logger = LoggerFactory.getLogger(Logger.class);
 
     //需要进行登录态校验的路径前缀
-    private String[] needCheckPathPrefix={
+    private String[] needCheckPathPrefix = {
+            "/homePage",
+            "/user",
+            "/goods"
+
+    };
+
+    //不需要拦截的路径
+    private String[] unNeedCheckPathPrefix = {
             "/login",
             "/hello",
-            "/user"
-
+            "/test/"
     };
 
     @Autowired
@@ -44,61 +51,63 @@ public class LoginFilter implements Filter{
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request=(HttpServletRequest) servletRequest;
-        HttpServletResponse response=(HttpServletResponse) servletResponse;
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
         //如果是需要检查登录态的路径
-        if( needCheck(request.getRequestURL().toString())){
+        if (needCheck(request.getRequestURL().toString())) {
             logger.info("loginFilter拦截");
-            String token=request.getHeader("token");
+            String token = request.getHeader("token");
             //token为空
-            if(CommonUtil.isEmpty(token)){
+            if (CommonUtil.isEmpty(token)) {
                 logger.error(Common.TOKEN_NULL_MSG);
-                output(response,Common.TOKEN_NULL,Common.TOKEN_NULL_MSG);
+                output(response, Common.TOKEN_NULL, Common.TOKEN_NULL_MSG);
                 return;
             }
-            String openID=loginService.getOpenIDFromToken(token);
+            String openID = loginService.getOpenIDFromToken(token);
             //openID为空，说明token失效
-            if(CommonUtil.isEmpty(openID) ){
+            if (CommonUtil.isEmpty(openID)) {
                 logger.error(Common.TOKEN_INVALID_MSG);
-                output(response,Common.TOKEN_INVALID,Common.TOKEN_INVALID_MSG);
+                output(response, Common.TOKEN_INVALID, Common.TOKEN_INVALID_MSG);
                 return;
             }
         }
         //下游过滤链
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 
     /**
      * 检查该路径是否需要通过过滤器
+     *
      * @param path
      * @return
      */
-    private boolean needCheck(String path){
-        for( String prefix : needCheckPathPrefix ){
-            if( path.contains(prefix)){
-                return true;
+    private boolean needCheck(String path) {
+        for (String prefix : unNeedCheckPathPrefix) {
+            if (path.contains(prefix)) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
      * 返回json数据
+     *
      * @param response
      * @param code
      * @param msg
      */
-    private void output(HttpServletResponse response,int code,String msg){
+    private void output(HttpServletResponse response, int code, String msg) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=utf-8");
-        PrintWriter writer=null;
+        PrintWriter writer = null;
         try {
             writer = response.getWriter();
-            writer.print(JSONObject.toJSON(ResultUtil.fail(code,msg)));
-            return ;
+            writer.print(JSONObject.toJSON(ResultUtil.fail(code, msg)));
+            return;
 
         } catch (IOException e) {
-            logger.error("response error",e);
+            logger.error("response error", e);
             return;
         } finally {
             if (writer != null)

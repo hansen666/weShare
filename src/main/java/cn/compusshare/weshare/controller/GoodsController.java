@@ -1,7 +1,6 @@
 package cn.compusshare.weshare.controller;
 
 import cn.compusshare.weshare.repository.RequestBody.GoodsRequest;
-import cn.compusshare.weshare.repository.RequestBody.ShowGoodsRequest;
 import cn.compusshare.weshare.service.GoodsService;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
