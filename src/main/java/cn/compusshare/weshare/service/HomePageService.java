@@ -15,4 +15,6 @@ public interface HomePageService {
 
     ResultResponse showGoods(String token, int currentPage, Byte label, String keyword);
 
+    ResultResponse showDetail(Integer id);
+
 }

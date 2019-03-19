@@ -45,6 +45,13 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * 首页物品发布
+     *
+     * @param token
+     * @param goodsRequest
+     * @return
+     */
     @Override
     public ResultResponse publishGoods(String token, GoodsRequest goodsRequest) {
         Date date = new Date();
@@ -71,6 +78,13 @@ public class GoodsServiceImpl implements GoodsService {
         return ResultUtil.success();
     }
 
+    /**
+     * 心愿墙物品发布
+     *
+     * @param token
+     * @param goodsRequest
+     * @return
+     */
     @Override
     public ResultResponse wantGoods(String token, GoodsRequest goodsRequest) {
         Date date = new Date();
@@ -101,14 +115,15 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 查询卖出的物品
+     *
      * @param token
      * @return
      */
     @Override
-    public List<Map<String,Object>> getSoldGoods(String token,int currentPage){
+    public List<Map<String, Object>> getSoldGoods(String token, int currentPage) {
         //TOD O
         String openID = loginService.getOpenIDFromToken(token);
-       // String openID = "testAccount1";
+        // String openID = "testAccount1";
         //到交易记录表中查该用户的交易记录中的物品ID
         List<Integer> goodsIds = transactionRecordMapper.selectGoodsId(openID, 10 * currentPage);
         if (CommonUtil.isNullList(goodsIds)) {
@@ -129,11 +144,12 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 我的收藏
+     *
      * @param token
      * @return
      */
     @Override
-    public List<Map<String,Object>> collections(String token,int currentPage) {
+    public List<Map<String, Object>> collections(String token, int currentPage) {
         //TOD O
         String openID = loginService.getOpenIDFromToken(token);
         //String openID = "testAccount1";
@@ -157,20 +173,28 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 我的发布
+     *
      * @param token
      * @param currentPage
      * @return
      */
     @Override
-    public List<Map<String,Object>> myPublish(String token, int currentPage) {
+    public List<Map<String, Object>> myPublish(String token, int currentPage) {
         //T ODO
         String openID = loginService.getOpenIDFromToken(token);
-       // String openID = "testAccount1";
-        List<Map<String,Object>> result = publishGoodsMapper.selectMyPublish(openID, 10 * currentPage);
-        result.forEach(map -> map.put("pubTime",CommonUtil.timeFromNow((Date)map.get("pubTime"))));
+        // String openID = "testAccount1";
+        List<Map<String, Object>> result = publishGoodsMapper.selectMyPublish(openID, 10 * currentPage);
+        result.forEach(map -> map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime"))));
         return result;
     }
 
+    /**
+     * 心愿墙物品展示
+     *
+     * @param token
+     * @param currentPage
+     * @return
+     */
     @Override
     public ResultResponse wishWall(String token, int currentPage) {
         String wantBuyer = loginService.getOpenIDFromToken(token);
@@ -183,6 +207,25 @@ public class GoodsServiceImpl implements GoodsService {
         } catch (Exception e) {
             logger.info("心愿墙物品数据库查询失败" + e.getMessage());
             return ResultUtil.fail(-1, "心愿墙物品数据库查询失败" + e.getMessage());
+        }
+
+    }
+
+    /**
+     * 心愿墙的物品详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ResultResponse showDetail(Integer id) {
+        try {
+            Map<String, Object> result = wantGoodsMapper.showGoodsDetail(id);
+            result.put("pubTime", CommonUtil.timeFromNow((Date) result.get("pubTime")));
+            return ResultUtil.success(result);
+        } catch (Exception e) {
+            logger.info("id={}的心愿墙物品查询错误", id);
+            return ResultUtil.fail(-1, "id=" + id + "的心愿墙物品查询错误");
         }
 
     }

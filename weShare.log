@@ -227,3 +227,352 @@
 2019-03-19 10:08:01.544  INFO 5856 --- [http-nio-8080-exec-2] org.slf4j.Logger                         : HomePageController.showGoods(),入参:token=sabisb,currentPage=0,label=0,keyword=null
 2019-03-19 10:08:01.564  INFO 5856 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
 2019-03-19 10:08:01.914  INFO 5856 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2019-03-19 14:26:39.828  INFO 6964 --- [main] c.c.weshare.WeshareApplication           : Starting WeshareApplication on DESKTOP-0AU7LE8 with PID 6964 (E:\IDEA\weShare\target\classes started by tcozy in E:\IDEA\weShare)
+2019-03-19 14:26:39.852  INFO 6964 --- [main] c.c.weshare.WeshareApplication           : No active profile set, falling back to default profiles: default
+2019-03-19 14:26:41.889  INFO 6964 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-19 14:26:41.897  INFO 6964 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-03-19 14:26:41.949  INFO 6964 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 25ms. Found 0 repository interfaces.
+2019-03-19 14:26:42.654  INFO 6964 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$469934f3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-19 14:26:43.109  INFO 6964 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-03-19 14:26:43.136  INFO 6964 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-03-19 14:26:43.136  INFO 6964 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.16]
+2019-03-19 14:26:43.143  INFO 6964 --- [main] o.a.catalina.core.AprLifecycleListener   : The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\java\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\tool\Xshell6\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\java\jdk\bin;D:\java\jdk\jre\bin;D:\maven\bin;C:\Program Files\MySQL\MySQL Server 5.7\bin;D:\IDE\Git\cmd;D:\IDE\Redis;D:\Python\Scripts\;D:\Python\;C:\Users\唐诚祯\AppData\Local\Microsoft\WindowsApps;;D:\IDE\IntelliJ IDEA 2018.3.5\bin;;.]
+2019-03-19 14:26:43.526  INFO 6964 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-03-19 14:26:43.527  INFO 6964 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3398 ms
+2019-03-19 14:26:44.348  INFO 6964 --- [main] org.slf4j.Logger                         : 初始化loginFilter
+2019-03-19 14:26:44.666  INFO 6964 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 14:26:44.668  INFO 6964 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 14:26:45.416  INFO 6964 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-03-19 14:26:45.419  INFO 6964 --- [main] c.c.weshare.WeshareApplication           : Started WeshareApplication in 6.336 seconds (JVM running for 8.986)
+2019-03-19 14:29:29.030  INFO 6964 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-03-19 14:29:29.031  INFO 6964 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-03-19 14:29:29.041  INFO 6964 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 9 ms
+2019-03-19 14:29:29.052  INFO 6964 --- [http-nio-8080-exec-2] org.slf4j.Logger                         : loginFilter拦截
+2019-03-19 14:29:29.053 ERROR 6964 --- [http-nio-8080-exec-2] org.slf4j.Logger                         : token为空
+2019-03-19 14:31:02.691  INFO 13804 --- [main] c.c.weshare.WeshareApplication           : Starting WeshareApplication on DESKTOP-0AU7LE8 with PID 13804 (E:\IDEA\weShare\target\classes started by tcozy in E:\IDEA\weShare)
+2019-03-19 14:31:02.696  INFO 13804 --- [main] c.c.weshare.WeshareApplication           : No active profile set, falling back to default profiles: default
+2019-03-19 14:31:04.891  INFO 13804 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-19 14:31:04.895  INFO 13804 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-03-19 14:31:04.941  INFO 13804 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27ms. Found 0 repository interfaces.
+2019-03-19 14:31:05.534  INFO 13804 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$f23d80f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-19 14:31:05.987  INFO 13804 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-03-19 14:31:06.024  INFO 13804 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-03-19 14:31:06.025  INFO 13804 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.16]
+2019-03-19 14:31:06.036  INFO 13804 --- [main] o.a.catalina.core.AprLifecycleListener   : The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\java\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\tool\Xshell6\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\java\jdk\bin;D:\java\jdk\jre\bin;D:\maven\bin;C:\Program Files\MySQL\MySQL Server 5.7\bin;D:\IDE\Git\cmd;D:\IDE\Redis;D:\Python\Scripts\;D:\Python\;C:\Users\唐诚祯\AppData\Local\Microsoft\WindowsApps;;D:\IDE\IntelliJ IDEA 2018.3.5\bin;;.]
+2019-03-19 14:31:06.193  INFO 13804 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-03-19 14:31:06.194  INFO 13804 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3332 ms
+2019-03-19 14:31:06.849  INFO 13804 --- [main] org.slf4j.Logger                         : 初始化loginFilter
+2019-03-19 14:31:07.195  INFO 13804 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 14:31:07.197  INFO 13804 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 14:31:08.082  INFO 13804 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-03-19 14:31:08.087  INFO 13804 --- [main] c.c.weshare.WeshareApplication           : Started WeshareApplication in 6.288 seconds (JVM running for 8.185)
+2019-03-19 14:32:36.207  INFO 13804 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-03-19 14:32:36.207  INFO 13804 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-03-19 14:32:36.217  INFO 13804 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 9 ms
+2019-03-19 14:32:36.248  INFO 13804 --- [http-nio-8080-exec-2] org.slf4j.Logger                         : GoodsController.showDetail(),入参:id=2
+2019-03-19 14:32:36.269  INFO 13804 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2019-03-19 14:32:36.631  INFO 13804 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2019-03-19 14:33:29.696  INFO 13804 --- [http-nio-8080-exec-3] org.slf4j.Logger                         : GoodsController.showDetail(),入参:id=16
+2019-03-19 14:37:52.907  INFO 1764 --- [main] c.c.weshare.WeshareApplication           : Starting WeshareApplication on DESKTOP-0AU7LE8 with PID 1764 (E:\IDEA\weShare\target\classes started by tcozy in E:\IDEA\weShare)
+2019-03-19 14:37:52.912  INFO 1764 --- [main] c.c.weshare.WeshareApplication           : No active profile set, falling back to default profiles: default
+2019-03-19 14:37:54.576  INFO 1764 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-19 14:37:54.579  INFO 1764 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-03-19 14:37:54.624  INFO 1764 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 28ms. Found 0 repository interfaces.
+2019-03-19 14:37:55.163  INFO 1764 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$bc89f9e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-19 14:37:55.618  INFO 1764 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-03-19 14:37:55.648  INFO 1764 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-03-19 14:37:55.649  INFO 1764 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.16]
+2019-03-19 14:37:55.658  INFO 1764 --- [main] o.a.catalina.core.AprLifecycleListener   : The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\java\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\tool\Xshell6\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\java\jdk\bin;D:\java\jdk\jre\bin;D:\maven\bin;C:\Program Files\MySQL\MySQL Server 5.7\bin;D:\IDE\Git\cmd;D:\IDE\Redis;D:\Python\Scripts\;D:\Python\;C:\Users\唐诚祯\AppData\Local\Microsoft\WindowsApps;;D:\IDE\IntelliJ IDEA 2018.3.5\bin;;.]
+2019-03-19 14:37:55.858  INFO 1764 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-03-19 14:37:55.858  INFO 1764 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2857 ms
+2019-03-19 14:37:56.471  INFO 1764 --- [main] org.slf4j.Logger                         : 初始化loginFilter
+2019-03-19 14:37:56.786  INFO 1764 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 14:37:56.789  INFO 1764 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 14:37:57.508  INFO 1764 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-03-19 14:37:57.512  INFO 1764 --- [main] c.c.weshare.WeshareApplication           : Started WeshareApplication in 5.312 seconds (JVM running for 7.1)
+2019-03-19 14:38:57.383  INFO 1764 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-03-19 14:38:57.383  INFO 1764 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-03-19 14:38:57.395  INFO 1764 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 12 ms
+2019-03-19 14:38:57.427  INFO 1764 --- [http-nio-8080-exec-2] org.slf4j.Logger                         : GoodsController.showDetail(),入参:id=16
+2019-03-19 14:38:57.447  INFO 1764 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2019-03-19 14:38:57.807  INFO 1764 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2019-03-19 14:39:05.907  INFO 1764 --- [http-nio-8080-exec-3] org.slf4j.Logger                         : GoodsController.showDetail(),入参:id=2
+2019-03-19 14:40:37.562  INFO 1764 --- [http-nio-8080-exec-6] org.slf4j.Logger                         : GoodsController.showDetail(),入参:id=2
+2019-03-19 14:46:12.329  INFO 1764 --- [http-nio-8080-exec-8] org.slf4j.Logger                         : GoodsController.showDetail(),入参:id=2
+2019-03-19 14:46:49.008  INFO 1764 --- [http-nio-8080-exec-10] org.slf4j.Logger                         : GoodsController.showDetail(),入参:id=3
+2019-03-19 15:01:16.592  INFO 3576 --- [main] c.c.weshare.WeshareApplication           : Starting WeshareApplication on DESKTOP-0AU7LE8 with PID 3576 (E:\IDEA\weShare\target\classes started by tcozy in E:\IDEA\weShare)
+2019-03-19 15:01:16.597  INFO 3576 --- [main] c.c.weshare.WeshareApplication           : No active profile set, falling back to default profiles: default
+2019-03-19 15:01:18.622  INFO 3576 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-19 15:01:18.628  INFO 3576 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-03-19 15:01:18.702  INFO 3576 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 35ms. Found 0 repository interfaces.
+2019-03-19 15:01:19.525  INFO 3576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$244ca965] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-19 15:01:19.939  INFO 3576 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-03-19 15:01:19.966  INFO 3576 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-03-19 15:01:19.966  INFO 3576 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.16]
+2019-03-19 15:01:19.977  INFO 3576 --- [main] o.a.catalina.core.AprLifecycleListener   : The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\java\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\tool\Xshell6\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\java\jdk\bin;D:\java\jdk\jre\bin;D:\maven\bin;C:\Program Files\MySQL\MySQL Server 5.7\bin;D:\IDE\Git\cmd;D:\IDE\Redis;D:\Python\Scripts\;D:\Python\;C:\Users\唐诚祯\AppData\Local\Microsoft\WindowsApps;;D:\IDE\IntelliJ IDEA 2018.3.5\bin;;.]
+2019-03-19 15:01:20.124  INFO 3576 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-03-19 15:01:20.124  INFO 3576 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3401 ms
+2019-03-19 15:01:20.747  INFO 3576 --- [main] org.slf4j.Logger                         : 初始化loginFilter
+2019-03-19 15:01:21.074  INFO 3576 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 15:01:21.076  INFO 3576 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 15:01:21.802  INFO 3576 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-03-19 15:01:21.805  INFO 3576 --- [main] c.c.weshare.WeshareApplication           : Started WeshareApplication in 5.955 seconds (JVM running for 7.783)
+2019-03-19 15:01:25.621  INFO 3576 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-03-19 15:01:25.622  INFO 3576 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-03-19 15:01:25.632  INFO 3576 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 10 ms
+2019-03-19 15:01:25.663  INFO 3576 --- [http-nio-8080-exec-1] org.slf4j.Logger                         : GoodsController.showDetail(),入参:id=16
+2019-03-19 15:01:25.682  INFO 3576 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2019-03-19 15:01:26.041  INFO 3576 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2019-03-19 15:01:26.178 ERROR 3576 --- [http-nio-8080-exec-1] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.dao.DataIntegrityViolationException: 
+### Error querying database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'id' in where clause is ambiguous
+### The error may exist in file [E:\IDEA\weShare\target\classes\weshare\mapper\xml\PublishGoodsMapper.xml]
+### The error may involve cn.compusshare.weshare.repository.mapper.PublishGoodsMapper.showGoodsDetail-Inline
+### The error occurred while setting parameters
+### SQL: select           publish_goods.id, name, label, pic_url, description, price, browse_count, publish_goods.phone,     status, pub_time, longitude, latitude, nickname, identified_type, avatar_url         from publish_goods,user     where publish_goods.publisher_id = user.id and id = ?
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'id' in where clause is ambiguous
+; Column 'id' in where clause is ambiguous; nested exception is java.sql.SQLIntegrityConstraintViolationException: Column 'id' in where clause is ambiguous] with root cause
+
+java.sql.SQLIntegrityConstraintViolationException: Column 'id' in where clause is ambiguous
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:117) ~[mysql-connector-java-8.0.15.jar:8.0.15]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.15.jar:8.0.15]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.15.jar:8.0.15]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:970) ~[mysql-connector-java-8.0.15.jar:8.0.15]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:387) ~[mysql-connector-java-8.0.15.jar:8.0.15]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44) ~[HikariCP-3.2.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java) ~[HikariCP-3.2.0.jar:na]
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:64) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:79) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:63) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:324) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:156) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:109) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:83) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:148) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:141) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectOne(DefaultSqlSession.java:77) ~[mybatis-3.5.0.jar:3.5.0]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_191]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_191]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_191]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_191]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:433) ~[mybatis-spring-2.0.0.jar:2.0.0]
+	at com.sun.proxy.$Proxy59.selectOne(Unknown Source) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate.selectOne(SqlSessionTemplate.java:166) ~[mybatis-spring-2.0.0.jar:2.0.0]
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:84) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:58) ~[mybatis-3.5.0.jar:3.5.0]
+	at com.sun.proxy.$Proxy69.showGoodsDetail(Unknown Source) ~[na:na]
+	at cn.compusshare.weshare.service.impl.HomePageServiceImpl.showDetail(HomePageServiceImpl.java:87) ~[classes/:na]
+	at cn.compusshare.weshare.controller.HomePageController.showDetail(HomePageController.java:51) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_191]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_191]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_191]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_191]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:189) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:897) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at cn.compusshare.weshare.filter.LoginFilter.doFilter(LoginFilter.java:75) ~[classes/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_191]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_191]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_191]
+
+2019-03-19 15:01:42.177  INFO 3576 --- [http-nio-8080-exec-4] org.slf4j.Logger                         : GoodsController.showDetail(),入参:id=3
+2019-03-19 15:01:42.229 ERROR 3576 --- [http-nio-8080-exec-4] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.dao.DataIntegrityViolationException: 
+### Error querying database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'id' in where clause is ambiguous
+### The error may exist in file [E:\IDEA\weShare\target\classes\weshare\mapper\xml\WantGoodsMapper.xml]
+### The error may involve cn.compusshare.weshare.repository.mapper.WantGoodsMapper.showGoodsDetail-Inline
+### The error occurred while setting parameters
+### SQL: select           want_goods.id, name, label, pic_url, description, price, browse_count, want_goods.phone,     status, pub_time, longitude, latitude, nickname, identified_type, avatar_url         from want_goods,user     where want_goods.want_buyer_id = user.id and id = ?
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'id' in where clause is ambiguous
+; Column 'id' in where clause is ambiguous; nested exception is java.sql.SQLIntegrityConstraintViolationException: Column 'id' in where clause is ambiguous] with root cause
+
+java.sql.SQLIntegrityConstraintViolationException: Column 'id' in where clause is ambiguous
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:117) ~[mysql-connector-java-8.0.15.jar:8.0.15]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.15.jar:8.0.15]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.15.jar:8.0.15]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:970) ~[mysql-connector-java-8.0.15.jar:8.0.15]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:387) ~[mysql-connector-java-8.0.15.jar:8.0.15]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44) ~[HikariCP-3.2.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java) ~[HikariCP-3.2.0.jar:na]
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:64) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:79) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:63) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:324) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:156) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:109) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:83) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:148) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:141) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectOne(DefaultSqlSession.java:77) ~[mybatis-3.5.0.jar:3.5.0]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_191]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_191]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_191]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_191]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:433) ~[mybatis-spring-2.0.0.jar:2.0.0]
+	at com.sun.proxy.$Proxy59.selectOne(Unknown Source) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate.selectOne(SqlSessionTemplate.java:166) ~[mybatis-spring-2.0.0.jar:2.0.0]
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:84) ~[mybatis-3.5.0.jar:3.5.0]
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:58) ~[mybatis-3.5.0.jar:3.5.0]
+	at com.sun.proxy.$Proxy70.showGoodsDetail(Unknown Source) ~[na:na]
+	at cn.compusshare.weshare.service.impl.GoodsServiceImpl.showDetail(GoodsServiceImpl.java:195) ~[classes/:na]
+	at cn.compusshare.weshare.controller.GoodsController.showDetail(GoodsController.java:110) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_191]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_191]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_191]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_191]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:189) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:897) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882) ~[spring-webmvc-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at cn.compusshare.weshare.filter.LoginFilter.doFilter(LoginFilter.java:75) ~[classes/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-5.1.5.RELEASE.jar:5.1.5.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_191]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_191]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.16.jar:9.0.16]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_191]
+
+2019-03-19 15:02:24.628  INFO 1392 --- [main] c.c.weshare.WeshareApplication           : Starting WeshareApplication on DESKTOP-0AU7LE8 with PID 1392 (E:\IDEA\weShare\target\classes started by tcozy in E:\IDEA\weShare)
+2019-03-19 15:02:24.636  INFO 1392 --- [main] c.c.weshare.WeshareApplication           : No active profile set, falling back to default profiles: default
+2019-03-19 15:02:26.367  INFO 1392 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-19 15:02:26.371  INFO 1392 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-03-19 15:02:26.420  INFO 1392 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 22ms. Found 0 repository interfaces.
+2019-03-19 15:02:26.952  INFO 1392 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$a4e9d61d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-19 15:02:27.377  INFO 1392 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-03-19 15:02:27.405  INFO 1392 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-03-19 15:02:27.406  INFO 1392 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.16]
+2019-03-19 15:02:27.415  INFO 1392 --- [main] o.a.catalina.core.AprLifecycleListener   : The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\java\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\tool\Xshell6\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\java\jdk\bin;D:\java\jdk\jre\bin;D:\maven\bin;C:\Program Files\MySQL\MySQL Server 5.7\bin;D:\IDE\Git\cmd;D:\IDE\Redis;D:\Python\Scripts\;D:\Python\;C:\Users\唐诚祯\AppData\Local\Microsoft\WindowsApps;;D:\IDE\IntelliJ IDEA 2018.3.5\bin;;.]
+2019-03-19 15:02:27.566  INFO 1392 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-03-19 15:02:27.567  INFO 1392 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2740 ms
+2019-03-19 15:02:28.178  INFO 1392 --- [main] org.slf4j.Logger                         : 初始化loginFilter
+2019-03-19 15:02:28.478  INFO 1392 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 15:02:28.480  INFO 1392 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 15:02:29.381  INFO 1392 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-03-19 15:02:29.385  INFO 1392 --- [main] c.c.weshare.WeshareApplication           : Started WeshareApplication in 5.44 seconds (JVM running for 7.215)
+2019-03-19 15:02:53.393  INFO 1392 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-03-19 15:02:53.393  INFO 1392 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-03-19 15:02:53.405  INFO 1392 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 11 ms
+2019-03-19 15:02:53.440  INFO 1392 --- [http-nio-8080-exec-1] org.slf4j.Logger                         : GoodsController.showDetail(),入参:id=3
+2019-03-19 15:02:53.460  INFO 1392 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2019-03-19 15:02:54.053  INFO 1392 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2019-03-19 15:04:17.164  INFO 1392 --- [http-nio-8080-exec-5] org.slf4j.Logger                         : GoodsController.showDetail(),入参:id=13
+2019-03-19 15:05:17.202  INFO 1392 --- [http-nio-8080-exec-6] org.slf4j.Logger                         : GoodsController.showDetail(),入参:id=21
+2019-03-19 15:05:39.579  INFO 1392 --- [http-nio-8080-exec-7] org.slf4j.Logger                         : loginFilter拦截
+2019-03-19 15:05:39.598  INFO 1392 --- [http-nio-8080-exec-7] org.slf4j.Logger                         : The token was expected to have 3 parts, but got 1.
+2019-03-19 15:05:39.598 ERROR 1392 --- [http-nio-8080-exec-7] org.slf4j.Logger                         : token已失效
+2019-03-19 15:05:51.003  INFO 1392 --- [http-nio-8080-exec-8] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=0
+2019-03-19 15:05:51.011  INFO 1392 --- [http-nio-8080-exec-8] org.slf4j.Logger                         : The token was expected to have 3 parts, but got 1.
+2019-03-19 15:05:51.056  INFO 1392 --- [http-nio-8080-exec-8] org.slf4j.Logger                         : 心愿墙物品数据库查询失败null
+2019-03-19 15:07:11.374  INFO 12352 --- [main] c.c.weshare.WeshareApplication           : Starting WeshareApplication on DESKTOP-0AU7LE8 with PID 12352 (E:\IDEA\weShare\target\classes started by tcozy in E:\IDEA\weShare)
+2019-03-19 15:07:11.379  INFO 12352 --- [main] c.c.weshare.WeshareApplication           : No active profile set, falling back to default profiles: default
+2019-03-19 15:07:12.972  INFO 12352 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-19 15:07:12.975  INFO 12352 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-03-19 15:07:13.016  INFO 12352 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23ms. Found 0 repository interfaces.
+2019-03-19 15:07:13.604  INFO 12352 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$7dfe49c2] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-19 15:07:14.029  INFO 12352 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-03-19 15:07:14.054  INFO 12352 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-03-19 15:07:14.055  INFO 12352 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.16]
+2019-03-19 15:07:14.062  INFO 12352 --- [main] o.a.catalina.core.AprLifecycleListener   : The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\java\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\tool\Xshell6\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\java\jdk\bin;D:\java\jdk\jre\bin;D:\maven\bin;C:\Program Files\MySQL\MySQL Server 5.7\bin;D:\IDE\Git\cmd;D:\IDE\Redis;D:\Python\Scripts\;D:\Python\;C:\Users\唐诚祯\AppData\Local\Microsoft\WindowsApps;;D:\IDE\IntelliJ IDEA 2018.3.5\bin;;.]
+2019-03-19 15:07:14.212  INFO 12352 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-03-19 15:07:14.212  INFO 12352 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2759 ms
+2019-03-19 15:07:14.795  INFO 12352 --- [main] org.slf4j.Logger                         : 初始化loginFilter
+2019-03-19 15:07:15.124  INFO 12352 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 15:07:15.126  INFO 12352 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 15:07:15.846  INFO 12352 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-03-19 15:07:15.850  INFO 12352 --- [main] c.c.weshare.WeshareApplication           : Started WeshareApplication in 5.216 seconds (JVM running for 7.0)
+2019-03-19 15:07:21.133  INFO 12352 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-03-19 15:07:21.134  INFO 12352 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-03-19 15:07:21.145  INFO 12352 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 11 ms
+2019-03-19 15:07:21.183  INFO 12352 --- [http-nio-8080-exec-2] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=0
+2019-03-19 15:07:21.203  INFO 12352 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2019-03-19 15:07:21.558  INFO 12352 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2019-03-19 15:07:33.272  INFO 12352 --- [http-nio-8080-exec-3] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=1
+2019-03-19 15:07:49.455  INFO 12352 --- [http-nio-8080-exec-4] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=0
+2019-03-19 15:08:18.606  INFO 12352 --- [http-nio-8080-exec-5] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=0
+2019-03-19 15:08:21.726  INFO 12352 --- [http-nio-8080-exec-6] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=1

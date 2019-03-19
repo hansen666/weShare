@@ -18,6 +18,14 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
+
+    /**
+     * 发布物品
+     *
+     * @param token
+     * @param goodsRequest
+     * @return
+     */
     @PostMapping("/publish")
     public ResultResponse publish(@RequestHeader String token, @RequestBody GoodsRequest goodsRequest) {
         logger.info("GoodsController.publish(),入参：token={}，goodsName={},label={},picUrl={},description={},price={}," +
@@ -28,6 +36,14 @@ public class GoodsController {
         return goodsService.publishGoods(token, goodsRequest);
     }
 
+
+    /**
+     * 求购物品
+     *
+     * @param token
+     * @param goodsRequest
+     * @return
+     */
     @PostMapping("/want")
     public ResultResponse want(@RequestHeader String token, @RequestBody GoodsRequest goodsRequest) {
         logger.info("GoodsController.publish(),入参：token={}，goodsName={},label={},picUrl={},description={},price={}," +
@@ -75,11 +91,30 @@ public class GoodsController {
         return ResultUtil.success(goodsService.myPublish(token, currentPage));
     }
 
-
+    /**
+     * 浏览心愿墙物品
+     *
+     * @param token
+     * @param currentPage
+     * @return
+     */
     @GetMapping("/wishWall")
     public ResultResponse wishWall(@RequestHeader String token, @RequestParam int currentPage) {
         logger.info("GoodsController.wishWall(),入参:token={},currentPage={}", token, currentPage);
         return goodsService.wishWall(token, currentPage);
     }
+
+    /**
+     * 心愿墙物品详情
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/showDetail")
+    public ResultResponse showDetail(@RequestParam Integer id){
+        logger.info("GoodsController.showDetail(),入参:id={}", id);
+        return goodsService.showDetail(id);
+    }
+
 
 }

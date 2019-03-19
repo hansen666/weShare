@@ -35,6 +35,11 @@ public class HomePageServiceImpl implements HomePageService {
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * 按省划分，选择学校
+     *
+     * @return
+     */
     @Override
     public List<SchoolResponse> selectAllSchool() {
         Map<String, List<String>> result = new HashMap<>();
@@ -60,13 +65,26 @@ public class HomePageServiceImpl implements HomePageService {
         return schoolResponses;
     }
 
+    /**
+     * 选择所有学校名
+     *
+     * @return
+     */
     @Override
     public List<String> allSchoolName() {
 
         return schoolMapper.selectAllName();
     }
 
-
+    /**
+     * 首页物品展示
+     *
+     * @param token
+     * @param currentPage
+     * @param label
+     * @param keyword
+     * @return
+     */
     @Override
     public ResultResponse showGoods(String token, int currentPage, Byte label, String keyword) {
         String publisherId = loginService.getOpenIDFromToken(token);
@@ -80,5 +98,24 @@ public class HomePageServiceImpl implements HomePageService {
             logger.info("首页商品数据库查询失败" + e.getMessage());
             return ResultUtil.fail(-1, "首页商品数据库查询失败" + e.getMessage());
         }
+    }
+
+    /**
+     * 首页物品详情页
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ResultResponse showDetail(Integer id) {
+        try {
+            Map<String, Object> result = publishGoodsMapper.showGoodsDetail(id);
+            result.put("pubTime", CommonUtil.timeFromNow((Date) result.get("pubTime")));
+            return ResultUtil.success(result);
+        } catch (Exception e) {
+            logger.info("id={}的首页物品查询错误", id);
+            return ResultUtil.fail(-1, "id=" + id + "的首页物品查询错误");
+        }
+
     }
 }

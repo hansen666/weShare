@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface WantGoodsMapper {
@@ -23,5 +24,7 @@ public interface WantGoodsMapper {
 
     List<HashMap<String, Object>> selectWantGoods(@Param("wantBuyerId") String wantBuyerId,@Param("currentPage") int currentPage,
                                                   @Param("school") String school);
+
+    Map<String, Object> showGoodsDetail(Integer id);
 
 }
