@@ -31,7 +31,7 @@ public class HomePageController {
     }
 
     @GetMapping("/showGoods")
-    public ResultResponse showGoods(@RequestHeader String token, @RequestBody ShowGoodsRequest showGoodsRequest) {
+    public ResultResponse showGoods(@RequestHeader String token, ShowGoodsRequest showGoodsRequest) {
         logger.info("HomePageController.showGoods(),入参:token={},currentPage={},label={},keyword={}", token,
                 showGoodsRequest.getCurrentPage(), showGoodsRequest.getLabel(), showGoodsRequest.getKeyword());
         return homePageService.showGoods(token, showGoodsRequest.getCurrentPage(), showGoodsRequest.getLabel(),

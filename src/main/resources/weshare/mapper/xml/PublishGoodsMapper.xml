@@ -60,7 +60,7 @@
 
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from publish_goods
     where id = #{id,jdbcType=INTEGER}
@@ -71,8 +71,8 @@
     from publish_goods,user
     where publisher_id != #{publisherId} and status = 1
     and publish_goods.publisher_id = user.id and user.school_name = #{school}
-    <if test="label!=null">and label=#{label}</if>
-    <if test="keyword!=null">and (name like '%${keyword}%' or description like '%${keyword}%')</if>
+    <if test="label!=null and label!=0">and label=#{label}</if>
+    <if test="keyword!=null and keyword!='null'">and (name like '%${keyword}%' or description like '%${keyword}%')</if>
     order by publish_goods.id
     limit #{currentPage},6
   </select>
