@@ -82,6 +82,7 @@
     from want_goods,user
     where want_buyer_id != #{wantBuyerId} and status = 1
     and want_goods.want_buyer_id = user.id and user.school_name = #{school}
+    <if test="label!=null and label!=0">and label=#{label}</if>
     order by want_goods.id
     limit #{currentPage},6
   </select>

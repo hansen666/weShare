@@ -99,9 +99,9 @@ public class GoodsController {
      * @return
      */
     @GetMapping("/wishWall")
-    public ResultResponse wishWall(@RequestHeader String token, @RequestParam int currentPage) {
-        logger.info("GoodsController.wishWall(),入参:token={},currentPage={}", token, currentPage);
-        return goodsService.wishWall(token, currentPage);
+    public ResultResponse wishWall(@RequestHeader String token, @RequestParam int currentPage, @RequestParam Byte label) {
+        logger.info("GoodsController.wishWall(),入参:token={},currentPage={}, label={}", token, currentPage, label);
+        return goodsService.wishWall(token, currentPage, label);
     }
 
     /**

@@ -576,3 +576,52 @@ java.sql.SQLIntegrityConstraintViolationException: Column 'id' in where clause i
 2019-03-19 15:07:49.455  INFO 12352 --- [http-nio-8080-exec-4] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=0
 2019-03-19 15:08:18.606  INFO 12352 --- [http-nio-8080-exec-5] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=0
 2019-03-19 15:08:21.726  INFO 12352 --- [http-nio-8080-exec-6] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=1
+2019-03-19 16:22:52.402  INFO 8352 --- [main] c.c.weshare.WeshareApplication           : Starting WeshareApplication on DESKTOP-0AU7LE8 with PID 8352 (E:\IDEA\weShare\target\classes started by tcozy in E:\IDEA\weShare)
+2019-03-19 16:22:52.428  INFO 8352 --- [main] c.c.weshare.WeshareApplication           : No active profile set, falling back to default profiles: default
+2019-03-19 16:22:54.325  INFO 8352 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-19 16:22:54.328  INFO 8352 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-03-19 16:22:54.365  INFO 8352 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17ms. Found 0 repository interfaces.
+2019-03-19 16:22:54.814  INFO 8352 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$3c58fed1] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-19 16:22:55.419  INFO 8352 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-03-19 16:22:55.459  INFO 8352 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-03-19 16:22:55.459  INFO 8352 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.16]
+2019-03-19 16:22:55.470  INFO 8352 --- [main] o.a.catalina.core.AprLifecycleListener   : The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\java\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\tool\Xshell6\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\java\jdk\bin;D:\java\jdk\jre\bin;D:\maven\bin;C:\Program Files\MySQL\MySQL Server 5.7\bin;D:\IDE\Git\cmd;D:\IDE\Redis;D:\Python\Scripts\;D:\Python\;C:\Users\唐诚祯\AppData\Local\Microsoft\WindowsApps;;D:\IDE\IntelliJ IDEA 2018.3.5\bin;;.]
+2019-03-19 16:22:55.617  INFO 8352 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-03-19 16:22:55.618  INFO 8352 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3086 ms
+2019-03-19 16:22:56.823  INFO 8352 --- [main] org.slf4j.Logger                         : 初始化loginFilter
+2019-03-19 16:22:57.165  INFO 8352 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 16:22:57.167  INFO 8352 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 16:22:57.964  INFO 8352 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-03-19 16:22:57.969  INFO 8352 --- [main] c.c.weshare.WeshareApplication           : Started WeshareApplication in 6.394 seconds (JVM running for 8.308)
+2019-03-19 16:23:53.577  INFO 8352 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-03-19 16:23:53.578  INFO 8352 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-03-19 16:23:53.595  INFO 8352 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 16 ms
+2019-03-19 16:23:53.650  INFO 8352 --- [http-nio-8080-exec-1] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=0, label=1
+2019-03-19 16:23:53.675  INFO 8352 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2019-03-19 16:23:54.092  INFO 8352 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2019-03-19 16:24:00.249  INFO 8352 --- [http-nio-8080-exec-3] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=0, label=0
+2019-03-19 16:24:10.968  INFO 8352 --- [http-nio-8080-exec-4] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=0, label=1
+2019-03-19 16:24:22.068  INFO 8352 --- [http-nio-8080-exec-5] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=0, label=0
+2019-03-19 16:27:30.882  INFO 14464 --- [main] c.c.weshare.WeshareApplication           : Starting WeshareApplication on DESKTOP-0AU7LE8 with PID 14464 (E:\IDEA\weShare\target\classes started by tcozy in E:\IDEA\weShare)
+2019-03-19 16:27:30.889  INFO 14464 --- [main] c.c.weshare.WeshareApplication           : No active profile set, falling back to default profiles: default
+2019-03-19 16:27:33.238  INFO 14464 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-19 16:27:33.243  INFO 14464 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-03-19 16:27:33.426  INFO 14464 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 92ms. Found 0 repository interfaces.
+2019-03-19 16:27:34.110  INFO 14464 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$b602f747] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-19 16:27:34.543  INFO 14464 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-03-19 16:27:34.573  INFO 14464 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-03-19 16:27:34.574  INFO 14464 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.16]
+2019-03-19 16:27:34.582  INFO 14464 --- [main] o.a.catalina.core.AprLifecycleListener   : The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\java\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\tool\Xshell6\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\java\jdk\bin;D:\java\jdk\jre\bin;D:\maven\bin;C:\Program Files\MySQL\MySQL Server 5.7\bin;D:\IDE\Git\cmd;D:\IDE\Redis;D:\Python\Scripts\;D:\Python\;C:\Users\唐诚祯\AppData\Local\Microsoft\WindowsApps;;D:\IDE\IntelliJ IDEA 2018.3.5\bin;;.]
+2019-03-19 16:27:34.766  INFO 14464 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-03-19 16:27:34.767  INFO 14464 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3675 ms
+2019-03-19 16:27:35.496  INFO 14464 --- [main] org.slf4j.Logger                         : 初始化loginFilter
+2019-03-19 16:27:35.842  INFO 14464 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 16:27:35.843  INFO 14464 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'taskExecutor'
+2019-03-19 16:27:36.764  INFO 14464 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-03-19 16:27:36.769  INFO 14464 --- [main] c.c.weshare.WeshareApplication           : Started WeshareApplication in 6.634 seconds (JVM running for 8.589)
+2019-03-19 16:27:41.589  INFO 14464 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-03-19 16:27:41.589  INFO 14464 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-03-19 16:27:41.602  INFO 14464 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 13 ms
+2019-03-19 16:27:41.643  INFO 14464 --- [http-nio-8080-exec-2] org.slf4j.Logger                         : GoodsController.wishWall(),入参:token=tcz,currentPage=0, label=0
+2019-03-19 16:27:41.667  INFO 14464 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2019-03-19 16:27:42.024  INFO 14464 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
