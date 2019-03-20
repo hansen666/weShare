@@ -202,11 +202,11 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse showHomeGoods(String token, int currentPage, Byte label, String keyword) {
-        String publisherId = "tcz"; // loginService.getOpenIDFromToken(token);
+        String publisherId = loginService.getOpenIDFromToken(token);
         String key = CommonUtil.isEmpty(keyword) ? null : keyword.trim();
         try {
             List<HashMap<String, Object>> goodsList = publishGoodsMapper.selectShowGoods(publisherId,
-                    6 * currentPage, label, key, userMapper.selectByPrimaryKey(publisherId).getSchoolName());
+                    5 * currentPage, label, key, userMapper.selectByPrimaryKey(publisherId).getSchoolName());
             goodsList.forEach(t -> t.put("pubTime", CommonUtil.timeFromNow((Date) t.get("pubTime"))));
             return ResultUtil.success(goodsList);
         } catch (Exception e) {
@@ -242,9 +242,9 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse showWishWall(String token, int currentPage, Byte label) {
-        String wantBuyer = "tcz"; //loginService.getOpenIDFromToken(token);
+        String wantBuyer = loginService.getOpenIDFromToken(token);
         try {
-            List<HashMap<String, Object>> goodsList = wantGoodsMapper.selectWantGoods(wantBuyer, currentPage * 6,
+            List<HashMap<String, Object>> goodsList = wantGoodsMapper.selectWantGoods(wantBuyer, currentPage * 5,
                     label, userMapper.selectByPrimaryKey(wantBuyer).getSchoolName());
             goodsList.forEach(t -> t.put("pubTime", CommonUtil.timeFromNow((Date) t.get("pubTime"))));
             return ResultUtil.success(goodsList);

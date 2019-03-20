@@ -104,7 +104,7 @@
     <if test="label!=null and label!=0">and label=#{label}</if>
     <if test="keyword!=null and keyword!='null'">and (name like '%${keyword}%' or description like '%${keyword}%')</if>
     order by publish_goods.id
-    limit #{currentPage},6
+    limit #{currentPage},5
   </select>
 
   <select id="selectSoldGoods" resultMap="SoldGoodsMap">

@@ -13,7 +13,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/test/goods")
+@RequestMapping("/goods")
 public class GoodsController {
 
     private final static Logger logger = LoggerFactory.getLogger(Logger.class);
