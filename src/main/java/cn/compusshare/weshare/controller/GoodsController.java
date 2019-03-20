@@ -86,7 +86,6 @@ public class GoodsController {
 
     /**
      * 我的发布
-     *
      * @param token
      * @param currentPage
      * @return

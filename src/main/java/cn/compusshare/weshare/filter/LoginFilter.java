@@ -26,19 +26,10 @@ public class LoginFilter implements Filter {
 
     private final static Logger logger = LoggerFactory.getLogger(Logger.class);
 
-    //需要进行登录态校验的路径前缀
-    private String[] needCheckPathPrefix = {
-            "/homePage",
-            "/user",
-            "/goods"
-
-    };
-
     //不需要拦截的路径
     private String[] unNeedCheckPathPrefix = {
             "/login",
-            "/hello",
-            "/test/"
+            "/test/",
     };
 
     @Autowired
@@ -55,7 +46,7 @@ public class LoginFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         //如果是需要检查登录态的路径
         if (needCheck(request.getRequestURL().toString())) {
-            logger.info("loginFilter拦截");
+            logger.info("loginFilter拦截：" + request.getRequestURL().toString());
             String token = request.getHeader("token");
             //token为空
             if (CommonUtil.isEmpty(token)) {
