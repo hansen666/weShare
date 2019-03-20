@@ -202,7 +202,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse showHomeGoods(String token, int currentPage, Byte label, String keyword) {
-        String publisherId = "tcz"; // loginService.getOpenIDFromToken(token);
+        String publisherId = loginService.getOpenIDFromToken(token);
         String key = CommonUtil.isEmpty(keyword) ? null : keyword.trim();
         try {
             List<HashMap<String, Object>> goodsList = publishGoodsMapper.selectShowGoods(publisherId,
@@ -242,7 +242,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse showWishWall(String token, int currentPage, Byte label) {
-        String wantBuyer = "tcz"; //loginService.getOpenIDFromToken(token);
+        String wantBuyer = loginService.getOpenIDFromToken(token);
         try {
             List<HashMap<String, Object>> goodsList = wantGoodsMapper.selectWantGoods(wantBuyer, currentPage * 6,
                     label, userMapper.selectByPrimaryKey(wantBuyer).getSchoolName());
