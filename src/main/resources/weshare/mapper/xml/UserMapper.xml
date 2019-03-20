@@ -29,6 +29,16 @@
     EXISTS(select 1 from `user` where `id`=#{userID,jdbcType=VARCHAR})
     then 1 else 0 end as result
   </select>
+
+  <select id="selectIdentifiedTtype" parameterType="java.lang.String" resultType="java.lang.Byte">
+    SELECT identified_type
+    FROM user
+    WHERE id = #{userID}
+  </select>
+
+
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from user
     where id = #{id,jdbcType=VARCHAR}

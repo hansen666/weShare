@@ -108,22 +108,22 @@ public class User {
     public String toStringSelective() {
         StringBuffer buffer = new StringBuffer();
         if (!CommonUtil.isEmpty(nickname)) {
-            buffer.append("nickname=" + nickname + "; ");
+            buffer.append(",nickname=" + nickname);
         }
         if (!CommonUtil.isEmpty(realName)) {
-            buffer.append("realname=" + realName + "; ");
+            buffer.append(",realname=" + realName);
         }
         if (!CommonUtil.isEmpty(avatarUrl)) {
-            buffer.append("avatarUrl=" + avatarUrl + "; ");
+            buffer.append(",avatarUrl=" + avatarUrl);
         }
         if (!CommonUtil.isEmpty(wxNumber)) {
-            buffer.append("wxNumber=" + wxNumber + "; ");
+            buffer.append(",wxNumber=" + wxNumber);
         }
         if (!CommonUtil.isEmpty(phone)) {
-            buffer.append("phone=" + phone + "; ");
+            buffer.append(",phone=" + phone);
         }
         if (!CommonUtil.isEmpty(schoolName)) {
-            buffer.append("schoolName=" + schoolName + "; ");
+            buffer.append(",schoolName=" + schoolName);
         }
         return buffer.toString();
     }

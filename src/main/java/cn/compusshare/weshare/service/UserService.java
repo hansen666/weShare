@@ -19,4 +19,6 @@ public interface UserService {
     ResultResponse modify(String token, User user);
 
     boolean isUserExist(String userID);
+
+    byte queryIdentifiedType(String token);
 }

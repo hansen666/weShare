@@ -47,14 +47,18 @@ public class UserController {
      */
     @PostMapping("/modify")
     public ResultResponse modify(@RequestHeader String token, @RequestBody User user) {
-        logger.info("UserController.modify(),入参：" + user.toStringSelective());
+        logger.info("UserController.modify(),入参：token={}{}" , token, user.toStringSelective());
         return userService.modify(token, user);
     }
 
-    @GetMapping("/test")
-    public ResultResponse test(@RequestBody Map<String,Object> requestBody) {
-        String schoolName= ((String) requestBody.get("schoolName"));
-        int ID = ((int) requestBody.get("id"));
-        return ResultUtil.success(requestBody);
+    /**
+     * 获取认证类型
+     * @param token
+     * @return
+     */
+    @GetMapping("/identifiedType")
+    public ResultResponse queryIdentifiedType(@RequestHeader String token) {
+        logger.info("UserController.modify(),入参：token={}" , token);
+        return ResultUtil.success(userService.queryIdentifiedType(token));
     }
 }

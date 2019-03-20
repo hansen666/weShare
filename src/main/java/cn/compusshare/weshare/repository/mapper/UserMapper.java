@@ -18,4 +18,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     int isUserExist(String userID);
+
+    byte selectIdentifiedType(String userID);
 }

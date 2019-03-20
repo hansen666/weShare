@@ -81,4 +81,16 @@ public class UserServiceImpl implements UserService {
         int result=userMapper.isUserExist(userID);
         return result==1? true : false;
     }
+
+    /**
+     * 查询认证类型
+     * @param token
+     * @return
+     */
+    @Override
+    public byte queryIdentifiedType(String token) {
+        String openID = loginService.getOpenIDFromToken(token);
+        byte type = userMapper.selectIdentifiedType(openID);
+        return type;
+    }
 }
