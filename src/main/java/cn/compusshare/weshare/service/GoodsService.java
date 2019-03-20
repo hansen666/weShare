@@ -4,6 +4,7 @@ package cn.compusshare.weshare.service;
 import cn.compusshare.weshare.repository.RequestBody.GoodsRequest;
 import cn.compusshare.weshare.utils.ResultResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.List;
@@ -22,7 +23,13 @@ public interface GoodsService {
 
     List<Map<String,Object>> myPublish(String token, int currentPage);
 
-    ResultResponse wishWall(String token, int currentPage, Byte label);
+    ResultResponse showWishWall(String token, int currentPage, Byte label);
 
-    ResultResponse showDetail(Integer id);
+    ResultResponse showWishDetail(Integer id);
+
+    ResultResponse showHomeGoods(String token, int currentPage, Byte label, String keyword);
+
+    ResultResponse showHomeDetail(Integer id);
+
+    ResultResponse uploadImage(MultipartFile file, int id, String filePath);
 }

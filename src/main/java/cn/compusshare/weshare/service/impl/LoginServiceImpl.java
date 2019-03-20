@@ -1,6 +1,7 @@
 package cn.compusshare.weshare.service.impl;
 
 import cn.compusshare.weshare.constant.Common;
+import cn.compusshare.weshare.repository.mapper.SchoolMapper;
 import cn.compusshare.weshare.service.LoginService;
 import cn.compusshare.weshare.service.UserService;
 import cn.compusshare.weshare.utils.CommonUtil;
@@ -34,6 +35,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SchoolMapper schoolMapper;
 
 
     /**
@@ -125,5 +129,16 @@ public class LoginServiceImpl implements LoginService {
                 .withExpiresAt(expireDate)
                 .sign(Algorithm.HMAC256(key));
         return token;
+    }
+
+    /**
+     * 选择所有学校名
+     *
+     * @return
+     */
+    @Override
+    public List<String> allSchoolName() {
+
+        return schoolMapper.selectAllName();
     }
 }

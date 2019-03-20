@@ -1,22 +1,28 @@
 package cn.compusshare.weshare.controller;
 
 import cn.compusshare.weshare.repository.RequestBody.GoodsRequest;
+import cn.compusshare.weshare.repository.RequestBody.ImageRequest;
+import cn.compusshare.weshare.repository.RequestBody.ShowGoodsRequest;
 import cn.compusshare.weshare.service.GoodsService;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/goods")
+@RequestMapping("/test/goods")
 public class GoodsController {
 
     private final static Logger logger = LoggerFactory.getLogger(Logger.class);
 
     @Autowired
     private GoodsService goodsService;
+
+    @Autowired
+    private Environment environment;
 
 
     /**
@@ -90,6 +96,32 @@ public class GoodsController {
         logger.info("GoodsController.myPublish(),入参：token={},currentPage={}", token, currentPage);
         return ResultUtil.success(goodsService.myPublish(token, currentPage));
     }
+    /**
+     * 主页显示物品
+     *
+     * @param token
+     * @param showGoodsRequest
+     * @return
+     */
+    @GetMapping("/showHomeGoods")
+    public ResultResponse showHomeGoods(@RequestHeader String token, ShowGoodsRequest showGoodsRequest) {
+        logger.info("HomePageController.showHomeGoods(),入参:token={},currentPage={},label={},keyword={}", token,
+                showGoodsRequest.getCurrentPage(), showGoodsRequest.getLabel(), showGoodsRequest.getKeyword());
+        return goodsService.showHomeGoods(token, showGoodsRequest.getCurrentPage(), showGoodsRequest.getLabel(),
+                showGoodsRequest.getKeyword());
+    }
+
+    /**
+     * 主页物品详情
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/showHomeDetail")
+    public ResultResponse showHomeDetail(@RequestParam Integer id) {
+        logger.info("GoodsController.showHomeDetail(),入参:id={}", id);
+        return goodsService.showHomeDetail(id);
+    }
 
     /**
      * 浏览心愿墙物品
@@ -98,10 +130,10 @@ public class GoodsController {
      * @param currentPage
      * @return
      */
-    @GetMapping("/wishWall")
+    @GetMapping("/showWishWall")
     public ResultResponse wishWall(@RequestHeader String token, @RequestParam int currentPage, @RequestParam Byte label) {
-        logger.info("GoodsController.wishWall(),入参:token={},currentPage={}, label={}", token, currentPage, label);
-        return goodsService.wishWall(token, currentPage, label);
+        logger.info("GoodsController.showWishWall(),入参:token={},currentPage={}, label={}", token, currentPage, label);
+        return goodsService.showWishWall(token, currentPage, label);
     }
 
     /**
@@ -110,11 +142,22 @@ public class GoodsController {
      * @param id
      * @return
      */
-    @GetMapping("/showDetail")
+    @GetMapping("/showWishDetail")
     public ResultResponse showDetail(@RequestParam Integer id){
-        logger.info("GoodsController.showDetail(),入参:id={}", id);
-        return goodsService.showDetail(id);
+        logger.info("GoodsController.showWishDetail(),入参:id={}", id);
+        return goodsService.showWishDetail(id);
     }
 
-
+    /**
+     * 图片上传
+     *
+     * @param imageRequest
+     * @return
+     */
+    @PostMapping("/imageUpload")
+    public ResultResponse upload(ImageRequest imageRequest) {
+        String savePath = environment.getProperty("image.path") + imageRequest.getFilePath()+"\\";
+        logger.info("ImageController.imageUpload(),传入图片={}", imageRequest.getFile().getOriginalFilename());
+        return goodsService.uploadImage(imageRequest.getFile(), imageRequest.getId(), savePath);
+    }
 }

@@ -3,6 +3,8 @@ package cn.compusshare.weshare.service;
 import cn.compusshare.weshare.utils.ResultResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 /**
  * @Author: LZing
@@ -15,4 +17,6 @@ public interface LoginService {
     ResultResponse getToken(String code) throws Exception;
 
     String getOpenIDFromToken(String token);
+
+    List<String> allSchoolName();
 }

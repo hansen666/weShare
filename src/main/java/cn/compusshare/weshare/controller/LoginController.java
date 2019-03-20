@@ -30,4 +30,15 @@ public class LoginController {
         logger.info("LoginController.getToken(),入参：code={}",code);
         return loginService.getToken(code);
     }
+
+    /**
+     * 选择所有学校名
+     *
+     * @return
+     */
+    @GetMapping("/selectSchool")
+    public ResultResponse selectSchool() {
+        logger.info("HomePageController.selectSchool(),入参：null");
+        return ResultUtil.success(loginService.allSchoolName());
+    }
 }

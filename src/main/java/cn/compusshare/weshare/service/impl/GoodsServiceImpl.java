@@ -9,6 +9,7 @@ import cn.compusshare.weshare.repository.mapper.CollectionMapper;
 import cn.compusshare.weshare.repository.mapper.PublishGoodsMapper;
 import cn.compusshare.weshare.repository.mapper.TransactionRecordMapper;
 import cn.compusshare.weshare.repository.mapper.WantGoodsMapper;
+import cn.compusshare.weshare.repository.responsebody.ImageResponse;
 import cn.compusshare.weshare.service.GoodsService;
 import cn.compusshare.weshare.service.LoginService;
 import cn.compusshare.weshare.utils.CommonUtil;
@@ -18,7 +19,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -187,6 +191,47 @@ public class GoodsServiceImpl implements GoodsService {
         result.forEach(map -> map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime"))));
         return result;
     }
+    /**
+     * 首页物品展示
+     *
+     * @param token
+     * @param currentPage
+     * @param label
+     * @param keyword
+     * @return
+     */
+    @Override
+    public ResultResponse showHomeGoods(String token, int currentPage, Byte label, String keyword) {
+        String publisherId = "tcz"; // loginService.getOpenIDFromToken(token);
+        String key = CommonUtil.isEmpty(keyword) ? null : keyword.trim();
+        try {
+            List<HashMap<String, Object>> goodsList = publishGoodsMapper.selectShowGoods(publisherId,
+                    6 * currentPage, label, key, userMapper.selectByPrimaryKey(publisherId).getSchoolName());
+            goodsList.forEach(t -> t.put("pubTime", CommonUtil.timeFromNow((Date) t.get("pubTime"))));
+            return ResultUtil.success(goodsList);
+        } catch (Exception e) {
+            logger.info("首页商品数据库查询失败" + e.getMessage());
+            return ResultUtil.fail(-1, "首页商品数据库查询失败" + e.getMessage());
+        }
+    }
+
+    /**
+     * 首页物品详情页
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ResultResponse showHomeDetail(Integer id) {
+        try {
+            Map<String, Object> result = publishGoodsMapper.showGoodsDetail(id);
+            result.put("pubTime", CommonUtil.timeFromNow((Date) result.get("pubTime")));
+            return ResultUtil.success(result);
+        } catch (Exception e) {
+            logger.info("id={}的首页物品查询错误", id);
+            return ResultUtil.fail(-1, "id=" + id + "的首页物品查询错误");
+        }
+    }
 
     /**
      * 心愿墙物品展示
@@ -196,8 +241,8 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public ResultResponse wishWall(String token, int currentPage, Byte label) {
-        String wantBuyer = loginService.getOpenIDFromToken(token);
+    public ResultResponse showWishWall(String token, int currentPage, Byte label) {
+        String wantBuyer = "tcz"; //loginService.getOpenIDFromToken(token);
         try {
             List<HashMap<String, Object>> goodsList = wantGoodsMapper.selectWantGoods(wantBuyer, currentPage * 6,
                     label, userMapper.selectByPrimaryKey(wantBuyer).getSchoolName());
@@ -218,7 +263,7 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public ResultResponse showDetail(Integer id) {
+    public ResultResponse showWishDetail(Integer id) {
         try {
             Map<String, Object> result = wantGoodsMapper.showGoodsDetail(id);
             result.put("pubTime", CommonUtil.timeFromNow((Date) result.get("pubTime")));
@@ -228,6 +273,38 @@ public class GoodsServiceImpl implements GoodsService {
             return ResultUtil.fail(-1, "id=" + id + "的心愿墙物品查询错误");
         }
 
+    }
+
+    /**
+     * 图片上传
+     *
+     * @param file
+     * @param id
+     * @param filePath
+     * @return
+     */
+    @Override
+    public ResultResponse uploadImage(MultipartFile file, int id, String filePath) {
+        Random rand = new Random();
+        String originName = file.getOriginalFilename();
+        String typeName = originName.substring(originName.lastIndexOf("."));
+        long time = System.currentTimeMillis();
+        String nowTimeStamp = String.valueOf(time / 1000);
+        int randNum = rand.nextInt(899) + 100;
+        String fileName = nowTimeStamp + randNum + typeName;
+        File newFile = new File(filePath + fileName);
+        try {
+            file.transferTo(newFile);
+        } catch (IOException e) {
+            logger.info("图片{}上传失败", originName);
+            return ResultUtil.fail(-1, "图片" + originName + "上传失败");
+        }
+        ImageResponse imageResponse = ImageResponse.builder()
+                .fileName(fileName)
+                .id(id)
+                .build();
+
+        return ResultUtil.success(imageResponse);
     }
 
 }
