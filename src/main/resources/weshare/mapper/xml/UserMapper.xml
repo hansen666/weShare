@@ -21,7 +21,7 @@
     <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
     <result column="wx_number" jdbcType="VARCHAR" property="wxNumber" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="schoolName" jdbcType="VARCHAR" property="schoolName" />
+    <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
   </resultMap>
 
 
