@@ -274,4 +274,10 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="browseCountIncrement" parameterType="java.lang.Integer" >
+    update want_goods
+    set browse_count = browse_count + 1
+    WHERE id = #{id};
+  </update>
 </mapper>

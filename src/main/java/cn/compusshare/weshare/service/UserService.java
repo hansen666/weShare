@@ -5,6 +5,8 @@ import cn.compusshare.weshare.repository.entity.User;
 import cn.compusshare.weshare.utils.ResultResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 /**
  * @Author: LZing
  * @Date: 2019/3/6
@@ -20,5 +22,7 @@ public interface UserService {
 
     boolean isUserExist(String userID);
 
-    byte queryIdentifiedType(String token);
+    Map<String,Byte> queryIdentifiedType(String token);
+
+    Map<String,Object> information(String token);
 }

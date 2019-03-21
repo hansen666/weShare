@@ -32,4 +32,6 @@ public interface PublishGoodsMapper {
     List<Map<String, Object>> selectMyPublish(@Param("userID") String userID,@Param("currentPage") int currentPage);
 
     Map<String, Object> showGoodsDetail(Integer id);
+
+    int browseCountIncrement(Integer id);
 }

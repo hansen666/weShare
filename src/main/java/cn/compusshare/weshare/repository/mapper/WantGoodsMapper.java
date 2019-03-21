@@ -27,4 +27,6 @@ public interface WantGoodsMapper {
 
     Map<String, Object> showGoodsDetail(Integer id);
 
+    int browseCountIncrement(Integer id);
+
 }

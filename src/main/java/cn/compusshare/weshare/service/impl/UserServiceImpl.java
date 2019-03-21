@@ -11,6 +11,8 @@ import cn.compusshare.weshare.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -60,9 +62,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResultResponse modify(String token, User user) {
-        //TOD O
         String openID = loginService.getOpenIDFromToken(token);
-        //String openID = "testAccount1";
         user.setId(openID);
         int result = userMapper.updateByPrimaryKeySelective(user);
         if (result == 0) {
@@ -88,9 +88,23 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public byte queryIdentifiedType(String token) {
+    public Map<String,Byte> queryIdentifiedType(String token) {
         String openID = loginService.getOpenIDFromToken(token);
         byte type = userMapper.selectIdentifiedType(openID);
-        return type;
+        Map<String,Byte> result = new HashMap<>();
+        result.put("identifiedType",type);
+        return result;
+    }
+
+    /**
+     * 获取用户信息
+     * @param token
+     * @return
+     */
+    @Override
+    public Map<String,Object> information(String token) {
+        String openID = loginService.getOpenIDFromToken(token);
+        Map<String,Object> result = userMapper.selectUserInfo(openID);
+        return result;
     }
 }

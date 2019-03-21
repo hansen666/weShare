@@ -13,10 +13,27 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+
+  <resultMap id="userInfo" type="java.util.Map">
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="identified_type" jdbcType="TINYINT" property="identifiedType" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+    <result column="wx_number" jdbcType="VARCHAR" property="wxNumber" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+  </resultMap>
+
+
   <sql id="Base_Column_List">
     id, nickname, real_name, identified_type, avatar_url, wx_number, phone, school_name, 
     create_time, update_time
   </sql>
+
+  <sql id="userInfo_Column_List">
+    nickname, real_name, identified_type, avatar_url, wx_number, phone, school_name
+  </sql>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -30,13 +47,18 @@
     then 1 else 0 end as result
   </select>
 
-  <select id="selectIdentifiedTtype" parameterType="java.lang.String" resultType="java.lang.Byte">
+  <select id="selectIdentifiedType" parameterType="java.lang.String" resultType="java.lang.Byte">
     SELECT identified_type
     FROM user
     WHERE id = #{userID}
   </select>
 
-
+ <select id="selectUserInfo" parameterType="java.lang.String" resultMap="userInfo">
+   select
+   <include refid="userInfo_Column_List" />
+   from user
+   where id = #{userID,jdbcType=VARCHAR}
+ </select>
 
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

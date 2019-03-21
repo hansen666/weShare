@@ -225,6 +225,7 @@ public class GoodsServiceImpl implements GoodsService {
     public ResultResponse showHomeDetail(Integer id) {
         try {
             Map<String, Object> result = publishGoodsMapper.showGoodsDetail(id);
+            publishGoodsMapper.browseCountIncrement(id);
             result.put("pubTime", CommonUtil.timeFromNow((Date) result.get("pubTime")));
             return ResultUtil.success(result);
         } catch (Exception e) {
@@ -267,6 +268,7 @@ public class GoodsServiceImpl implements GoodsService {
         try {
             Map<String, Object> result = wantGoodsMapper.showGoodsDetail(id);
             result.put("pubTime", CommonUtil.timeFromNow((Date) result.get("pubTime")));
+            wantGoodsMapper.browseCountIncrement(id);
             return ResultUtil.success(result);
         } catch (Exception e) {
             logger.info("id={}的心愿墙物品查询错误", id);

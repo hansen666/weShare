@@ -137,6 +137,8 @@
 
 
 
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from publish_goods
     where id = #{id,jdbcType=INTEGER}
@@ -317,5 +319,12 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <update id="browseCountIncrement" parameterType="java.lang.Integer" >
+    update publish_goods
+    set browse_count = browse_count + 1
+    WHERE id = #{id};
   </update>
 </mapper>
