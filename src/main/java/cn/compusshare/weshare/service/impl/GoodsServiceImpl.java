@@ -1,7 +1,9 @@
 package cn.compusshare.weshare.service.impl;
 
 
+import cn.compusshare.weshare.constant.Common;
 import cn.compusshare.weshare.repository.RequestBody.GoodsRequest;
+import cn.compusshare.weshare.repository.entity.Collection;
 import cn.compusshare.weshare.repository.entity.PublishGoods;
 import cn.compusshare.weshare.repository.entity.WantGoods;
 import cn.compusshare.weshare.repository.mapper.*;
@@ -124,12 +126,10 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> getSoldGoods(String token, int currentPage) {
-        //TOD O
+    public List<Map<String, Object>> getSoldGoods(String token) {
         String openID = loginService.getOpenIDFromToken(token);
-        // String openID = "testAccount1";
         //到交易记录表中查该用户的交易记录中的物品ID
-        List<Integer> goodsIds = transactionRecordMapper.selectGoodsId(openID, 10 * currentPage);
+        List<Integer> goodsIds = transactionRecordMapper.selectGoodsId(openID);
         if (CommonUtil.isNullList(goodsIds)) {
             return null;
         }
@@ -147,18 +147,42 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     /**
+     * 收藏与取消收藏操作
+     * @param token
+     * @param goodsID
+     * @return
+     */
+    @Override
+    public ResultResponse collect(String token, int goodsID) {
+        String openID = loginService.getOpenIDFromToken(token);
+        boolean isCollected = collectionMapper.isRecordExist(openID, goodsID) == 1 ? true : false;
+        int result = -1;
+        if (isCollected) {
+            result = collectionMapper.deleteByTwoID(openID, goodsID);
+        }else {
+            Collection c = new Collection();
+            c.setUserId(openID);
+            c.setGoodsId(goodsID);
+            result = collectionMapper.insertSelective(c);
+        }
+        //数据库操作失败
+        if (result == -1 ){
+            return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
+        }
+        return ResultUtil.success();
+    }
+
+    /**
      * 我的收藏
      *
      * @param token
      * @return
      */
     @Override
-    public List<Map<String, Object>> collections(String token, int currentPage) {
-        //TOD O
+    public List<Map<String, Object>> collections(String token) {
         String openID = loginService.getOpenIDFromToken(token);
-        //String openID = "testAccount1";
         //到收藏表中查该用户的收藏记录中的物品ID
-        List<Integer> goodsIds = collectionMapper.selectGoodsId(openID, 10 * currentPage);
+        List<Integer> goodsIds = collectionMapper.selectGoodsId(openID);
         if (CommonUtil.isNullList(goodsIds)) {
             return null;
         }
@@ -179,18 +203,30 @@ public class GoodsServiceImpl implements GoodsService {
      * 我的发布
      *
      * @param token
-     * @param currentPage
      * @return
      */
     @Override
-    public List<Map<String, Object>> myPublish(String token, int currentPage) {
-        //T ODO
+    public List<Map<String, Object>> myPublish(String token) {
         String openID = loginService.getOpenIDFromToken(token);
-        // String openID = "testAccount1";
-        List<Map<String, Object>> result = publishGoodsMapper.selectMyPublish(openID, 10 * currentPage);
+        List<Map<String, Object>> result = publishGoodsMapper.selectMyPublish(openID);
         result.forEach(map -> map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime"))));
         return result;
     }
+
+    /**
+     * 我的求购
+     * @param token
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> myWanted(String token) {
+        //String openID = loginService.getOpenIDFromToken(token);
+         String openID = "testAccount1";
+        List<Map<String, Object>> result = wantGoodsMapper.selectMyWanted(openID);
+        result.forEach(map -> map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime"))));
+        return result;
+    }
+
     /**
      * 首页物品展示
      *

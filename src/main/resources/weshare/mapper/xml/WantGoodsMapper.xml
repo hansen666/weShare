@@ -54,6 +54,23 @@
     <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
   </resultMap>
 
+  <resultMap id="myWantedMap" type="java.util.HashMap">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="label" jdbcType="TINYINT" property="label" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="price" jdbcType="REAL" property="price" />
+    <result column="browse_count" jdbcType="INTEGER" property="browseCount" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime" />
+    <result column="longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="latitude" jdbcType="DOUBLE" property="latitude" />
+  </resultMap>
+
+
+
   <sql id="Want_Goods_List">
     want_goods.id, name, label, pic_url, description, price, browse_count, status,
     pub_time, longitude, latitude, nickname, avatar_url
@@ -62,6 +79,11 @@
   <sql id="Show_Detail_List">
     want_goods.id, name, label, pic_url, description, price, browse_count, want_goods.phone,
     status, pub_time, longitude, latitude, nickname, identified_type, avatar_url
+  </sql>
+
+  <sql id="myWanted_Column_List">
+    id, want_buyer_id, name, label, pic_url, description, price, browse_count, phone,
+    status, pub_time, longitude, latitude
   </sql>
   
   <sql id="Base_Column_List">
@@ -86,7 +108,22 @@
     order by want_goods.id
     limit #{currentPage},5
   </select>
-  
+
+  <select id="selectMyWanted"   resultMap="myWantedMap">
+    select
+    <include refid="myWanted_Column_List" />
+    from want_goods
+    where want_buyer_id = #{userID}
+    order by id desc
+  </select>
+
+
+
+
+
+
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

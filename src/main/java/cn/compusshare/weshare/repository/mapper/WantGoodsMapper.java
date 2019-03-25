@@ -29,4 +29,6 @@ public interface WantGoodsMapper {
 
     int browseCountIncrement(Integer id);
 
+    List<Map<String, Object>> selectMyWanted(@Param("userID") String userID);
+
 }

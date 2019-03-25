@@ -20,5 +20,9 @@ public interface CollectionMapper {
 
     int updateByPrimaryKey(Collection record);
 
-    List<Integer> selectGoodsId(@Param("userID") String userID, @Param("currentPage") int currentPage);
+    List<Integer> selectGoodsId(@Param("userID") String userID);
+
+    int isRecordExist(@Param("userID") String userID, @Param("goodsID") Integer goodsID);
+
+    int deleteByTwoID(@Param("userID") String userID, @Param("goodsID") Integer goodsID);
 }

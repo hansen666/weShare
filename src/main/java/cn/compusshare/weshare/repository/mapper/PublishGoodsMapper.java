@@ -29,7 +29,7 @@ public interface PublishGoodsMapper {
 
     Map<String, Object> selectSoldGoods(Integer id);
 
-    List<Map<String, Object>> selectMyPublish(@Param("userID") String userID,@Param("currentPage") int currentPage);
+    List<Map<String, Object>> selectMyPublish(@Param("userID") String userID);
 
     Map<String, Object> showGoodsDetail(Integer id);
 

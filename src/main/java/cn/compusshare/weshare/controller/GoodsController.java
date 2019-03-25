@@ -67,9 +67,15 @@ public class GoodsController {
      * @return
      */
     @GetMapping("/sold")
-    public ResultResponse sold(@RequestHeader String token, @RequestParam int currentPage) {
-        logger.info("GoodsController.sold(),入参：token={},currentPage={}", token, currentPage);
-        return ResultUtil.success(goodsService.getSoldGoods(token, currentPage));
+    public ResultResponse sold(@RequestHeader String token) {
+        logger.info("GoodsController.sold(),入参：token={}", token);
+        return ResultUtil.success(goodsService.getSoldGoods(token));
+    }
+
+    @GetMapping("/collect")
+    public ResultResponse collect(@RequestHeader String token,@RequestParam int goodsID) {
+        logger.info("GoodsController.collect(),入参：token={},goodsID={}", token, goodsID);
+        return goodsService.collect(token,goodsID);
     }
 
     /**
@@ -78,22 +84,32 @@ public class GoodsController {
      * @param token
      * @return
      */
-    @GetMapping("/collection")
-    public ResultResponse collection(@RequestHeader String token, @RequestParam int currentPage) {
-        logger.info("GoodsController.collection(),入参：token={},currentPage={}", token, currentPage);
-        return ResultUtil.success(goodsService.collections(token, currentPage));
+    @GetMapping("/collections")
+    public ResultResponse collections(@RequestHeader String token) {
+        logger.info("GoodsController.collection(),入参：token={}", token);
+        return ResultUtil.success(goodsService.collections(token));
     }
 
     /**
      * 我的发布
      * @param token
-     * @param currentPage
      * @return
      */
     @GetMapping("myPublish")
-    public ResultResponse myPublish(@RequestHeader String token, @RequestParam int currentPage) {
-        logger.info("GoodsController.myPublish(),入参：token={},currentPage={}", token, currentPage);
-        return ResultUtil.success(goodsService.myPublish(token, currentPage));
+    public ResultResponse myPublish(@RequestHeader String token) {
+        logger.info("GoodsController.myPublish(),入参：token={}", token);
+        return ResultUtil.success(goodsService.myPublish(token));
+    }
+
+    /**
+     * 我的求购
+     * @param token
+     * @return
+     */
+    @GetMapping("myWanted")
+    public ResultResponse myWanted(@RequestHeader String token) {
+        logger.info("GoodsController.myWanted(),入参：token={}", token);
+        return ResultUtil.success(goodsService.myWanted(token));
     }
     /**
      * 主页显示物品

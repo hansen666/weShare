@@ -129,7 +129,7 @@
     <include refid="Show_Goods_List" />
     from publish_goods
     where publisher_id = #{userID}
-    order by id limit #{currentPage}, 10
+    order by id desc
   </select>
 
 

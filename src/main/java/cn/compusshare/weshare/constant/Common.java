@@ -21,7 +21,7 @@ public class Common {
     public final static String CODE_INVALID_MSG = "code无效";
     public final static String TOKEN_INVALID_MSG = "token已失效";
     public final static String TOKEN_NULL_MSG = "token为空";
-    public final static String DATABASE_OPERATION_FAIL = "数据库操作失败或用户已存在";
+    public final static String DATABASE_OPERATION_FAIL = "数据库操作失败";
 
 
 

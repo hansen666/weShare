@@ -17,15 +17,19 @@ public interface GoodsService {
 
     ResultResponse wantGoods(String token, GoodsRequest goodsRequest);
 
-    List<Map<String,Object>> getSoldGoods(String token, int currentPage);
+    List<Map<String,Object>> getSoldGoods(String token);
 
-    List<Map<String,Object>> collections(String token, int currentPage);
+    ResultResponse collect(String token, int goodsID);
 
-    List<Map<String,Object>> myPublish(String token, int currentPage);
+    List<Map<String,Object>> collections(String token);
+
+    List<Map<String,Object>> myPublish(String token);
 
     ResultResponse showWishWall(String token, int currentPage, Byte label);
 
     ResultResponse showWishDetail(Integer id);
+
+    List<Map<String, Object>> myWanted(String token);
 
     ResultResponse showHomeGoods(String token, int currentPage, Byte label, String keyword);
 
