@@ -134,7 +134,7 @@ public class GoodsController {
      */
     @GetMapping("/showWishWall")
     public ResultResponse wishWall(@RequestHeader String token, @RequestParam int currentPage,
-                                   @RequestParam Byte label, @RequestParam Date currentTime) {
+                                   @RequestParam Byte label, @RequestParam String currentTime) {
         logger.info("GoodsController.showWishWall(),入参:token={},currentPage={}, label={}, pubTime={}", token,
                 currentPage, label, currentTime);
         return goodsService.showWishWall(token, currentPage, label, currentTime);

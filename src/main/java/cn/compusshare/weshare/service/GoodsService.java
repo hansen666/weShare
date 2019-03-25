@@ -24,7 +24,7 @@ public interface GoodsService {
 
     List<Map<String,Object>> myPublish(String token, int currentPage);
 
-    ResultResponse showWishWall(String token, int currentPage, Byte label, Date currentTime);
+    ResultResponse showWishWall(String token, int currentPage, Byte label, String currentTime);
 
     ResultResponse showWishDetail(Integer id);
 

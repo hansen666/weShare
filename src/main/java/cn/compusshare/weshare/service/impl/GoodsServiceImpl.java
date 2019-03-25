@@ -255,7 +255,7 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public ResultResponse showWishWall(String token, int currentPage, Byte label, Date currentTime) {
+    public ResultResponse showWishWall(String token, int currentPage, Byte label, String currentTime) {
         String wantBuyer = loginService.getOpenIDFromToken(token);
         try {
             List<HashMap<String, Object>> goodsList = wantGoodsMapper.selectWantGoods(wantBuyer, currentPage * 5,
