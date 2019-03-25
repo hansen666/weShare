@@ -101,9 +101,10 @@
     from publish_goods,user
     where publisher_id != #{publisherId} and status = 1
     and publish_goods.publisher_id = user.id and user.school_name = #{school}
+    <if test="currentTime!=null and currentTime!='null' and currentTime!=''"> and <![CDATA[pub_time < #{currentTime}]]> </if>
     <if test="label!=null and label!=0">and label=#{label}</if>
-    <if test="keyword!=null and keyword!='null'">and (name like '%${keyword}%' or description like '%${keyword}%')</if>
-    order by publish_goods.id
+    <if test="keyword!=null and keyword!='null' and keyword!=''">and (name like '%${keyword}%' or description like '%${keyword}%')</if>
+    order by pub_time DESC
     limit #{currentPage},5
   </select>
 

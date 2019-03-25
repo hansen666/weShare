@@ -59,6 +59,12 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public ResultResponse publishGoods(String token, GoodsRequest goodsRequest) {
         Date date = new Date();
+        String msg = "待审核";
+        Byte status = 0;
+        if (CommonUtil.imageCensor(goodsRequest.getPicUrl(), "publish") && CommonUtil.textCensor(goodsRequest.getDescription())) {
+            msg = "审核通过";
+            status = 1;
+        }
         PublishGoods publishGoods = PublishGoods.builder()
                 .publisherId(loginService.getOpenIDFromToken(token))
                 .name(goodsRequest.getGoodsName())
@@ -70,7 +76,7 @@ public class GoodsServiceImpl implements GoodsService {
                 .longitude(goodsRequest.getLongitude())
                 .latitude(goodsRequest.getLatitude())
                 .browseCount(0)
-                .status((byte) 0)
+                .status(status)
                 .pubTime(date)
                 .build();
         try {
@@ -79,7 +85,7 @@ public class GoodsServiceImpl implements GoodsService {
             return ResultUtil.fail(-1, "数据库保存错误");
         }
 
-        return ResultUtil.success();
+        return ResultUtil.success(msg);
     }
 
     /**
@@ -92,6 +98,12 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public ResultResponse wantGoods(String token, GoodsRequest goodsRequest) {
         Date date = new Date();
+        String msg = "待审核";
+        Byte status = 0;
+        if (CommonUtil.imageCensor(goodsRequest.getPicUrl(), "want") && CommonUtil.textCensor(goodsRequest.getDescription())) {
+            msg = "审核通过";
+            status = 1;
+        }
         WantGoods wantGoods = WantGoods.builder()
                 .wantBuyerId(loginService.getOpenIDFromToken(token))
                 .name(goodsRequest.getGoodsName())
@@ -103,7 +115,7 @@ public class GoodsServiceImpl implements GoodsService {
                 .longitude(goodsRequest.getLongitude())
                 .latitude(goodsRequest.getLatitude())
                 .browseCount(0)
-                .status((byte) 0)
+                .status(status)
                 .pubTime(date)
                 .build();
 
@@ -113,7 +125,7 @@ public class GoodsServiceImpl implements GoodsService {
             return ResultUtil.fail(-1, "数据库保存错误");
         }
 
-        return ResultUtil.success();
+        return ResultUtil.success(msg);
     }
 
 
@@ -191,6 +203,7 @@ public class GoodsServiceImpl implements GoodsService {
         result.forEach(map -> map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime"))));
         return result;
     }
+
     /**
      * 首页物品展示
      *
@@ -201,12 +214,12 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public ResultResponse showHomeGoods(String token, int currentPage, Byte label, String keyword) {
+    public ResultResponse showHomeGoods(String token, int currentPage, Byte label, String keyword, String currentTime) {
         String publisherId = loginService.getOpenIDFromToken(token);
         String key = CommonUtil.isEmpty(keyword) ? null : keyword.trim();
         try {
             List<HashMap<String, Object>> goodsList = publishGoodsMapper.selectShowGoods(publisherId,
-                    5 * currentPage, label, key, userMapper.selectByPrimaryKey(publisherId).getSchoolName());
+                    5 * currentPage, label, key, userMapper.selectByPrimaryKey(publisherId).getSchoolName(), currentTime);
             goodsList.forEach(t -> t.put("pubTime", CommonUtil.timeFromNow((Date) t.get("pubTime"))));
             return ResultUtil.success(goodsList);
         } catch (Exception e) {
@@ -242,11 +255,11 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public ResultResponse showWishWall(String token, int currentPage, Byte label) {
+    public ResultResponse showWishWall(String token, int currentPage, Byte label, Date currentTime) {
         String wantBuyer = loginService.getOpenIDFromToken(token);
         try {
             List<HashMap<String, Object>> goodsList = wantGoodsMapper.selectWantGoods(wantBuyer, currentPage * 5,
-                    label, userMapper.selectByPrimaryKey(wantBuyer).getSchoolName());
+                    label, userMapper.selectByPrimaryKey(wantBuyer).getSchoolName(), currentTime);
             goodsList.forEach(t -> t.put("pubTime", CommonUtil.timeFromNow((Date) t.get("pubTime"))));
             return ResultUtil.success(goodsList);
 

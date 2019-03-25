@@ -1,5 +1,12 @@
 package cn.compusshare.weshare.utils;
 
+import com.baidu.aip.contentcensor.AipContentCensor;
+import com.baidu.aip.contentcensor.EImgType;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +17,6 @@ import java.util.List;
  * 通用工具类
  */
 public class CommonUtil {
-
 
     /**
      *空字符串判断
@@ -97,5 +103,27 @@ public class CommonUtil {
         return Math.round(s * INTEGR_NUM) / INTEGR_NUM;
     }
 
+    public static Boolean textCensor(String text){
+        AipContentCensor censor = new AipContentCensor("15804398", "cSzAUuAAbF3ZaIdMhlwDvpoM", "LyG0XwGzWaiiUcrMAoNcQlNQwincbSqg");
+        JSONObject result = censor.antiSpam(text, null);
+        if(((Integer) result.getJSONObject("result").get("spam")) == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public static Boolean imageCensor(String fileNames, String path){
+        String[] files = fileNames.split(",");
+        AipContentCensor censor = new AipContentCensor("15804398", "cSzAUuAAbF3ZaIdMhlwDvpoM", "LyG0XwGzWaiiUcrMAoNcQlNQwincbSqg");
+        for(String file:files){
+            String filePath = "D:\\WeShare\\miniprogram\\images\\" + path + "\\" + file;
+            JSONObject result = censor.imageCensorUserDefined(filePath, EImgType.FILE, null);
+            System.out.println(result.get("conclusion"));
+            if(result.get("conclusionType").equals(2)){
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

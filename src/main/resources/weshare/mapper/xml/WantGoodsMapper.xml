@@ -82,8 +82,9 @@
     from want_goods,user
     where want_buyer_id != #{wantBuyerId} and status = 1
     and want_goods.want_buyer_id = user.id and user.school_name = #{school}
+    <if test="currentTime!=null and currentTime!='null' and currentTime!=''"> and <![CDATA[pub_time < #{currentTime}]]> </if>
     <if test="label!=null and label!=0">and label=#{label}</if>
-    order by want_goods.id
+    order by pub_time DESC
     limit #{currentPage},5
   </select>
   

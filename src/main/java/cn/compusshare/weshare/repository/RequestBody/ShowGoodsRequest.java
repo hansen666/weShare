@@ -10,4 +10,6 @@ public class ShowGoodsRequest {
     private Byte label;
     //关键字
     private String keyword;
+    //时间
+    private String currentTime;
 }

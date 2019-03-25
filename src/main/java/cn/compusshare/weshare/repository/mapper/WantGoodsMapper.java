@@ -4,6 +4,7 @@ import cn.compusshare.weshare.repository.entity.WantGoods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public interface WantGoodsMapper {
     int updateByPrimaryKey(WantGoods record);
 
     List<HashMap<String, Object>> selectWantGoods(@Param("wantBuyerId") String wantBuyerId, @Param("currentPage") int currentPage,
-                                                  @Param("label") Byte label, @Param("school") String school);
+                                                  @Param("label") Byte label, @Param("school") String school, @Param("currentTime") Date currentTime);
 
     Map<String, Object> showGoodsDetail(Integer id);
 

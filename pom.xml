@@ -80,6 +80,13 @@
 			<artifactId>java-jwt</artifactId>
 			<version>3.1.0</version>
 		</dependency>
+
+        <!--百度API依赖-->
+		<dependency>
+			<groupId>com.baidu.aip</groupId>
+			<artifactId>java-sdk</artifactId>
+			<version>4.10.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
