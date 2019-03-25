@@ -74,6 +74,24 @@ public class GoodsController {
         return ResultUtil.success(goodsService.getSoldGoods(token));
     }
 
+    /**
+     * 物品是否被收藏
+     * @param token
+     * @param goodsID
+     * @return
+     */
+    @GetMapping("isGoodsCollected")
+    public ResultResponse isGoodsCollected(@RequestHeader String token,@RequestParam int goodsID) {
+        logger.info("GoodsController.isGoodsCollected(),入参：token={},goodsID={}", token, goodsID);
+        return ResultUtil.success(goodsService.isGoodsCollected(token,goodsID));
+    }
+
+    /**
+     * 收藏与取消收藏
+     * @param token
+     * @param goodsID
+     * @return
+     */
     @GetMapping("/collect")
     public ResultResponse collect(@RequestHeader String token,@RequestParam int goodsID) {
         logger.info("GoodsController.collect(),入参：token={},goodsID={}", token, goodsID);

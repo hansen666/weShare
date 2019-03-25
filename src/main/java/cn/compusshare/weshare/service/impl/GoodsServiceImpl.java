@@ -185,6 +185,23 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     /**
+     * 某个物品是否被收藏
+     * @param token
+     * @param goodsID
+     * @return
+     */
+    @Override
+    public Map<String,Boolean> isGoodsCollected(String token, int goodsID) {
+        String openID = loginService.getOpenIDFromToken(token);
+        boolean isCollected = collectionMapper.isRecordExist(openID, goodsID) == 1 ? true : false;
+        Map<String,Boolean> result = new HashMap<>(1);
+        result.put("isCollected",isCollected);
+        return result;
+
+    }
+
+
+    /**
      * 我的收藏
      *
      * @param token
