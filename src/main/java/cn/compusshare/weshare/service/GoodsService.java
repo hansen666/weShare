@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,13 +26,13 @@ public interface GoodsService {
 
     List<Map<String,Object>> myPublish(String token);
 
-    ResultResponse showWishWall(String token, int currentPage, Byte label);
+    ResultResponse showWishWall(String token, int currentPage, Byte label, String currentTime);
 
     ResultResponse showWishDetail(Integer id);
 
     List<Map<String, Object>> myWanted(String token);
 
-    ResultResponse showHomeGoods(String token, int currentPage, Byte label, String keyword);
+    ResultResponse showHomeGoods(String token, int currentPage, Byte label, String keyword, String currentTime);
 
     ResultResponse showHomeDetail(Integer id);
 

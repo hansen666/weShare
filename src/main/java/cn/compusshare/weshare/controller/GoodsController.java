@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
@@ -120,10 +122,11 @@ public class GoodsController {
      */
     @GetMapping("/showHomeGoods")
     public ResultResponse showHomeGoods(@RequestHeader String token, ShowGoodsRequest showGoodsRequest) {
-        logger.info("HomePageController.showHomeGoods(),入参:token={},currentPage={},label={},keyword={}", token,
-                showGoodsRequest.getCurrentPage(), showGoodsRequest.getLabel(), showGoodsRequest.getKeyword());
+        logger.info("GoodsController.showHomeGoods(),入参:token={},currentPage={},label={},keyword={},pubTime={}", token,
+                showGoodsRequest.getCurrentPage(), showGoodsRequest.getLabel(), showGoodsRequest.getKeyword(),
+                showGoodsRequest.getCurrentPage());
         return goodsService.showHomeGoods(token, showGoodsRequest.getCurrentPage(), showGoodsRequest.getLabel(),
-                showGoodsRequest.getKeyword());
+                showGoodsRequest.getKeyword(), showGoodsRequest.getCurrentTime());
     }
 
     /**
@@ -146,9 +149,11 @@ public class GoodsController {
      * @return
      */
     @GetMapping("/showWishWall")
-    public ResultResponse wishWall(@RequestHeader String token, @RequestParam int currentPage, @RequestParam Byte label) {
-        logger.info("GoodsController.showWishWall(),入参:token={},currentPage={}, label={}", token, currentPage, label);
-        return goodsService.showWishWall(token, currentPage, label);
+    public ResultResponse wishWall(@RequestHeader String token, @RequestParam int currentPage,
+                                   @RequestParam Byte label, @RequestParam String currentTime) {
+        logger.info("GoodsController.showWishWall(),入参:token={},currentPage={}, label={}, pubTime={}", token,
+                currentPage, label, currentTime);
+        return goodsService.showWishWall(token, currentPage, label, currentTime);
     }
 
     /**

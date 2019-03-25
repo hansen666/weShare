@@ -22,10 +22,11 @@ public interface PublishGoodsMapper {
 
     int updateByPrimaryKey(PublishGoods record);
 
-    Map<String,Object> selectCollection(Integer id);
+    Map<String, Object> selectCollection(Integer id);
 
-    List<HashMap<String, Object>> selectShowGoods(@Param("publisherId")String publisherId,@Param("currentPage")
-            int currentPage,@Param("label") Byte label,@Param("keyword") String keyword,@Param("school") String school);
+    List<HashMap<String, Object>> selectShowGoods(@Param("publisherId") String publisherId, @Param("currentPage")
+            int currentPage, @Param("label") Byte label, @Param("keyword") String keyword,
+                                                  @Param("school") String school, @Param("currentTime") String currentTime);
 
     Map<String, Object> selectSoldGoods(Integer id);
 
