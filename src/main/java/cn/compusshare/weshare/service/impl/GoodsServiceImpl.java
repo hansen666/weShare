@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 
 
@@ -159,7 +160,7 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     /**
-     * 收藏与取消收藏操作
+     * 收藏操作
      * @param token
      * @param goodsID
      * @return
@@ -168,17 +169,32 @@ public class GoodsServiceImpl implements GoodsService {
     public ResultResponse collect(String token, int goodsID) {
         String openID = loginService.getOpenIDFromToken(token);
         boolean isCollected = collectionMapper.isRecordExist(openID, goodsID) == 1 ? true : false;
-        int result = -1;
         if (isCollected) {
-            result = collectionMapper.deleteByTwoID(openID, goodsID);
-        }else {
-            Collection c = new Collection();
-            c.setUserId(openID);
-            c.setGoodsId(goodsID);
-            result = collectionMapper.insertSelective(c);
+            return ResultUtil.success();
         }
+        Collection c = new Collection();
+        c.setUserId(openID);
+        c.setGoodsId(goodsID);
+        int result = collectionMapper.insertSelective(c);
         //数据库操作失败
-        if (result == -1 ){
+        if (result == 0){
+            return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
+        }
+        return ResultUtil.success();
+    }
+
+    /**
+     * 取消收藏操作
+     * @param token
+     * @param goodsID
+     * @return
+     */
+    @Override
+    public ResultResponse cancelCollection(String token, int goodsID) {
+        String openID = loginService.getOpenIDFromToken(token);
+        int result = collectionMapper.deleteByTwoID(openID, goodsID);
+        //数据库操作失败
+        if (result == 0){
             return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
         }
         return ResultUtil.success();

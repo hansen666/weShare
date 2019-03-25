@@ -87,15 +87,27 @@ public class GoodsController {
     }
 
     /**
-     * 收藏与取消收藏
+     * 收藏操作
      * @param token
      * @param goodsID
      * @return
      */
-    @GetMapping("/collect")
+    @PostMapping("/collect")
     public ResultResponse collect(@RequestHeader String token,@RequestParam int goodsID) {
         logger.info("GoodsController.collect(),入参：token={},goodsID={}", token, goodsID);
         return goodsService.collect(token,goodsID);
+    }
+
+    /**
+     * 取消收藏操作
+     * @param token
+     * @param goodsID
+     * @return
+     */
+    @DeleteMapping("/cancelCollection")
+    public ResultResponse cancelCollection(@RequestHeader String token,@RequestParam int goodsID) {
+        logger.info("GoodsController.cancelCollection(),入参：token={},goodsID={}", token, goodsID);
+        return goodsService.cancelCollection(token,goodsID);
     }
 
     /**
