@@ -2,6 +2,8 @@ package cn.compusshare.weshare.service;
 
 
 import cn.compusshare.weshare.repository.RequestBody.GoodsRequest;
+import cn.compusshare.weshare.repository.entity.PublishGoods;
+import cn.compusshare.weshare.repository.entity.WantGoods;
 import cn.compusshare.weshare.utils.ResultResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,15 +36,21 @@ public interface GoodsService {
 
     ResultResponse showWishDetail(Integer id);
 
-    ResultResponse removePublish(int goodsID);
+    ResultResponse myPublishModify(String token, PublishGoods publishGoods);
+
+    ResultResponse removePublish(Integer[] goodsID);
 
     List<Map<String, Object>> myWanted(String token);
 
-    ResultResponse removeWanted(int goodsID);
+    ResultResponse myWantedModify(String token, WantGoods wantGoods);
+
+    ResultResponse removeWanted(Integer[] goodsID);
 
     ResultResponse showHomeGoods(String token, int currentPage, Byte label, String keyword, String currentTime);
 
     ResultResponse showHomeDetail(Integer id);
 
     ResultResponse uploadImage(MultipartFile file, int id, String filePath);
+
+    ResultResponse dealComplete(String token, int goodsID);
 }

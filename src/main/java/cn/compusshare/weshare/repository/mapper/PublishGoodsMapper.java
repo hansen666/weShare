@@ -35,4 +35,6 @@ public interface PublishGoodsMapper {
     Map<String, Object> showGoodsDetail(Integer id);
 
     int browseCountIncrement(Integer id);
+
+    int updateStatus(@Param("id") Integer id, @Param("status") byte status);
 }

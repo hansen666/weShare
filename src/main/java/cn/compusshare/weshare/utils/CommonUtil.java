@@ -124,7 +124,7 @@ public class CommonUtil {
             String filePath = "D:\\WeShare\\miniprogram\\images\\" + path + "\\" + file;
             JSONObject result = censor.imageCensorUserDefined(filePath, EImgType.FILE, null);
             if (result.has("error_code")) {
-                return true;
+                return null;
             }
             System.out.println(result.get("conclusion"));
             if (result.get("conclusionType").equals(2)) {

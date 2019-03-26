@@ -32,4 +32,6 @@ public interface WantGoodsMapper {
 
     List<Map<String, Object>> selectMyWanted(@Param("userID") String userID);
 
+    int updateStatus(@Param("id") Integer id, @Param("status") byte status);
+
 }

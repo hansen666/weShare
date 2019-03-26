@@ -18,6 +18,11 @@ public class ResultUtil {
         return success(null);
     }
 
+    public static ResultResponse success(Integer code,String msg){
+        ResultResponse resultResponse=new ResultResponse(code,msg);
+        return resultResponse;
+    }
+
     public static ResultResponse success(Integer code,String msg,Object object){
         ResultResponse resultResponse=new ResultResponse(code,msg,object);
         return resultResponse;

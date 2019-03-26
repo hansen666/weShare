@@ -328,4 +328,10 @@
     set browse_count = browse_count + 1
     WHERE id = #{id};
   </update>
+
+  <update id="updateStatus" >
+    update publish_goods
+    set status = #{status}
+    WHERE id = #{id};
+  </update>
 </mapper>

@@ -5,6 +5,7 @@ import cn.compusshare.weshare.constant.Common;
 import cn.compusshare.weshare.repository.RequestBody.GoodsRequest;
 import cn.compusshare.weshare.repository.entity.Collection;
 import cn.compusshare.weshare.repository.entity.PublishGoods;
+import cn.compusshare.weshare.repository.entity.TransactionRecord;
 import cn.compusshare.weshare.repository.entity.WantGoods;
 import cn.compusshare.weshare.repository.mapper.*;
 import cn.compusshare.weshare.repository.mapper.CollectionMapper;
@@ -21,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -259,16 +261,49 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     /**
+     * 修改我的发布
+     * @param token
+     * @param publishGoods
+     * @return
+     */
+    @Override
+    public ResultResponse myPublishModify(String token, PublishGoods publishGoods) {
+        String openID = loginService.getOpenIDFromToken(token);
+        publishGoods.setPublisherId(openID);
+        publishGoodsMapper.updateByPrimaryKeySelective(publishGoods);
+
+        //文本审核未通过
+        if (!CommonUtil.isEmpty(publishGoods.getDescription()) && !CommonUtil.textCensor(publishGoods.getDescription())) {
+            publishGoodsMapper.updateStatus(publishGoods.getId(), (byte)0);
+            return ResultUtil.success(Common.CENSOR_FAIL,Common.CENSOR_FAIL_MSG);
+        }
+
+        //图片审核
+        if (!CommonUtil.isEmpty(publishGoods.getPicUrl())) {
+            Boolean flag = CommonUtil.imageCensor(publishGoods.getPicUrl(), "publish");
+            //审核次数受限
+            if ( flag == null) {
+                publishGoodsMapper.updateStatus(publishGoods.getId(), (byte)0);
+                return ResultUtil.success(Common.CENSOR_TIMES_LIMIT,Common.CENSOR_TIMES_LIMIT_MSG);
+            }else if (!flag) {  //审核未通过
+                publishGoodsMapper.updateStatus(publishGoods.getId(), (byte)0);
+                return ResultUtil.success(Common.CENSOR_FAIL,Common.CENSOR_FAIL_MSG);
+            }else {  //审核通过
+                publishGoodsMapper.updateStatus(publishGoods.getId(), (byte)1);
+            }
+        }
+        return ResultUtil.success();
+    }
+
+    /**
      * 删除发布的物品
      * @param goodsID
      * @return
      */
     @Override
-    public ResultResponse removePublish(int goodsID) {
-        int result = publishGoodsMapper.deleteByPrimaryKey(goodsID);
-        //数据库操作失败
-        if (result == 0){
-            return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
+    public ResultResponse removePublish(Integer[] goodsID) {
+        for (Integer id : goodsID) {
+            publishGoodsMapper.deleteByPrimaryKey(id);
         }
         return ResultUtil.success();
     }
@@ -287,16 +322,51 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     /**
+     * 修改我的求购
+     * @param token
+     * @param wantGoods
+     * @return
+     */
+    @Override
+    public ResultResponse myWantedModify(String token, WantGoods wantGoods) {
+        String openID = loginService.getOpenIDFromToken(token);
+        wantGoods.setWantBuyerId(openID);
+        wantGoodsMapper.updateByPrimaryKeySelective(wantGoods);
+
+        //文本审核未通过
+        if (!CommonUtil.isEmpty(wantGoods.getDescription()) && !CommonUtil.textCensor(wantGoods.getDescription())) {
+            wantGoodsMapper.updateStatus(wantGoods.getId(), (byte)0);
+            return ResultUtil.success(Common.CENSOR_FAIL,Common.CENSOR_FAIL_MSG);
+        }
+
+        //求购图片审核
+        if (!CommonUtil.isEmpty(wantGoods.getPicUrl())) {
+            Boolean flag = CommonUtil.imageCensor(wantGoods.getPicUrl(), "want");
+            //审核次数受限
+            if (flag == null) {
+                wantGoodsMapper.updateStatus(wantGoods.getId(), (byte)0);
+                return ResultUtil.success(Common.CENSOR_TIMES_LIMIT,Common.CENSOR_TIMES_LIMIT_MSG);
+            }else if (!flag) {  //图片审核未通过
+                wantGoodsMapper.updateStatus(wantGoods.getId(), (byte)0);
+                return ResultUtil.success(Common.CENSOR_FAIL,Common.CENSOR_FAIL_MSG);
+            }else {  //审核通过
+                wantGoodsMapper.updateStatus(wantGoods.getId(), (byte)1);
+                return ResultUtil.success();
+            }
+        }
+        return ResultUtil.success();
+    }
+
+
+    /**
      * 删除求购的物品
      * @param goodsID
      * @return
      */
     @Override
-    public ResultResponse removeWanted(int goodsID) {
-        int result = wantGoodsMapper.deleteByPrimaryKey(goodsID);
-        //数据库操作失败
-        if (result == 0){
-            return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
+    public ResultResponse removeWanted(Integer[]  goodsID) {
+        for (Integer id : goodsID) {
+            wantGoodsMapper.deleteByPrimaryKey(id);
         }
         return ResultUtil.success();
     }
@@ -417,6 +487,29 @@ public class GoodsServiceImpl implements GoodsService {
                 .build();
 
         return ResultUtil.success(imageResponse);
+    }
+
+    /**
+     * 交易完成，更新状态
+     * @param token
+     * @Param goodsID
+     * @return
+     */
+    @Override
+    @Transactional
+    public ResultResponse dealComplete(String token, int goodsID) {
+        String openID = loginService.getOpenIDFromToken(token);
+        TransactionRecord record = new TransactionRecord();
+        record.setSellerId(openID);
+        record.setGoodsId(goodsID);
+        int result = 0;
+        result += publishGoodsMapper.updateStatus(goodsID, (byte) 2);
+        result += transactionRecordMapper.insertSelective(record);
+        //数据库操作失败
+        if (result != 2){
+            return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
+        }
+        return ResultUtil.success();
     }
 
 }

@@ -3,14 +3,21 @@ package cn.compusshare.weshare.controller;
 import cn.compusshare.weshare.repository.RequestBody.GoodsRequest;
 import cn.compusshare.weshare.repository.RequestBody.ImageRequest;
 import cn.compusshare.weshare.repository.RequestBody.ShowGoodsRequest;
+import cn.compusshare.weshare.repository.entity.PublishGoods;
+import cn.compusshare.weshare.repository.entity.WantGoods;
 import cn.compusshare.weshare.service.GoodsService;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
+import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.PastOrPresent;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/goods")
@@ -132,15 +139,27 @@ public class GoodsController {
     }
 
     /**
+     * 修改我的发布
+     * @param token
+     * @param publishGoods
+     * @return
+     */
+    @PostMapping("/modifyMyPublish")
+    public ResultResponse modifyMyPublish(@RequestHeader String token, @RequestBody PublishGoods publishGoods) {
+        logger.info("GoodsController.modifyMyPublish(),入参：token={}, publishGoods={}",token, publishGoods.toString());
+        return goodsService.myPublishModify(token, publishGoods);
+    }
+
+    /**
      * 根据ID删除我的发布
      * @param token
-     * @param goodsID
+     * @param data
      * @return
      */
     @DeleteMapping("/removePublish")
-    public ResultResponse removePublish(@RequestHeader String token, @RequestParam int goodsID) {
-        logger.info("GoodsController.removePublish(),入参：token={},goodsID={}", token, goodsID);
-        return goodsService.removePublish(goodsID);
+    public ResultResponse removePublish(@RequestHeader String token, @RequestBody Map<String,Integer[]> data) {
+        logger.info("GoodsController.removePublish(),入参：token={},goodsID={}", token, data.get("goodsID"));
+        return goodsService.removePublish(data.get("goodsID"));
     }
 
     /**
@@ -154,16 +173,23 @@ public class GoodsController {
         return ResultUtil.success(goodsService.myWanted(token));
     }
 
+
+    @PostMapping("/modifyMyWanted")
+    public ResultResponse modifyMyWanted(@RequestHeader String token, @RequestBody WantGoods wantGoods) {
+        logger.info("GoodsController.modifyMyWanted(),入参：token={}, publishGoods={}",token, wantGoods.toString());
+        return goodsService.myWantedModify(token, wantGoods);
+    }
+
     /**
      * 根据ID删除我的求购
      * @param token
-     * @param goodsID
+     * @param data
      * @return
      */
     @DeleteMapping("/removeWanted")
-    public ResultResponse removeWanted(@RequestHeader String token, @RequestParam int goodsID) {
-        logger.info("GoodsController.removeWanted(),入参：token={},goodsID={}", token, goodsID);
-        return goodsService.removeWanted(goodsID);
+    public ResultResponse removeWanted(@RequestHeader String token, @RequestParam Map<String,Integer[]> data) {
+        logger.info("GoodsController.removeWanted(),入参：token={},goodsID={}", token, data.get("goodsID"));
+        return goodsService.removeWanted(data.get("goodsID"));
     }
 
     /**
@@ -232,5 +258,17 @@ public class GoodsController {
         String savePath = environment.getProperty("image.path") + imageRequest.getFilePath()+"\\";
         logger.info("ImageController.imageUpload(),传入图片={}", imageRequest.getFile().getOriginalFilename());
         return goodsService.uploadImage(imageRequest.getFile(), imageRequest.getId(), savePath);
+    }
+
+    /**
+     * 交易完成接口
+     * @param token
+     * @param goodsID
+     * @return
+     */
+    @PostMapping("/dealCompleted")
+    public ResultResponse dealCompleted(@RequestHeader String token, @RequestParam int goodsID){
+        logger.info("GoodsController.dealCompleted(),入参：token={},goodsID={}",token,goodsID);
+        return goodsService.dealComplete(token, goodsID);
     }
 }
