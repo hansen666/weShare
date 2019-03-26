@@ -115,7 +115,7 @@
     <include refid="myWanted_Column_List" />
     from want_goods
     where want_buyer_id = #{userID}
-    order by id desc
+    order by pub_time desc
   </select>
 
 

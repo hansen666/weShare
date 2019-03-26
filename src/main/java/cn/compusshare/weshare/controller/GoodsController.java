@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
@@ -134,6 +132,18 @@ public class GoodsController {
     }
 
     /**
+     * 根据ID删除我的发布
+     * @param token
+     * @param goodsID
+     * @return
+     */
+    @DeleteMapping("/removePublish")
+    public ResultResponse removePublish(@RequestHeader String token, @RequestParam int goodsID) {
+        logger.info("GoodsController.removePublish(),入参：token={},goodsID={}", token, goodsID);
+        return goodsService.removePublish(goodsID);
+    }
+
+    /**
      * 我的求购
      * @param token
      * @return
@@ -143,6 +153,19 @@ public class GoodsController {
         logger.info("GoodsController.myWanted(),入参：token={}", token);
         return ResultUtil.success(goodsService.myWanted(token));
     }
+
+    /**
+     * 根据ID删除我的求购
+     * @param token
+     * @param goodsID
+     * @return
+     */
+    @DeleteMapping("/removeWanted")
+    public ResultResponse removeWanted(@RequestHeader String token, @RequestParam int goodsID) {
+        logger.info("GoodsController.removeWanted(),入参：token={},goodsID={}", token, goodsID);
+        return goodsService.removeWanted(goodsID);
+    }
+
     /**
      * 主页显示物品
      *

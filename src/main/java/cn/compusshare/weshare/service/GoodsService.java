@@ -34,7 +34,11 @@ public interface GoodsService {
 
     ResultResponse showWishDetail(Integer id);
 
+    ResultResponse removePublish(int goodsID);
+
     List<Map<String, Object>> myWanted(String token);
+
+    ResultResponse removeWanted(int goodsID);
 
     ResultResponse showHomeGoods(String token, int currentPage, Byte label, String keyword, String currentTime);
 

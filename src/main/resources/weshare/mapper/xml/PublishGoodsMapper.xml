@@ -130,7 +130,7 @@
     <include refid="Show_Goods_List" />
     from publish_goods
     where publisher_id = #{userID}
-    order by id desc
+    order by pub_time desc
   </select>
 
 

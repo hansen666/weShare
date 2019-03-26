@@ -259,17 +259,46 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     /**
+     * 删除发布的物品
+     * @param goodsID
+     * @return
+     */
+    @Override
+    public ResultResponse removePublish(int goodsID) {
+        int result = publishGoodsMapper.deleteByPrimaryKey(goodsID);
+        //数据库操作失败
+        if (result == 0){
+            return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
+        }
+        return ResultUtil.success();
+    }
+
+    /**
      * 我的求购
      * @param token
      * @return
      */
     @Override
     public List<Map<String, Object>> myWanted(String token) {
-        //String openID = loginService.getOpenIDFromToken(token);
-         String openID = "testAccount1";
+        String openID = loginService.getOpenIDFromToken(token);
         List<Map<String, Object>> result = wantGoodsMapper.selectMyWanted(openID);
         result.forEach(map -> map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime"))));
         return result;
+    }
+
+    /**
+     * 删除求购的物品
+     * @param goodsID
+     * @return
+     */
+    @Override
+    public ResultResponse removeWanted(int goodsID) {
+        int result = wantGoodsMapper.deleteByPrimaryKey(goodsID);
+        //数据库操作失败
+        if (result == 0){
+            return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
+        }
+        return ResultUtil.success();
     }
 
     /**

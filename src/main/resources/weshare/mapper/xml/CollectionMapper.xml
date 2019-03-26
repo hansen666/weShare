@@ -20,7 +20,7 @@
 
   <select id="selectGoodsId"  resultType="java.lang.Integer">
     select goods_id from collection where user_id = #{userID,jdbcType=VARCHAR}
-    order by goods_id  desc
+    order by create_time  desc
   </select>
 
   <select id="isRecordExist"  resultType="java.lang.Integer">
