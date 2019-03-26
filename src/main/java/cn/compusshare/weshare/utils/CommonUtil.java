@@ -19,12 +19,13 @@ import java.util.List;
 public class CommonUtil {
 
     /**
-     *空字符串判断
+     * 空字符串判断
+     *
      * @param s
      * @return
      */
-    public static boolean isEmpty(String s){
-        if( null==s || s.length()==0 ){
+    public static boolean isEmpty(String s) {
+        if (null == s || s.length() == 0) {
             return true;
         }
         return false;
@@ -32,6 +33,7 @@ public class CommonUtil {
 
     /**
      * 空List判断
+     *
      * @param list
      * @return
      */
@@ -44,32 +46,34 @@ public class CommonUtil {
 
     /**
      * 计算与当前的时间间隔
+     *
      * @param date
      * @return
      */
-    public static String timeFromNow(Date date){
+    public static String timeFromNow(Date date) {
         Date now = new Date();
         long timeGap = now.getTime() - date.getTime();
-        long day = timeGap /1000 / 60 / 60 / 24;
+        long day = timeGap / 1000 / 60 / 60 / 24;
         if (day >= 1) {
             if (day == 1) {
                 return "1天前";
             }
             return getDate(date);
         }
-        long hour = timeGap /1000 / 60 / 60;
+        long hour = timeGap / 1000 / 60 / 60;
         if (hour >= 1) {
-            return hour+"小时前";
+            return hour + "小时前";
         }
-        long minute = timeGap /1000 / 60;
+        long minute = timeGap / 1000 / 60;
         if (minute >= 1) {
-            return minute+"分钟前";
+            return minute + "分钟前";
         }
         return "刚刚";
     }
 
     /**
      * 从date获取日期
+     *
      * @param date
      * @return
      */
@@ -80,6 +84,7 @@ public class CommonUtil {
 
     /**
      * 根据经纬度计算距离
+     *
      * @param longitude1
      * @param latitude1
      * @param longitude2
@@ -103,23 +108,26 @@ public class CommonUtil {
         return Math.round(s * INTEGR_NUM) / INTEGR_NUM;
     }
 
-    public static Boolean textCensor(String text){
+    public static Boolean textCensor(String text) {
         AipContentCensor censor = new AipContentCensor("15804398", "cSzAUuAAbF3ZaIdMhlwDvpoM", "LyG0XwGzWaiiUcrMAoNcQlNQwincbSqg");
         JSONObject result = censor.antiSpam(text, null);
-        if(((Integer) result.getJSONObject("result").get("spam")) == 0){
+        if (((Integer) result.getJSONObject("result").get("spam")) == 0) {
             return true;
         }
         return false;
     }
 
-    public static Boolean imageCensor(String fileNames, String path){
+    public static Boolean imageCensor(String fileNames, String path) {
         String[] files = fileNames.split(",");
         AipContentCensor censor = new AipContentCensor("15804398", "cSzAUuAAbF3ZaIdMhlwDvpoM", "LyG0XwGzWaiiUcrMAoNcQlNQwincbSqg");
-        for(String file:files){
+        for (String file : files) {
             String filePath = "D:\\WeShare\\miniprogram\\images\\" + path + "\\" + file;
             JSONObject result = censor.imageCensorUserDefined(filePath, EImgType.FILE, null);
+            if (result.has("error_code")) {
+                return true;
+            }
             System.out.println(result.get("conclusion"));
-            if(result.get("conclusionType").equals(2)){
+            if (result.get("conclusionType").equals(2)) {
                 return false;
             }
         }

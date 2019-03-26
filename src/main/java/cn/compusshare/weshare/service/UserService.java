@@ -5,6 +5,7 @@ import cn.compusshare.weshare.repository.entity.User;
 import cn.compusshare.weshare.utils.ResultResponse;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -25,4 +26,6 @@ public interface UserService {
     Map<String,Byte> queryIdentifiedType(String token);
 
     Map<String,Object> information(String token);
+
+    ResultResponse studentCertify(String token, String onlineCode) throws IOException;
 }
