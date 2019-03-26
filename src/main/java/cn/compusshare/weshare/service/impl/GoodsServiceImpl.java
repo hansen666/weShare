@@ -192,12 +192,10 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public ResultResponse cancelCollection(String token, int goodsID) {
+    public ResultResponse cancelCollection(String token, Integer[] goodsID) {
         String openID = loginService.getOpenIDFromToken(token);
-        int result = collectionMapper.deleteByTwoID(openID, goodsID);
-        //数据库操作失败
-        if (result == 0){
-            return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
+        for (Integer id : goodsID) {
+            collectionMapper.deleteByTwoID(openID, id);
         }
         return ResultUtil.success();
     }

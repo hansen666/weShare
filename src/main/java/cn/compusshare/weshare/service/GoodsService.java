@@ -24,7 +24,7 @@ public interface GoodsService {
 
     ResultResponse collect(String token, int goodsID);
 
-    ResultResponse cancelCollection(String token, int goodsID);
+    ResultResponse cancelCollection(String token, Integer[] goodsID);
 
     Map<String,Boolean> isGoodsCollected(String token, int goodsID);
 

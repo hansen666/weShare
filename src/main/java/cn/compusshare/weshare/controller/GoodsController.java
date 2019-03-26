@@ -106,13 +106,13 @@ public class GoodsController {
     /**
      * 取消收藏操作
      * @param token
-     * @param goodsID
+     * @param data
      * @return
      */
     @DeleteMapping("/cancelCollection")
-    public ResultResponse cancelCollection(@RequestHeader String token,@RequestParam int goodsID) {
-        logger.info("GoodsController.cancelCollection(),入参：token={},goodsID={}", token, goodsID);
-        return goodsService.cancelCollection(token,goodsID);
+    public ResultResponse cancelCollection(@RequestHeader String token,@RequestBody Map<String,Integer[]> data) {
+        logger.info("GoodsController.cancelCollection(),入参：token={},goodsID={}", token, data.get("goodsID"));
+        return goodsService.cancelCollection(token,data.get("goodsID"));
     }
 
     /**
