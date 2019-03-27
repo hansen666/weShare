@@ -35,6 +35,11 @@
     where seller_id=#{userID} and goods_id=#{goodsID}
   </delete>
 
+  <delete id="deleteByGoodsID" >
+    delete from transaction_record
+    where goods_id=#{goodsID}
+  </delete>
+
 
   <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.TransactionRecord">
     insert into transaction_record (id, seller_id, goods_id, 

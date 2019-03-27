@@ -169,7 +169,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public ResultResponse removeSoldGoods(Integer[] goodsID) {
         for (Integer id : goodsID) {
-            transactionRecordMapper.deleteByPrimaryKey(id);
+            transactionRecordMapper.deleteByGoodsID(id);
         }
         return ResultUtil.success();
     }

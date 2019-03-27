@@ -19,7 +19,7 @@ import java.io.IOException;
  * 用户管理Controller
  */
 @RestController
-@RequestMapping("/test/user")
+@RequestMapping("/user")
 public class UserController {
 
     private final static Logger logger = LoggerFactory.getLogger(Logger.class);

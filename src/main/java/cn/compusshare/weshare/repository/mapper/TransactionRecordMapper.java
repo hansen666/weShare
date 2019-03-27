@@ -23,4 +23,6 @@ public interface TransactionRecordMapper {
     List<Integer> selectGoodsId(@Param("userID") String userID);
 
     int deleteByUserIDAndGoodsID(@Param("userID") String userID, @Param("goodsID") Integer goodsID);
+
+    int deleteByGoodsID(@Param("goodsID") Integer goodsID);
 }
