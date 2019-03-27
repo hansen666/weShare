@@ -108,6 +108,12 @@ public class CommonUtil {
         return Math.round(s * INTEGR_NUM) / INTEGR_NUM;
     }
 
+    /**
+     * 文本审核
+     *
+     * @param text
+     * @return
+     */
     public static Boolean textCensor(String text) {
         AipContentCensor censor = new AipContentCensor("15804398", "cSzAUuAAbF3ZaIdMhlwDvpoM", "LyG0XwGzWaiiUcrMAoNcQlNQwincbSqg");
         JSONObject result = censor.antiSpam(text, null);
@@ -117,6 +123,13 @@ public class CommonUtil {
         return false;
     }
 
+    /**
+     * 图片审核
+     *
+     * @param fileNames
+     * @param path
+     * @return
+     */
     public static Boolean imageCensor(String fileNames, String path) {
         String[] files = fileNames.split(",");
         AipContentCensor censor = new AipContentCensor("15804398", "cSzAUuAAbF3ZaIdMhlwDvpoM", "LyG0XwGzWaiiUcrMAoNcQlNQwincbSqg");
@@ -126,7 +139,6 @@ public class CommonUtil {
             if (result.has("error_code")) {
                 return null;
             }
-            System.out.println(result.get("conclusion"));
             if (result.get("conclusionType").equals(2)) {
                 return false;
             }

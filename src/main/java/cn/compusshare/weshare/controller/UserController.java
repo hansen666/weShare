@@ -19,7 +19,7 @@ import java.io.IOException;
  * 用户管理Controller
  */
 @RestController
-@RequestMapping("/test/user")
+@RequestMapping("/user")
 public class UserController {
 
     private final static Logger logger = LoggerFactory.getLogger(Logger.class);
@@ -80,6 +80,7 @@ public class UserController {
 
     /**
      * 学籍认证
+     *
      * @param token
      * @param onlineCode
      * @return
@@ -89,9 +90,9 @@ public class UserController {
         logger.info("UserController.studentCertify(),入参:token={}, onlineCode={}", token, onlineCode);
         try {
             return userService.studentCertify(token, onlineCode);
-        } catch (IOException e){
+        } catch (IOException e) {
             logger.info(e.getMessage());
-            return ResultUtil.fail(-1,"网页加载超时");
+            return ResultUtil.fail(-1, "网页加载超时");
         }
     }
 }
