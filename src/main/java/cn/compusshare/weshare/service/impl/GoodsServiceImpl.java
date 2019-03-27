@@ -66,7 +66,8 @@ public class GoodsServiceImpl implements GoodsService {
         Date date = new Date();
         String msg = "待审核";
         Byte status = 0;
-        if (CommonUtil.imageCensor(goodsRequest.getPicUrl(), "publish") && CommonUtil.textCensor(goodsRequest.getDescription())) {
+        Boolean imageFlag = CommonUtil.imageCensor(goodsRequest.getPicUrl(), "publish");
+        if (imageFlag != null && imageFlag && CommonUtil.textCensor(goodsRequest.getDescription())) {
             msg = "审核通过";
             status = 1;
         }
@@ -105,7 +106,8 @@ public class GoodsServiceImpl implements GoodsService {
         Date date = new Date();
         String msg = "待审核";
         Byte status = 0;
-        if (CommonUtil.imageCensor(goodsRequest.getPicUrl(), "want") && CommonUtil.textCensor(goodsRequest.getDescription())) {
+        Boolean imageFlag = CommonUtil.imageCensor(goodsRequest.getPicUrl(), "want");
+        if (imageFlag != null && imageFlag && CommonUtil.textCensor(goodsRequest.getDescription())) {
             msg = "审核通过";
             status = 1;
         }
@@ -163,6 +165,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 删除我的卖出物品记录
+     *
      * @param goodsID
      * @return
      */
@@ -176,6 +179,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 收藏操作
+     *
      * @param token
      * @param goodsID
      * @return
@@ -192,14 +196,15 @@ public class GoodsServiceImpl implements GoodsService {
         c.setGoodsId(goodsID);
         int result = collectionMapper.insertSelective(c);
         //数据库操作失败
-        if (result == 0){
-            return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
+        if (result == 0) {
+            return ResultUtil.fail(Common.FAIL, Common.DATABASE_OPERATION_FAIL);
         }
         return ResultUtil.success();
     }
 
     /**
      * 取消收藏操作
+     *
      * @param token
      * @param goodsID
      * @return
@@ -215,16 +220,17 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 某个物品是否被收藏
+     *
      * @param token
      * @param goodsID
      * @return
      */
     @Override
-    public Map<String,Boolean> isGoodsCollected(String token, int goodsID) {
+    public Map<String, Boolean> isGoodsCollected(String token, int goodsID) {
         String openID = loginService.getOpenIDFromToken(token);
         boolean isCollected = collectionMapper.isRecordExist(openID, goodsID) == 1 ? true : false;
-        Map<String,Boolean> result = new HashMap<>(1);
-        result.put("isCollected",isCollected);
+        Map<String, Boolean> result = new HashMap<>(1);
+        result.put("isCollected", isCollected);
         return result;
 
     }
@@ -273,6 +279,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 修改我的发布
+     *
      * @param token
      * @param publishGoods
      * @return
@@ -285,22 +292,22 @@ public class GoodsServiceImpl implements GoodsService {
 
         //文本审核未通过
         if (!CommonUtil.isEmpty(publishGoods.getDescription()) && !CommonUtil.textCensor(publishGoods.getDescription())) {
-            publishGoodsMapper.updateStatus(publishGoods.getId(), (byte)0);
-            return ResultUtil.success(Common.CENSOR_FAIL,Common.CENSOR_FAIL_MSG);
+            publishGoodsMapper.updateStatus(publishGoods.getId(), (byte) 0);
+            return ResultUtil.success(Common.CENSOR_FAIL, Common.CENSOR_FAIL_MSG);
         }
 
         //图片审核
         if (!CommonUtil.isEmpty(publishGoods.getPicUrl())) {
             Boolean flag = CommonUtil.imageCensor(publishGoods.getPicUrl(), "publish");
             //审核次数受限
-            if ( flag == null) {
-                publishGoodsMapper.updateStatus(publishGoods.getId(), (byte)0);
-                return ResultUtil.success(Common.CENSOR_TIMES_LIMIT,Common.CENSOR_TIMES_LIMIT_MSG);
-            }else if (!flag) {  //审核未通过
-                publishGoodsMapper.updateStatus(publishGoods.getId(), (byte)0);
-                return ResultUtil.success(Common.CENSOR_FAIL,Common.CENSOR_FAIL_MSG);
-            }else {  //审核通过
-                publishGoodsMapper.updateStatus(publishGoods.getId(), (byte)1);
+            if (flag == null) {
+                publishGoodsMapper.updateStatus(publishGoods.getId(), (byte) 0);
+                return ResultUtil.success(Common.CENSOR_TIMES_LIMIT, Common.CENSOR_TIMES_LIMIT_MSG);
+            } else if (!flag) {  //审核未通过
+                publishGoodsMapper.updateStatus(publishGoods.getId(), (byte) 0);
+                return ResultUtil.success(Common.CENSOR_FAIL, Common.CENSOR_FAIL_MSG);
+            } else {  //审核通过
+                publishGoodsMapper.updateStatus(publishGoods.getId(), (byte) 1);
             }
         }
         return ResultUtil.success();
@@ -308,6 +315,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 删除发布的物品
+     *
      * @param goodsID
      * @return
      */
@@ -321,6 +329,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 我的求购
+     *
      * @param token
      * @return
      */
@@ -334,6 +343,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 修改我的求购
+     *
      * @param token
      * @param wantGoods
      * @return
@@ -346,8 +356,8 @@ public class GoodsServiceImpl implements GoodsService {
 
         //文本审核未通过
         if (!CommonUtil.isEmpty(wantGoods.getDescription()) && !CommonUtil.textCensor(wantGoods.getDescription())) {
-            wantGoodsMapper.updateStatus(wantGoods.getId(), (byte)0);
-            return ResultUtil.success(Common.CENSOR_FAIL,Common.CENSOR_FAIL_MSG);
+            wantGoodsMapper.updateStatus(wantGoods.getId(), (byte) 0);
+            return ResultUtil.success(Common.CENSOR_FAIL, Common.CENSOR_FAIL_MSG);
         }
 
         //求购图片审核
@@ -355,13 +365,13 @@ public class GoodsServiceImpl implements GoodsService {
             Boolean flag = CommonUtil.imageCensor(wantGoods.getPicUrl(), "want");
             //审核次数受限
             if (flag == null) {
-                wantGoodsMapper.updateStatus(wantGoods.getId(), (byte)0);
-                return ResultUtil.success(Common.CENSOR_TIMES_LIMIT,Common.CENSOR_TIMES_LIMIT_MSG);
-            }else if (!flag) {  //图片审核未通过
-                wantGoodsMapper.updateStatus(wantGoods.getId(), (byte)0);
-                return ResultUtil.success(Common.CENSOR_FAIL,Common.CENSOR_FAIL_MSG);
-            }else {  //审核通过
-                wantGoodsMapper.updateStatus(wantGoods.getId(), (byte)1);
+                wantGoodsMapper.updateStatus(wantGoods.getId(), (byte) 0);
+                return ResultUtil.success(Common.CENSOR_TIMES_LIMIT, Common.CENSOR_TIMES_LIMIT_MSG);
+            } else if (!flag) {  //图片审核未通过
+                wantGoodsMapper.updateStatus(wantGoods.getId(), (byte) 0);
+                return ResultUtil.success(Common.CENSOR_FAIL, Common.CENSOR_FAIL_MSG);
+            } else {  //审核通过
+                wantGoodsMapper.updateStatus(wantGoods.getId(), (byte) 1);
                 return ResultUtil.success();
             }
         }
@@ -371,11 +381,12 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 删除求购的物品
+     *
      * @param goodsID
      * @return
      */
     @Override
-    public ResultResponse removeWanted(Integer[]  goodsID) {
+    public ResultResponse removeWanted(Integer[] goodsID) {
         for (Integer id : goodsID) {
             wantGoodsMapper.deleteByPrimaryKey(id);
         }
@@ -502,9 +513,10 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 交易完成，更新状态
+     *
      * @param token
-     * @Param goodsID
      * @return
+     * @Param goodsID
      */
     @Override
     @Transactional
@@ -517,8 +529,8 @@ public class GoodsServiceImpl implements GoodsService {
         result += publishGoodsMapper.updateStatus(goodsID, (byte) 2);
         result += transactionRecordMapper.insertSelective(record);
         //数据库操作失败
-        if (result != 2){
-            return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
+        if (result != 2) {
+            return ResultUtil.fail(Common.FAIL, Common.DATABASE_OPERATION_FAIL);
         }
         return ResultUtil.success();
     }
