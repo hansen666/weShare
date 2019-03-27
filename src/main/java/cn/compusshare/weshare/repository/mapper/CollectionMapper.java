@@ -24,5 +24,5 @@ public interface CollectionMapper {
 
     int isRecordExist(@Param("userID") String userID, @Param("goodsID") Integer goodsID);
 
-    int deleteByTwoID(@Param("userID") String userID, @Param("goodsID") Integer goodsID);
+    int deleteByUserIDAndGoodsID(@Param("userID") String userID, @Param("goodsID") Integer goodsID);
 }

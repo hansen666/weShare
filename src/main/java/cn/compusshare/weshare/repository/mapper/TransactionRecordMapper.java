@@ -21,4 +21,6 @@ public interface TransactionRecordMapper {
     int updateByPrimaryKey(TransactionRecord record);
 
     List<Integer> selectGoodsId(@Param("userID") String userID);
+
+    int deleteByUserIDAndGoodsID(@Param("userID") String userID, @Param("goodsID") Integer goodsID);
 }

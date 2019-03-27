@@ -162,6 +162,19 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     /**
+     * 删除我的卖出物品记录
+     * @param goodsID
+     * @return
+     */
+    @Override
+    public ResultResponse removeSoldGoods(Integer[] goodsID) {
+        for (Integer id : goodsID) {
+            transactionRecordMapper.deleteByPrimaryKey(id);
+        }
+        return ResultUtil.success();
+    }
+
+    /**
      * 收藏操作
      * @param token
      * @param goodsID
@@ -195,7 +208,7 @@ public class GoodsServiceImpl implements GoodsService {
     public ResultResponse cancelCollection(String token, Integer[] goodsID) {
         String openID = loginService.getOpenIDFromToken(token);
         for (Integer id : goodsID) {
-            collectionMapper.deleteByTwoID(openID, id);
+            collectionMapper.deleteByUserIDAndGoodsID(openID, id);
         }
         return ResultUtil.success();
     }

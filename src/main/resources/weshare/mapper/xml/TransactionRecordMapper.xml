@@ -23,10 +23,19 @@
     order by goods_id desc
   </select>
 
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from transaction_record
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+  <delete id="deleteByUserIDAndGoodsID" >
+    delete from transaction_record
+    where seller_id=#{userID} and goods_id=#{goodsID}
+  </delete>
+
+
   <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.TransactionRecord">
     insert into transaction_record (id, seller_id, goods_id, 
       create_time, update_time)

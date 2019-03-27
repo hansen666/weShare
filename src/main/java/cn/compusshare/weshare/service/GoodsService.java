@@ -20,17 +20,19 @@ public interface GoodsService {
 
     ResultResponse wantGoods(String token, GoodsRequest goodsRequest);
 
-    List<Map<String,Object>> getSoldGoods(String token);
+    List<Map<String, Object>> getSoldGoods(String token);
+
+    ResultResponse removeSoldGoods(Integer[] goodsID);
 
     ResultResponse collect(String token, int goodsID);
 
     ResultResponse cancelCollection(String token, Integer[] goodsID);
 
-    Map<String,Boolean> isGoodsCollected(String token, int goodsID);
+    Map<String, Boolean> isGoodsCollected(String token, int goodsID);
 
-    List<Map<String,Object>> collections(String token);
+    List<Map<String, Object>> collections(String token);
 
-    List<Map<String,Object>> myPublish(String token);
+    List<Map<String, Object>> myPublish(String token);
 
     ResultResponse showWishWall(String token, int currentPage, Byte label, String currentTime);
 

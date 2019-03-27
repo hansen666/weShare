@@ -8,15 +8,12 @@ import cn.compusshare.weshare.repository.entity.WantGoods;
 import cn.compusshare.weshare.service.GoodsService;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
-import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.PastOrPresent;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -77,6 +74,18 @@ public class GoodsController {
     public ResultResponse sold(@RequestHeader String token) {
         logger.info("GoodsController.sold(),入参：token={}", token);
         return ResultUtil.success(goodsService.getSoldGoods(token));
+    }
+
+    /**
+     * 删除我的卖出的物品记录
+     * @param token
+     * @param data
+     * @return
+     */
+    @DeleteMapping("/removeSoldGoods")
+    public ResultResponse removeSoldGoods(@RequestHeader String token, @RequestBody Map<String,Integer[]> data) {
+        logger.info("GoodsController.removeSoldGoods(),入参：token={},goodsID={}", token, data.get("goodsID"));
+        return goodsService.removeSoldGoods(data.get("goodsID"));
     }
 
     /**

@@ -120,7 +120,7 @@
     select
     <include refid="Show_Goods_List" />
     from publish_goods
-    where id = #{id,jdbcType=INTEGER} and status <![CDATA[!= ]]> 0
+    where id = #{id,jdbcType=INTEGER} and status = 1
     order by id
   </select>
 
@@ -129,7 +129,7 @@
     select
     <include refid="Show_Goods_List" />
     from publish_goods
-    where publisher_id = #{userID}
+    where publisher_id = #{userID} and status != 2
     order by pub_time desc
   </select>
 

@@ -1,11 +1,16 @@
 package cn.compusshare.weshare.repository.entity;
 
 import lombok.Builder;
+import lombok.experimental.Tolerate;
 
 import java.util.Date;
 
 @Builder
 public class PublishGoods {
+
+    @Tolerate
+    public PublishGoods(){}
+
     private Integer id;
 
     private String publisherId;
