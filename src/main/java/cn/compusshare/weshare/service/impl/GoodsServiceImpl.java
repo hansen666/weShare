@@ -548,7 +548,9 @@ public class GoodsServiceImpl implements GoodsService {
         Comment comment = new Comment();
         comment.setGoodsId((Integer) request.get("goodsID"));
         comment.setSenderId(openID);
-        comment.setReceiverId((String) request.get("receiverID"));
+        if (request.containsKey("receiverID")) {
+            comment.setReceiverId((String) request.get("receiverID"));
+        }
         comment.setContext((String) request.get("context"));
         int result = commentMapper.insertSelective(comment);
         if (result == 0) {
