@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.compusshare.weshare.repository.mapper.CommentMapper">
+  <resultMap id="BaseResultMap" type="cn.compusshare.weshare.repository.entity.Comment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="sender_id" jdbcType="VARCHAR" property="senderId" />
+    <result column="receiver_id" jdbcType="VARCHAR" property="receiverId" />
+    <result column="context" jdbcType="VARCHAR" property="context" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <resultMap id="CommonResultMap" type="java.util.Map">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sender_id" jdbcType="VARCHAR" property="senderId" />
+    <result column="receiver_id" jdbcType="VARCHAR" property="receiverId" />
+    <result column="context" jdbcType="VARCHAR" property="context" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="pubTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, goods_id, sender_id, receiver_id, context, create_time, update_time
+  </sql>
+
+  <sql id="Common_Column_List">
+    id, sender_id, receiver_id, context, create_time
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByGoodsID" parameterType="java.lang.Integer" resultMap="CommonResultMap">
+    select
+    <include refid="Common_Column_List" />
+    from comment
+    where goods_id = #{goodsID,jdbcType=INTEGER}
+    order by create_time DESC
+  </select>
+
+
+
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.Comment">
+    insert into comment (id, goods_id, sender_id, 
+      receiver_id, context, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{senderId,jdbcType=VARCHAR}, 
+      #{receiverId,jdbcType=VARCHAR}, #{context,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.compusshare.weshare.repository.entity.Comment">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="senderId != null">
+        sender_id,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="context != null">
+        context,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="senderId != null">
+        #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="context != null">
+        #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.compusshare.weshare.repository.entity.Comment">
+    update comment
+    <set>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="senderId != null">
+        sender_id = #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="context != null">
+        context = #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.compusshare.weshare.repository.entity.Comment">
+    update comment
+    set goods_id = #{goodsId,jdbcType=INTEGER},
+      sender_id = #{senderId,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=VARCHAR},
+      context = #{context,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

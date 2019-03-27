@@ -3,10 +3,8 @@ package cn.compusshare.weshare.service.impl;
 
 import cn.compusshare.weshare.constant.Common;
 import cn.compusshare.weshare.repository.RequestBody.GoodsRequest;
+import cn.compusshare.weshare.repository.entity.*;
 import cn.compusshare.weshare.repository.entity.Collection;
-import cn.compusshare.weshare.repository.entity.PublishGoods;
-import cn.compusshare.weshare.repository.entity.TransactionRecord;
-import cn.compusshare.weshare.repository.entity.WantGoods;
 import cn.compusshare.weshare.repository.mapper.*;
 import cn.compusshare.weshare.repository.mapper.CollectionMapper;
 import cn.compusshare.weshare.repository.mapper.PublishGoodsMapper;
@@ -53,6 +51,9 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
 
     /**
      * 首页物品发布
@@ -533,6 +534,39 @@ public class GoodsServiceImpl implements GoodsService {
             return ResultUtil.fail(Common.FAIL, Common.DATABASE_OPERATION_FAIL);
         }
         return ResultUtil.success();
+    }
+
+    /**
+     * 发表评论
+     * @param token
+     * @param request
+     * @return
+     */
+    @Override
+    public ResultResponse sendComment(String token, Map<String, Object> request){
+        String openID = loginService.getOpenIDFromToken(token);
+        Comment comment = new Comment();
+        comment.setGoodsId((Integer) request.get("goodsID"));
+        comment.setSenderId(openID);
+        comment.setReceiverId((String) request.get("receiverID"));
+        comment.setContext((String) request.get("context"));
+        int result = commentMapper.insertSelective(comment);
+        if (result == 0) {
+            return ResultUtil.fail(Common.FAIL, Common.DATABASE_OPERATION_FAIL);
+        }
+        return ResultUtil.success();
+    }
+
+    /**
+     * 获取评论
+     * @param goodsID
+     * @return
+     */
+    @Override
+    public List<Map<String,Object>> getComments(int goodsID) {
+        List<Map<String,Object>> commentList = commentMapper.selectByGoodsID(goodsID);
+        commentList.forEach(map->map.put("pubTime",CommonUtil.timeFromNow((Date)map.get("pubTime"))));
+        return commentList;
     }
 
 }

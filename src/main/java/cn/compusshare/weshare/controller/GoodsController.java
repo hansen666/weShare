@@ -280,4 +280,27 @@ public class GoodsController {
         logger.info("GoodsController.dealCompleted(),入参：token={},goodsID={}",token,goodsID);
         return goodsService.dealComplete(token, goodsID);
     }
+
+    /**
+     * 发送评论
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("/sendComment")
+    public ResultResponse sendComment(@RequestHeader String token, @RequestBody Map<String,Object> request) {
+        logger.info("GoodsController.sendComment(),入参：token={},request={}",token, request.toString());
+        return goodsService.sendComment(token,request);
+    }
+
+    /**
+     * 获取评论
+     * @param goodsID
+     * @return
+     */
+    @GetMapping("/getComments")
+    public ResultResponse getComments(@RequestParam int goodsID) {
+        logger.info("GoodsController.getComments(),入参：goodsID={}",goodsID);
+        return ResultUtil.success(goodsService.getComments(goodsID));
+    }
 }

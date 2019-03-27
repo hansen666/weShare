@@ -55,4 +55,8 @@ public interface GoodsService {
     ResultResponse uploadImage(MultipartFile file, int id, String filePath);
 
     ResultResponse dealComplete(String token, int goodsID);
+
+    ResultResponse sendComment(String token, Map<String, Object> request);
+
+    List<Map<String,Object>> getComments(int goodsID);
 }
