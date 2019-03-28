@@ -56,6 +56,19 @@
     from user
     where id = #{userID,jdbcType=VARCHAR}
   </select>
+  
+  <update id="certify">
+    update user
+    set
+    identified_type = #{type},
+    school_name = #{college},
+    degree = #{degree,jdbcType=VARCHAR},
+    major = #{major,jdbcType=VARCHAR},
+    department = #{department,jdbcType=VARCHAR}
+    where id = #{userID,jdbcType=VARCHAR}
+
+  </update>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

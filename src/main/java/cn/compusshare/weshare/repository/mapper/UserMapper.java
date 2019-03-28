@@ -2,6 +2,7 @@ package cn.compusshare.weshare.repository.mapper;
 
 import cn.compusshare.weshare.repository.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
@@ -23,5 +24,8 @@ public interface UserMapper {
 
     byte selectIdentifiedType(String userID);
 
-    Map<String,Object> selectUserInfo(String userID);
+    Map<String, Object> selectUserInfo(String userID);
+
+    int certify(@Param("userID") String userID, @Param("college") String college, @Param("degree") String degree,
+                @Param("department") String department, @Param("major") String major, @Param("type") int type);
 }
