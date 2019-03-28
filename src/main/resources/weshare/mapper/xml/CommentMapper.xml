@@ -34,12 +34,17 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
-  <select id="selectByGoodsID" parameterType="java.lang.Integer" resultMap="CommonResultMap">
-    select
-    <include refid="Common_Column_List" />
-    from comment
-    where goods_id = #{goodsID,jdbcType=INTEGER}
-    order by create_time DESC
+  <select id="selectByGoodsID" parameterType="java.lang.Integer" resultType="java.util.Map">
+    SELECT
+    sender_id as senderID,
+    receiver_id as receiverID,
+    context,
+    `comment`.create_time,
+    sender.avatar_url as senderUrl,sender.nickname as senderNickname,
+    receiver.avatar_url as receiver_url,receiver.nickname as receiver_nickname,
+    comment.create_time as pubTime
+    from comment,user as sender,user as receiver
+    where `comment`.goods_id=#{goodsID} and `comment`.receiver_id=receiver.id and  `comment`.sender_id=sender.id
   </select>
 
 

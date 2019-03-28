@@ -38,6 +38,7 @@
 
   <resultMap id="ShowDetailMap" type="java.util.HashMap">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="want_buyer_id" jdbcType="VARCHAR" property="publisherID" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="label" jdbcType="TINYINT" property="label" />
     <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
@@ -77,7 +78,7 @@
   </sql>
 
   <sql id="Show_Detail_List">
-    want_goods.id, name, label, pic_url, description, price, browse_count, want_goods.phone,
+    want_goods.id, want_buyer_id,name, label, pic_url, description, price, browse_count, want_goods.phone,
     status, pub_time, longitude, latitude, nickname, identified_type, avatar_url
   </sql>
 
