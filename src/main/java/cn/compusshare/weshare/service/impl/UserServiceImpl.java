@@ -37,25 +37,26 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 新增用户
+     *
      * @param token
      * @param addUserRequest
      * @return
      */
     @Override
     public ResultResponse addUser(String token, AddUserRequest addUserRequest) {
-        String openID=loginService.getOpenIDFromToken(token);
-        if(isUserExist(openID)){
-            return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
+        String openID = loginService.getOpenIDFromToken(token);
+        if (isUserExist(openID)) {
+            return ResultUtil.fail(Common.FAIL, Common.DATABASE_OPERATION_FAIL);
         }
-        User user=new User();
+        User user = new User();
         user.setId(openID);
         user.setAvatarUrl(addUserRequest.getAvatarUrl());
         user.setNickname(addUserRequest.getNickname());
         user.setSchoolName(addUserRequest.getSchoolName());
-        int result=userMapper.insertSelective(user);
+        int result = userMapper.insertSelective(user);
         //数据库插入失败
-        if(result==0){
-            return ResultUtil.fail(Common.FAIL,Common.DATABASE_OPERATION_FAIL);
+        if (result == 0) {
+            return ResultUtil.fail(Common.FAIL, Common.DATABASE_OPERATION_FAIL);
         }
         return ResultUtil.success();
     }
@@ -63,6 +64,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 修改用户资料
+     *
      * @param user
      * @return
      */
@@ -79,43 +81,47 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 查询用户是否存在
+     *
      * @param userID
      * @return
      */
     @Override
     public boolean isUserExist(String userID) {
-        int result=userMapper.isUserExist(userID);
-        return result==1? true : false;
+        int result = userMapper.isUserExist(userID);
+        return result == 1 ? true : false;
     }
 
     /**
      * 查询认证类型
+     *
      * @param token
      * @return
      */
     @Override
-    public Map<String,Byte> queryIdentifiedType(String token) {
+    public Map<String, Byte> queryIdentifiedType(String token) {
         String openID = loginService.getOpenIDFromToken(token);
         byte type = userMapper.selectIdentifiedType(openID);
-        Map<String,Byte> result = new HashMap<>();
-        result.put("identifiedType",type);
+        Map<String, Byte> result = new HashMap<>();
+        result.put("identifiedType", type);
         return result;
     }
 
     /**
      * 获取用户信息
+     *
      * @param token
      * @return
      */
     @Override
-    public Map<String,Object> information(String token) {
+    public Map<String, Object> information(String token) {
         String openID = loginService.getOpenIDFromToken(token);
-        Map<String,Object> result = userMapper.selectUserInfo(openID);
+        Map<String, Object> result = userMapper.selectUserInfo(openID);
         return result;
     }
 
     /**
      * 学籍认证
+     *
      * @param token
      * @param onlineCode
      * @return
@@ -128,19 +134,19 @@ public class UserServiceImpl implements UserService {
         Connection con = Jsoup.connect(url).data("vcode", onlineCode);
         Connection.Response rs = con.execute();
         Document doc = Jsoup.parse(rs.body());
-        if(doc.getElementsByTag("div").hasClass("alertTXT colorRed")){
-            return ResultUtil.fail(-1,"不合要求的验证码，可能：1、在线验证码过期请延长有效期2、在线验证码错误");
+        if (doc.getElementsByTag("div").hasClass("alertTXT colorRed")) {
+            return ResultUtil.fail(-1, "不合要求的验证码，可能：1、在线验证码过期请延长有效期2、在线验证码错误");
         }
         Elements schoolInfo;
         Element e1 = doc.getElementById("fixedPart");
-        if(e1 != null) {
+        if (e1 != null) {
             schoolInfo = e1.getElementsByTag("table").get(1).getElementsByTag("div");
-        }else {
+        } else {
             Map<String, String> datas = new HashMap<>();
             Element yzmForm = doc.getElementById("getXueLi");
-            String yzm=yzmForm.getElementsByTag("img").get(0).attr("src");
+            String yzm = yzmForm.getElementsByTag("img").get(0).attr("src");
             String capachatok = yzmForm.getElementsByTag("input").get(1).val();
-            datas.put("cap", yzm.substring(yzm.length()-4));
+            datas.put("cap", yzm.substring(yzm.length() - 4));
             datas.put("capachatok", capachatok);
             datas.put("Submit", "继续");
             String yzmUrl = "https://www.chsi.com.cn/xlcx/yzm.do";
@@ -152,6 +158,13 @@ public class UserServiceImpl implements UserService {
         result.put("degree", schoolInfo.get(1).text());
         result.put("department", schoolInfo.get(2).text());
         result.put("major", schoolInfo.get(4).text());
+        int flag = userMapper.certify(openID, result.get("college"), result.get("degree"), result.get("department"),
+                result.get("major"), 1);
+        //更新失败
+        if(flag == 0){
+            return ResultUtil.fail(Common.FAIL, Common.DATABASE_OPERATION_FAIL);
+        }
+
         return ResultUtil.success(result);
     }
 }
