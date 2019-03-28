@@ -41,7 +41,7 @@
     context,
     `comment`.create_time,
     sender.avatar_url as senderUrl,sender.nickname as senderNickname,
-    receiver.avatar_url as receiver_url,receiver.nickname as receiver_nickname,
+    receiver.avatar_url as receiverUrl,receiver.nickname as receiverNickname,
     comment.create_time as pubTime
     from comment,user as sender,user as receiver
     where `comment`.goods_id=#{goodsID} and `comment`.receiver_id=receiver.id and  `comment`.sender_id=sender.id
