@@ -1,7 +1,5 @@
 package cn.compusshare.weshare.repository.entity;
 
-import cn.compusshare.weshare.utils.CommonUtil;
-
 import java.util.Date;
 
 public class User {
@@ -20,6 +18,12 @@ public class User {
     private String phone;
 
     private String schoolName;
+
+    private String degree;
+
+    private String major;
+
+    private String department;
 
     private Date createTime;
 
@@ -89,6 +93,30 @@ public class User {
         this.schoolName = schoolName == null ? null : schoolName.trim();
     }
 
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree == null ? null : degree.trim();
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major == null ? null : major.trim();
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department == null ? null : department.trim();
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -103,28 +131,5 @@ public class User {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public String toStringSelective() {
-        StringBuffer buffer = new StringBuffer();
-        if (!CommonUtil.isEmpty(nickname)) {
-            buffer.append(",nickname=" + nickname);
-        }
-        if (!CommonUtil.isEmpty(realName)) {
-            buffer.append(",realname=" + realName);
-        }
-        if (!CommonUtil.isEmpty(avatarUrl)) {
-            buffer.append(",avatarUrl=" + avatarUrl);
-        }
-        if (!CommonUtil.isEmpty(wxNumber)) {
-            buffer.append(",wxNumber=" + wxNumber);
-        }
-        if (!CommonUtil.isEmpty(phone)) {
-            buffer.append(",phone=" + phone);
-        }
-        if (!CommonUtil.isEmpty(schoolName)) {
-            buffer.append(",schoolName=" + schoolName);
-        }
-        return buffer.toString();
     }
 }

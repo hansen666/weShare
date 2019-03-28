@@ -50,7 +50,7 @@ public class UserController {
      */
     @PostMapping("/modify")
     public ResultResponse modify(@RequestHeader String token, @RequestBody User user) {
-        logger.info("UserController.modify(),入参：token={}{}", token, user.toStringSelective());
+        logger.info("UserController.modify(),入参：token={},user={}", token, user.toString());
         return userService.modify(token, user);
     }
 
