@@ -556,7 +556,8 @@ public class GoodsServiceImpl implements GoodsService {
         if (result == 0) {
             return ResultUtil.fail(Common.FAIL, Common.DATABASE_OPERATION_FAIL);
         }
-        return ResultUtil.success();
+        Map<String,Object> map = commentMapper.selectByCommentID(comment.getId());
+        return ResultUtil.success(commentMapper.selectByCommentID(comment.getId()));
     }
 
     /**

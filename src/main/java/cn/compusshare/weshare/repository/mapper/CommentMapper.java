@@ -22,4 +22,6 @@ public interface CommentMapper {
 
     List<Map<String,Object>> selectByGoodsID(Integer goodsID);
 
+    Map<String,Object> selectByCommentID(Integer id);
+
 }
