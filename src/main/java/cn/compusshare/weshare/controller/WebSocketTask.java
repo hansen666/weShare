@@ -1,5 +1,10 @@
 package cn.compusshare.weshare.controller;
 
+import cn.compusshare.weshare.config.MyEndPointConfigure;
+import cn.compusshare.weshare.repository.RequestBody.MessageBody;
+import cn.compusshare.weshare.repository.RequestBody.MessageDecoder;
+import cn.compusshare.weshare.repository.RequestBody.MessageEncoder;
+import cn.compusshare.weshare.repository.entity.Message;
 import cn.compusshare.weshare.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,6 +14,8 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -16,7 +23,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @Date: 2019/4/1
  */
 @Component
-@ServerEndpoint(value = "/chat")
+@ServerEndpoint(value = "/chat/{token}", configurator = MyEndPointConfigure.class,decoders = {MessageDecoder.class }, encoders = { MessageEncoder.class })
 public class WebSocketTask {
 
     @Autowired
@@ -29,7 +36,7 @@ public class WebSocketTask {
     private static CopyOnWriteArraySet<WebSocketTask> webSocketSet = new CopyOnWriteArraySet<>();
 
     @OnOpen
-    public void onOpen(@RequestHeader String token, Session session) {
+    public void onOpen(@PathParam("token") String token, Session session) {
         this.userID = loginService.getOpenIDFromToken(token);
         this.session = session;
         webSocketSet.add(this);
@@ -43,7 +50,7 @@ public class WebSocketTask {
     }
 
     @OnMessage
-    public void onMessage(String message) {
+    public void onMessage(MessageBody message) {
         System.out.println("来自客户端的消息："+message);
         for (WebSocketTask item : webSocketSet) {
             try {

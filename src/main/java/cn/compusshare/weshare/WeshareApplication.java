@@ -5,11 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 @SpringBootApplication
 @EnableAsync
 @ServletComponentScan
 @EnableTransactionManagement
+@EnableWebSocket
 public class WeshareApplication {
 
 	public static void main(String[] args) {
