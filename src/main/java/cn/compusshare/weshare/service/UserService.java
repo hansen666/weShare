@@ -28,4 +28,8 @@ public interface UserService {
     Map<String,Object> information(String token);
 
     ResultResponse studentCertify(String token, String onlineCode) throws IOException;
+
+    Map<String,String> getAvatarUrlById(String userId);
+
+    Map<String,String> getAvatarUrlByToken(String token);
 }

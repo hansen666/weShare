@@ -28,4 +28,8 @@ public interface UserMapper {
 
     int certify(@Param("userID") String userID, @Param("college") String college, @Param("degree") String degree,
                 @Param("department") String department, @Param("major") String major, @Param("type") int type);
+
+    Map<String,String> selectNicknameAndAvatar(String userID);
+
+    String selectAvatarUrl(String id);
 }

@@ -72,7 +72,7 @@ public class UserController {
      * @param token
      * @return
      */
-    @GetMapping("information")
+    @GetMapping("/information")
     public ResultResponse userInformation(@RequestHeader String token) {
         logger.info("UserController.userInformation(),入参：token={}", token);
         return ResultUtil.success(userService.information(token));
@@ -95,4 +95,28 @@ public class UserController {
             return ResultUtil.fail(-1, "网页加载超时");
         }
     }
+
+    /**
+     * 根据用户ID获取头像url
+     * @param userId
+     * @return
+     */
+    @GetMapping("/avatarUrl")
+    public ResultResponse avatarUrl(@RequestParam String userId) {
+        logger.info("UserController.avatarUrl(),入参:userId={}", userId);
+        return ResultUtil.success(userService.getAvatarUrlById(userId));
+    }
+
+    /**
+     * 根据token获取头像url
+     * @param token
+     * @return
+     */
+    @GetMapping("/myAvatarUrl")
+    public ResultResponse myAvatarUrl(@RequestHeader String token) {
+        logger.info("UserController.myAvatarUrl(),入参:token={}", token);
+        return ResultUtil.success(userService.getAvatarUrlByToken(token));
+    }
+
+
 }

@@ -6,6 +6,7 @@ import cn.compusshare.weshare.repository.entity.User;
 import cn.compusshare.weshare.repository.mapper.UserMapper;
 import cn.compusshare.weshare.service.LoginService;
 import cn.compusshare.weshare.service.UserService;
+import cn.compusshare.weshare.utils.EncryptionUtil;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
 import org.jsoup.Connection;
@@ -14,6 +15,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -34,6 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private Environment environment;
 
     /**
      * 新增用户
@@ -166,5 +171,35 @@ public class UserServiceImpl implements UserService {
         }
 
         return ResultUtil.success(result);
+    }
+
+    /**
+     * 根据用户ID获取头像url
+     * @param userId
+     * @return
+     */
+    @Override
+    public Map<String,String> getAvatarUrlById(String userId) {
+        try {
+            userId = EncryptionUtil.AESDecrypt(userId.replace(' ','+'), environment.getProperty("AESKey"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Map<String,String> result = new HashMap<>(1);
+        result.put("avatarUrl",userMapper.selectAvatarUrl(userId));
+        return result;
+    }
+
+    /**
+     * 根据token获取头像url
+     * @param token
+     * @return
+     */
+    @Override
+    public Map<String,String> getAvatarUrlByToken(String token) {
+        String openID = loginService.getOpenIDFromToken(token);
+        Map<String,String> result = new HashMap<>(1);
+        result.put("avatarUrl",userMapper.selectAvatarUrl(openID));
+        return result;
     }
 }

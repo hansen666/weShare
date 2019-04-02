@@ -13,6 +13,10 @@ public class Message {
 
     private Byte type;
 
+    private Byte firstMessage;
+
+    private Byte read;
+
     private Date createTime;
 
     private Date updateTime;
@@ -55,6 +59,22 @@ public class Message {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Byte getFirstMessage() {
+        return firstMessage;
+    }
+
+    public void setFirstMessage(Byte firstMessage) {
+        this.firstMessage = firstMessage;
+    }
+
+    public Byte getRead() {
+        return read;
+    }
+
+    public void setRead(Byte read) {
+        this.read = read;
     }
 
     public Date getCreateTime() {

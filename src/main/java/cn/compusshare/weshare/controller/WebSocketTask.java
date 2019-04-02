@@ -5,17 +5,15 @@ import cn.compusshare.weshare.repository.RequestBody.MessageBody;
 import cn.compusshare.weshare.repository.RequestBody.MessageDecoder;
 import cn.compusshare.weshare.repository.RequestBody.MessageEncoder;
 import cn.compusshare.weshare.repository.entity.Message;
+import cn.compusshare.weshare.repository.mapper.MessageMapper;
 import cn.compusshare.weshare.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -28,6 +26,9 @@ public class WebSocketTask {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private MessageMapper messageMapper;
 
     private Session session;
 
@@ -54,8 +55,15 @@ public class WebSocketTask {
         System.out.println("来自客户端的消息："+message);
         for (WebSocketTask item : webSocketSet) {
             try {
-                if (item.userID.equals(this.userID)) {
+                if (item.userID.equals(message.getUserId())) {
                     item.sendMessage(item.userID + ":" + message);
+                    Message userMessage = new Message();
+                    userMessage.setSenderId(this.userID);
+                    userMessage.setReceiverId(message.getUserId());
+                    userMessage.setContent(message.getContent());
+                    userMessage.setType(message.getType());
+                    userMessage.setFirstMessage(message.getIsFirstMessage());
+                    messageMapper.insertSelective(userMessage);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -74,7 +82,6 @@ public class WebSocketTask {
 
     public void sendMessage(String message) throws IOException {
         this.session.getBasicRemote().sendText(message);
-        // this.session.getAsyncRemote().sendText(message);
     }
 
 }

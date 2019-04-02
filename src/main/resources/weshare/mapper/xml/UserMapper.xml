@@ -27,6 +27,11 @@
     <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
   </resultMap>
 
+  <resultMap id="nicknameAndAvatarMap" type="java.util.Map">
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+  </resultMap>
+
   <sql id="userInfo_Column_List">
     nickname, real_name, identified_type, avatar_url, wx_number, phone, school_name
   </sql>
@@ -56,6 +61,22 @@
     from user
     where id = #{userID,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectNicknameAndAvatar" parameterType="java.lang.String" resultMap="nicknameAndAvatarMap">
+    select
+    nickname,avatar_url
+    from user
+    where id = #{userID,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAvatarUrl" parameterType="java.lang.String" resultType="java.lang.String">
+    select avatar_url
+    from user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+
+
   
   <update id="certify">
     update user

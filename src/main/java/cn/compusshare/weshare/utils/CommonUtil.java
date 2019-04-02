@@ -72,7 +72,7 @@ public class CommonUtil {
     }
 
     /**
-     * 从date获取日期
+     * 从date获取yyyy/MM/dd格式日期
      *
      * @param date
      * @return
@@ -80,6 +80,17 @@ public class CommonUtil {
     public static String getDate(Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
         return simpleDateFormat.format(date);
+    }
+
+    /**
+     * 获取yyyy/MM/dd HH:mm:ss格式的日期和时间
+     * @param date
+     * @return
+     */
+    public static String getFormatDate(Date date){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        String dateString = formatter.format(date);
+        return dateString;
     }
 
     /**
