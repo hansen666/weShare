@@ -14,11 +14,13 @@ import cn.compusshare.weshare.repository.responsebody.ImageResponse;
 import cn.compusshare.weshare.service.GoodsService;
 import cn.compusshare.weshare.service.LoginService;
 import cn.compusshare.weshare.utils.CommonUtil;
+import cn.compusshare.weshare.utils.EncryptionUtil;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,6 +56,9 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    private Environment environment;
 
     /**
      * 首页物品发布
@@ -471,6 +476,7 @@ public class GoodsServiceImpl implements GoodsService {
         try {
             Map<String, Object> result = wantGoodsMapper.showGoodsDetail(id);
             result.put("pubTime", CommonUtil.timeFromNow((Date) result.get("pubTime")));
+            result.put("publisherID", EncryptionUtil.AESEncryptToString((String)result.get("publisherID"),environment.getProperty("AESKey")));
             wantGoodsMapper.browseCountIncrement(id);
             return ResultUtil.success(result);
         } catch (Exception e) {
