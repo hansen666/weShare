@@ -23,7 +23,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @Date: 2019/4/1
  */
 @Component
-@ServerEndpoint(value = "/chat/{token}", configurator = MyEndPointConfigure.class,decoders = {MessageDecoder.class }, encoders = { MessageEncoder.class })
+@ServerEndpoint(value = "/chat", configurator = MyEndPointConfigure.class,decoders = {MessageDecoder.class }, encoders = { MessageEncoder.class })
 public class WebSocketTask {
 
     @Autowired
@@ -42,7 +42,8 @@ public class WebSocketTask {
     private static CopyOnWriteArraySet<WebSocketTask> webSocketSet = new CopyOnWriteArraySet<>();
 
     @OnOpen
-    public void onOpen(@PathParam("token") String token, Session session) {
+    public void onOpen(Session session) {
+        String token=session.getRequestParameterMap().get("token").get(0);
         this.userID = loginService.getOpenIDFromToken(token);
         this.session = session;
         webSocketSet.add(this);

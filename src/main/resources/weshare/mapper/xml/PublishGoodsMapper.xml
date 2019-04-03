@@ -62,7 +62,7 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, publisher_id, name, label, pic_url, description, price, browse_count, phone, 
+    id, publisher_id, name, label, pic_url, description, price, browse_count, phone,
     status, pub_time, longitude, latitude, create_time, update_time
   </sql>
 
@@ -145,16 +145,16 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.PublishGoods">
-    insert into publish_goods (id, publisher_id, name, 
-      label, pic_url, description, 
-      price, browse_count, phone, 
-      status, pub_time, longitude, 
+    insert into publish_goods (id, publisher_id, name,
+      label, pic_url, description,
+      price, browse_count, phone,
+      status, pub_time, longitude,
       latitude, create_time, update_time
       )
-    values (#{id,jdbcType=INTEGER}, #{publisherId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{label,jdbcType=TINYINT}, #{picUrl,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{price,jdbcType=REAL}, #{browseCount,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{pubTime,jdbcType=TIMESTAMP}, #{longitude,jdbcType=DOUBLE}, 
+    values (#{id,jdbcType=INTEGER}, #{publisherId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{label,jdbcType=TINYINT}, #{picUrl,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+      #{price,jdbcType=REAL}, #{browseCount,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, #{pubTime,jdbcType=TIMESTAMP}, #{longitude,jdbcType=DOUBLE},
       #{latitude,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
