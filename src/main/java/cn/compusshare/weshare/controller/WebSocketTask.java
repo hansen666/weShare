@@ -16,6 +16,8 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -71,7 +73,7 @@ public class WebSocketTask {
         for (WebSocketTask item : webSocketSet) {
             try {
                 if (item.userID.equals(message.getUserId())) {
-                    item.sendMessage(item.userID + ":" + message.getContent());
+                    item.sendMessage(message);
                     //设为已读
                     userMessage.setRead((byte) 1);
                 }
@@ -91,8 +93,8 @@ public class WebSocketTask {
     }
 
 
-    public void sendMessage(String message) throws IOException {
-        this.session.getBasicRemote().sendText(message);
+    public void sendMessage(MessageBody message) throws Exception {
+        this.session.getBasicRemote().sendObject(message);
     }
 
 }
