@@ -41,7 +41,7 @@
     <include refid="Base_Column_List" />
     from message
     where sender_id = #{userId} and receiver_id = #{anotherUserId} or sender_id = #{anotherUserId} and receiver_id = #{userId}
-    order by create_time DESC
+    order by create_time
   </select>
 
 

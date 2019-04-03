@@ -7,7 +7,9 @@ import cn.compusshare.weshare.repository.RequestBody.MessageEncoder;
 import cn.compusshare.weshare.repository.entity.Message;
 import cn.compusshare.weshare.repository.mapper.MessageMapper;
 import cn.compusshare.weshare.service.LoginService;
+import cn.compusshare.weshare.utils.EncryptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -30,6 +32,9 @@ public class WebSocketTask {
     @Autowired
     private MessageMapper messageMapper;
 
+    @Autowired
+    private Environment environment;
+
     private Session session;
 
     private String userID;
@@ -51,25 +56,30 @@ public class WebSocketTask {
     }
 
     @OnMessage
-    public void onMessage(MessageBody message) {
-        System.out.println("来自客户端的消息："+message);
+    public void onMessage(MessageBody message) throws Exception {
+        //userId解密
+        message.setUserId(EncryptionUtil.AESDecrypt(message.getUserId(),environment.getProperty("AESKey")));
+        System.out.println("来自客户端的消息："+message.toString());
+        //数据表消息记录实体类
+        Message userMessage = new Message();
+        userMessage.setSenderId(this.userID);
+        userMessage.setReceiverId(message.getUserId());
+        userMessage.setContent(message.getContent());
+        userMessage.setType(message.getType());
+        userMessage.setFirstMessage(message.getIsFirstMessage());
         for (WebSocketTask item : webSocketSet) {
             try {
                 if (item.userID.equals(message.getUserId())) {
-                    item.sendMessage(item.userID + ":" + message);
-                    Message userMessage = new Message();
-                    userMessage.setSenderId(this.userID);
-                    userMessage.setReceiverId(message.getUserId());
-                    userMessage.setContent(message.getContent());
-                    userMessage.setType(message.getType());
-                    userMessage.setFirstMessage(message.getIsFirstMessage());
-                    messageMapper.insertSelective(userMessage);
+                    item.sendMessage(item.userID + ":" + message.getContent());
+                    //设为已读
+                    userMessage.setRead((byte) 1);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
                 continue;
             }
         }
+        messageMapper.insertSelective(userMessage);
 
     }
 
