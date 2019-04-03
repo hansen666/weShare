@@ -61,6 +61,10 @@ public class ChatServiceImpl implements ChatService {
             receivers.remove(userID);
             ChatListInfo chatListInfo = messageMapper.selectChatList(openID, userID);
             Map<String, String> userMap = userMapper.selectNicknameAndAvatar(userID);
+            if (openID.equals(chatListInfo.getUserId())) {
+                //已读
+                chatListInfo.setRead((byte) 1);
+            }
             chatListInfo.setUserId(EncryptionUtil.AESEncryptToString(userID, environment.getProperty("AESKey")));
             chatListInfo.setNickname(userMap.get("nickname"));
             chatListInfo.setAvatarUrl(userMap.get("avatarUrl"));
@@ -89,6 +93,8 @@ public class ChatServiceImpl implements ChatService {
             if (flag == 0) {
                 //currentUser为信息发送者
                 chatListInfo = messageMapper.selectChatListSingle(currentUserId, userID);
+                //已读
+                chatListInfo.setRead((byte) 1);
             } else {
                 //currentUser为信息接收者
                 chatListInfo = messageMapper.selectChatListSingle(userID, currentUserId);

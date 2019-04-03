@@ -14,6 +14,7 @@
   </resultMap>
 
   <resultMap id="MessageList" type="cn.compusshare.weshare.repository.responsebody.ChatListInfo">
+      <result column="sender_id" jdbcType="VARCHAR" property="userId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="read" jdbcType="TINYINT" property="read" />
@@ -26,7 +27,7 @@
   </sql>
 
   <sql id="message_Column_List">
-    content, `type`, first_message, `read`, create_time
+    sender_id,content, `type`, first_message, `read`, create_time
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
