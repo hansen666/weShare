@@ -30,6 +30,7 @@ public class LoginFilter implements Filter {
     private String[] unNeedCheckPathPrefix = {
             "/login",
             "/test/",
+            "/customerService"
     };
 
     @Autowired

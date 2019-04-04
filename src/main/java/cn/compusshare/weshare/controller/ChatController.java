@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @Author: LZing
  * @Date: 2019/4/1
@@ -32,5 +35,14 @@ public class ChatController {
     public ResultResponse messageRecord(@RequestHeader String token, @RequestParam String userId) {
         logger.info("ChatController.messageRecord(),入参：token={}, userId={}", token, userId);
         return ResultUtil.success(chatService.getMessageRecord(token,userId));
+    }
+
+    @PostMapping("/customerService")
+    public List<String> customerService() {
+        logger.info("ChatController.validate(),入参：signature={}");
+        List<String> result = new ArrayList<>();
+        result.add("第一条问题");
+        result.add("第二条问题");
+        return result;
     }
 }

@@ -25,7 +25,7 @@ public class HttpUtil {
             URL restURL = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) restURL.openConnection();
             //请求方式
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod("GET");
             //设置是否从httpUrlConnection读入，默认情况下是true; httpUrlConnection.setDoInput(true);
             conn.setDoOutput(true);
             conn.setDoInput(true);

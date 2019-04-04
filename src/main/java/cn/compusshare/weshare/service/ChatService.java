@@ -16,4 +16,6 @@ public interface ChatService {
     ResultResponse messageList(String token);
 
     Map<String,List<MessageSegment>> getMessageRecord(String token, String userId);
+
+    String validate(String signature, String timestamp, String nonce, String echostr);
 }

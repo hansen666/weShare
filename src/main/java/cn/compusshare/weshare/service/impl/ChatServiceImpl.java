@@ -12,6 +12,8 @@ import cn.compusshare.weshare.utils.CommonUtil;
 import cn.compusshare.weshare.utils.EncryptionUtil;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
+import org.apache.commons.codec.cli.Digest;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -171,6 +173,26 @@ public class ChatServiceImpl implements ChatService {
             simpleMessage.setFrom((byte) 1);
         }
         return simpleMessage;
+    }
+
+    /**
+     * 客服消息签名验证
+     * @param signature
+     * @param timestamp
+     * @param nonce
+     * @param echostr
+     * @return
+     */
+    @Override
+    public String validate(String signature, String timestamp, String nonce, String echostr) {
+        String[] strArr = {environment.getProperty("customerService"), timestamp, nonce};
+        Arrays.sort(strArr);
+        String str = strArr[0] + strArr[1] + strArr[2];
+        str = DigestUtils.sha1Hex(str);
+        if (str.equals(signature)) {
+            return echostr;
+        }
+        return "fail";
     }
 
 }
