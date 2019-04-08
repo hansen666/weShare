@@ -79,7 +79,7 @@ public class GoodsServiceImpl implements GoodsService {
         }
         PublishGoods publishGoods = PublishGoods.builder()
                 .publisherId(loginService.getOpenIDFromToken(token))
-                .name(goodsRequest.getGoodsName())
+                .name(goodsRequest.getName())
                 .label(goodsRequest.getLabel())
                 .description(goodsRequest.getDescription())
                 .price(goodsRequest.getPrice())
@@ -119,7 +119,7 @@ public class GoodsServiceImpl implements GoodsService {
         }
         WantGoods wantGoods = WantGoods.builder()
                 .wantBuyerId(loginService.getOpenIDFromToken(token))
-                .name(goodsRequest.getGoodsName())
+                .name(goodsRequest.getName())
                 .label(goodsRequest.getLabel())
                 .description(goodsRequest.getDescription())
                 .price(goodsRequest.getPrice())
@@ -435,6 +435,12 @@ public class GoodsServiceImpl implements GoodsService {
             Map<String, Object> result = publishGoodsMapper.showGoodsDetail(id);
             publishGoodsMapper.browseCountIncrement(id);
             result.put("pubTime", CommonUtil.timeFromNow((Date) result.get("pubTime")));
+            try{
+                result.put("publisherID",EncryptionUtil.AESEncryptToString((String)result.get("publisherID"),environment.getProperty("AESKey")));
+            }catch (Exception e){
+                logger.info("publisherID加密错误");
+                return ResultUtil.fail(Common.FAIL, "publisherID加密错误");
+            }
             return ResultUtil.success(result);
         } catch (Exception e) {
             logger.info("id={}的首页物品查询错误", id);
@@ -476,7 +482,7 @@ public class GoodsServiceImpl implements GoodsService {
         try {
             Map<String, Object> result = wantGoodsMapper.showGoodsDetail(id);
             result.put("pubTime", CommonUtil.timeFromNow((Date) result.get("pubTime")));
-            result.put("publisherID", EncryptionUtil.AESEncryptToString((String)result.get("publisherID"),environment.getProperty("AESKey")));
+            result.put("publisherID", EncryptionUtil.AESEncryptToString((String) result.get("publisherID"), environment.getProperty("AESKey")));
             wantGoodsMapper.browseCountIncrement(id);
             return ResultUtil.success(result);
         } catch (Exception e) {
@@ -544,38 +550,59 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 发表评论
+     *
      * @param token
      * @param request
      * @return
      */
     @Override
-    public ResultResponse sendComment(String token, Map<String, Object> request){
+    public ResultResponse sendComment(String token, Map<String, Object> request) {
         String openID = loginService.getOpenIDFromToken(token);
         Comment comment = new Comment();
         comment.setGoodsId((Integer) request.get("goodsID"));
         comment.setSenderId(openID);
-        if (request.containsKey("receiverID")) {
-            comment.setReceiverId((String) request.get("receiverID"));
+        try {
+            comment.setReceiverId(EncryptionUtil.AESDecrypt((String) request.get("receiverID"), environment.getProperty("AESKey")));
+        } catch (Exception e) {
+            logger.info("用户id解密错误");
+            return ResultUtil.fail(Common.FAIL, "用户id解密错误");
         }
         comment.setContext((String) request.get("context"));
         int result = commentMapper.insertSelective(comment);
         if (result == 0) {
             return ResultUtil.fail(Common.FAIL, Common.DATABASE_OPERATION_FAIL);
         }
-        Map<String,Object> map = commentMapper.selectByCommentID(comment.getId());
+        Map<String, Object> map = commentMapper.selectByCommentID(comment.getId());
         map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime")));
+        try {
+            map.put("senderID", EncryptionUtil.AESEncryptToString((String) map.get("senderID"), environment.getProperty("AESKey")));
+            map.put("receiverID", EncryptionUtil.AESEncryptToString((String) map.get("receiverID"), environment.getProperty("AESKey")));
+        } catch (Exception e) {
+            logger.info("用户id加密错误");
+            return ResultUtil.fail(Common.FAIL, "用户id加密错误");
+        }
         return ResultUtil.success(map);
     }
 
     /**
      * 获取评论
+     *
      * @param goodsID
      * @return
      */
     @Override
-    public List<Map<String,Object>> getComments(int goodsID) {
-        List<Map<String,Object>> commentList = commentMapper.selectByGoodsID(goodsID);
-        commentList.forEach(map->map.put("pubTime",CommonUtil.timeFromNow((Date)map.get("pubTime"))));
+    public List<Map<String, Object>> getComments(int goodsID) {
+        List<Map<String, Object>> commentList = commentMapper.selectByGoodsID(goodsID);
+        commentList.forEach(map -> {
+            map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime")));
+            try {
+                map.put("receiverID", EncryptionUtil.AESEncryptToString((String) map.get("receiverID"), environment.getProperty("AESKey")));
+                map.put("senderID", EncryptionUtil.AESEncryptToString((String) map.get("senderID"), environment.getProperty("AESKey")));
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.info("serderID,receiverID加密错误");
+            }
+        });
         return commentList;
     }
 

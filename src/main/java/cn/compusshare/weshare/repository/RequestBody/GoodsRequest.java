@@ -7,7 +7,7 @@ import lombok.Data;
 public class GoodsRequest {
 
 
-    private String goodsName;
+    private String name;
 
     private Byte label;
 
