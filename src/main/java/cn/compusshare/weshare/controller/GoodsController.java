@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.Map;
 
 @RestController
@@ -39,7 +40,7 @@ public class GoodsController {
     @PostMapping("/publish")
     public ResultResponse publish(@RequestHeader String token, @RequestBody GoodsRequest goodsRequest) {
         logger.info("GoodsController.publish(),入参：token={}，goodsName={},label={},picUrl={},description={},price={}," +
-                        "phone={},longitude={},latitude={}", token, goodsRequest.getGoodsName(),
+                        "phone={},longitude={},latitude={}", token, goodsRequest.getName(),
                 goodsRequest.getLabel(), goodsRequest.getPicUrl(), goodsRequest.getDescription(),
                 goodsRequest.getPrice(), goodsRequest.getPhone(), goodsRequest.getLongitude(),
                 goodsRequest.getLatitude());
@@ -57,7 +58,7 @@ public class GoodsController {
     @PostMapping("/want")
     public ResultResponse want(@RequestHeader String token, @RequestBody GoodsRequest goodsRequest) {
         logger.info("GoodsController.publish(),入参：token={}，goodsName={},label={},picUrl={},description={},price={}," +
-                        "phone={},longitude={},latitude={}", token, goodsRequest.getGoodsName(),
+                        "phone={},longitude={},latitude={}", token, goodsRequest.getName(),
                 goodsRequest.getLabel(), goodsRequest.getPicUrl(), goodsRequest.getDescription(),
                 goodsRequest.getPrice(), goodsRequest.getPhone(), goodsRequest.getLongitude(),
                 goodsRequest.getLatitude());
@@ -258,13 +259,12 @@ public class GoodsController {
 
     /**
      * 图片上传
-     *
      * @param imageRequest
      * @return
      */
     @PostMapping("/imageUpload")
     public ResultResponse upload(ImageRequest imageRequest) {
-        String savePath = environment.getProperty("image.path") + imageRequest.getFilePath()+"\\";
+        String savePath = environment.getProperty("image.path") + imageRequest.getFilePath()+ File.separator;
         logger.info("ImageController.imageUpload(),传入图片={}", imageRequest.getFile().getOriginalFilename());
         return goodsService.uploadImage(imageRequest.getFile(), imageRequest.getId(), savePath);
     }
