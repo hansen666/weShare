@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: LZing
@@ -37,12 +38,13 @@ public class ChatController {
         return ResultUtil.success(chatService.getMessageRecord(token,userId));
     }
 
+    /**
+     * 客服消息推送
+     * @param param
+     */
     @PostMapping("/customerService")
-    public List<String> customerService() {
-        logger.info("ChatController.validate(),入参：signature={}");
-        List<String> result = new ArrayList<>();
-        result.add("第一条问题");
-        result.add("第二条问题");
-        return result;
+    public void customerService(@RequestBody Map<String,Object> param) {
+        logger.info("ChatController.customerService(),入参：param={}", param.toString());
+        chatService.customerService(param);
     }
 }

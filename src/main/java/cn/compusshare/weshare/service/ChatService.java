@@ -18,4 +18,6 @@ public interface ChatService {
     Map<String,List<MessageSegment>> getMessageRecord(String token, String userId);
 
     String validate(String signature, String timestamp, String nonce, String echostr);
+
+    void customerService(Map<String, Object> param);
 }
