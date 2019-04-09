@@ -181,7 +181,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String,String> getAvatarUrlById(String userId) {
         try {
-            userId = EncryptionUtil.AESDecrypt(userId.replace(' ','+'), environment.getProperty("AESKey"));
+            userId = EncryptionUtil.aesDncrypt(userId.replace(' ','+'), environment.getProperty("AESKey"));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -292,7 +292,8 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse myPublishModify(String token, PublishGoods publishGoods) {
-        String openID = loginService.getOpenIDFromToken(token);
+        //String openID = loginService.getOpenIDFromToken(token);
+        String openID = "testAccount1";
         publishGoods.setPublisherId(openID);
         publishGoodsMapper.updateByPrimaryKeySelective(publishGoods);
 
@@ -436,7 +437,7 @@ public class GoodsServiceImpl implements GoodsService {
             publishGoodsMapper.browseCountIncrement(id);
             result.put("pubTime", CommonUtil.timeFromNow((Date) result.get("pubTime")));
             try{
-                result.put("publisherID",EncryptionUtil.AESEncryptToString((String)result.get("publisherID"),environment.getProperty("AESKey")));
+                result.put("publisherID",EncryptionUtil.aesEncrypt((String)result.get("publisherID"),environment.getProperty("AESKey")));
             }catch (Exception e){
                 logger.info("publisherID加密错误");
                 return ResultUtil.fail(Common.FAIL, "publisherID加密错误");
@@ -482,7 +483,7 @@ public class GoodsServiceImpl implements GoodsService {
         try {
             Map<String, Object> result = wantGoodsMapper.showGoodsDetail(id);
             result.put("pubTime", CommonUtil.timeFromNow((Date) result.get("pubTime")));
-            result.put("publisherID", EncryptionUtil.AESEncryptToString((String) result.get("publisherID"), environment.getProperty("AESKey")));
+            result.put("publisherID", EncryptionUtil.aesEncrypt((String) result.get("publisherID"), environment.getProperty("AESKey")));
             wantGoodsMapper.browseCountIncrement(id);
             return ResultUtil.success(result);
         } catch (Exception e) {
@@ -562,7 +563,8 @@ public class GoodsServiceImpl implements GoodsService {
         comment.setGoodsId((Integer) request.get("goodsID"));
         comment.setSenderId(openID);
         try {
-            comment.setReceiverId(EncryptionUtil.AESDecrypt((String) request.get("receiverID"), environment.getProperty("AESKey")));
+            String receiverId = EncryptionUtil.aesDncrypt((String) request.get("receiverID"), environment.getProperty("AESKey"));
+            comment.setReceiverId(receiverId);
         } catch (Exception e) {
             logger.info("用户id解密错误");
             return ResultUtil.fail(Common.FAIL, "用户id解密错误");
@@ -575,8 +577,8 @@ public class GoodsServiceImpl implements GoodsService {
         Map<String, Object> map = commentMapper.selectByCommentID(comment.getId());
         map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime")));
         try {
-            map.put("senderID", EncryptionUtil.AESEncryptToString((String) map.get("senderID"), environment.getProperty("AESKey")));
-            map.put("receiverID", EncryptionUtil.AESEncryptToString((String) map.get("receiverID"), environment.getProperty("AESKey")));
+            map.put("senderID", EncryptionUtil.aesEncrypt((String) map.get("senderID"), environment.getProperty("AESKey")));
+            map.put("receiverID", EncryptionUtil.aesEncrypt((String) map.get("receiverID"), environment.getProperty("AESKey")));
         } catch (Exception e) {
             logger.info("用户id加密错误");
             return ResultUtil.fail(Common.FAIL, "用户id加密错误");
@@ -596,8 +598,8 @@ public class GoodsServiceImpl implements GoodsService {
         commentList.forEach(map -> {
             map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime")));
             try {
-                map.put("receiverID", EncryptionUtil.AESEncryptToString((String) map.get("receiverID"), environment.getProperty("AESKey")));
-                map.put("senderID", EncryptionUtil.AESEncryptToString((String) map.get("senderID"), environment.getProperty("AESKey")));
+                map.put("receiverID", EncryptionUtil.aesEncrypt((String) map.get("receiverID"), environment.getProperty("AESKey")));
+                map.put("senderID", EncryptionUtil.aesEncrypt((String) map.get("senderID"), environment.getProperty("AESKey")));
             } catch (Exception e) {
                 e.printStackTrace();
                 logger.info("serderID,receiverID加密错误");

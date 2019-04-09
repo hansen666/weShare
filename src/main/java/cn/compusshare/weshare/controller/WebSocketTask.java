@@ -61,7 +61,7 @@ public class WebSocketTask {
     @OnMessage
     public void onMessage(MessageBody message) throws Exception {
         //userId解密
-        message.setUserId(EncryptionUtil.AESDecrypt(message.getUserId(),environment.getProperty("AESKey")));
+        message.setUserId(EncryptionUtil.aesDncrypt(message.getUserId(),environment.getProperty("AESKey")));
         System.out.println("来自客户端的消息："+message.toString());
         //数据表消息记录实体类
         Message userMessage = new Message();

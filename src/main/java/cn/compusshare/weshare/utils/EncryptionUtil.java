@@ -1,7 +1,11 @@
 package cn.compusshare.weshare.utils;
 
 
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
+
 import javax.crypto.*;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -16,92 +20,55 @@ import java.util.Base64;
  */
 public class EncryptionUtil {
 
-    /**
-     * AES加密
-     * @param content
-     * @param password
-     * @return byte数组
-     */
-    public static byte[] AESEncryptToByte(String content, String password) {
-        try {
-            KeyGenerator kgen = KeyGenerator.getInstance("AES");
-            kgen.init(128, new SecureRandom(password.getBytes()));
-            SecretKey secretKey = kgen.generateKey();
-            byte[] enCodeFormat = secretKey.getEncoded();
-            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
-            Cipher cipher = Cipher.getInstance("AES");// 创建密码器
-            byte[] byteContent = content.getBytes("utf-8");
-            cipher.init(Cipher.ENCRYPT_MODE, key);// 初始化
-            byte[] result = cipher.doFinal(byteContent);
-            return result; // 加密
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
+
+    public static byte[] encrypt(String plainText,String strKey)throws Exception{
+        SecretKeySpec secretKeySpec=getKey(strKey);
+        Cipher cipher=Cipher.getInstance("AES/CBC/PKCS5Padding");
+        IvParameterSpec iv=new IvParameterSpec("0102030405060708".getBytes());
+        cipher.init(Cipher.ENCRYPT_MODE,secretKeySpec,iv);
+        byte[] encrypted=cipher.doFinal(plainText.getBytes());
+        return encrypted;
+    }
+
+    public static String decrypt(byte[] plainText,String strKey)throws Exception{
+        SecretKeySpec skeySpec=getKey(strKey);
+        Cipher cipher=Cipher.getInstance("AES/CBC/PKCS5Padding");
+        IvParameterSpec iv=new IvParameterSpec("0102030405060708".getBytes());
+        cipher.init(Cipher.DECRYPT_MODE,skeySpec,iv);
+        byte[] original=cipher.doFinal(plainText);
+        return new String(original);
+    }
+
+    private static SecretKeySpec getKey(String strKey){
+        byte[] arrBTmp=strKey.getBytes();
+        byte[] arrB=new byte[16];
+
+        for(int i=0;i<arrBTmp.length&&i<arrB.length;i++){
+            arrB[i]=arrBTmp[i];
         }
-        return null;
+
+        SecretKeySpec skeySpec=new SecretKeySpec(arrB,"AES");
+
+        return skeySpec;
+
     }
 
-    /**
-     * AES加密
-     * @param content
-     * @param password
-     * @return String字符串
-     */
-    public static String AESEncryptToString(String content, String password) {
-        byte[] encrypted = AESEncryptToByte(content,password);
-        return Base64.getEncoder().encodeToString(encrypted);
+    public static String base64Encode(byte[]  bytes){
+
+        return new BASE64Encoder().encode(bytes);
+    }
+
+    public static byte[] base64Decode(String base64Code) throws Exception{
+        return base64Code.isEmpty()?null:new BASE64Decoder().decodeBuffer(base64Code);
+    }
+
+    public static String aesEncrypt(String plainText,String password)throws Exception{
+        return base64Encode(encrypt(plainText,password));
+    }
+
+    public static String aesDncrypt(String plainText,String password)throws Exception{
+        return plainText.isEmpty()?null:decrypt(base64Decode(plainText),password);
     }
 
 
-    /**
-     * AES解密
-     * @param content byte数组
-     * @param password
-     * @return
-     */
-    public static String AESDecrypt(byte[] content, String password) throws Exception{
-        try {
-            KeyGenerator kgen = KeyGenerator.getInstance("AES");
-            kgen.init(128, new SecureRandom(password.getBytes()));
-            SecretKey secretKey = kgen.generateKey();
-            byte[] enCodeFormat = secretKey.getEncoded();
-            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
-            Cipher cipher = Cipher.getInstance("AES");// 创建密码器
-            cipher.init(Cipher.DECRYPT_MODE, key);// 初始化
-            byte[] result = cipher.doFinal(content);
-            return new String(result,"utf-8"); // 加密
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * AES解密
-     * @param content String字符串
-     * @param password
-     * @return
-     * @throws Exception
-     */
-    public static String AESDecrypt(String content, String password) throws Exception{
-        byte[] ciphertext = Base64.getDecoder().decode(content);
-        return AESDecrypt(ciphertext,password);
-    }
 }

@@ -79,7 +79,11 @@ public class ChatServiceImpl implements ChatService {
                 //已读
                 chatListInfo.setRead((byte) 1);
             }
-            chatListInfo.setUserId(EncryptionUtil.AESEncryptToString(userID, environment.getProperty("AESKey")));
+            try {
+                chatListInfo.setUserId(EncryptionUtil.aesEncrypt(userID, environment.getProperty("AESKey")));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             chatListInfo.setNickname(userMap.get("nickname"));
             chatListInfo.setAvatarUrl(userMap.get("avatarUrl"));
             chatListInfo.setPubTime(CommonUtil.timeFromNow(chatListInfo.getCreateTime()));
@@ -115,7 +119,11 @@ public class ChatServiceImpl implements ChatService {
             }
             if (null != chatListInfo) {
                 Map<String, String> userMap = userMapper.selectNicknameAndAvatar(userID);
-                chatListInfo.setUserId(EncryptionUtil.AESEncryptToString(userID, environment.getProperty("AESKey")));
+                try {
+                    chatListInfo.setUserId(EncryptionUtil.aesEncrypt(userID, environment.getProperty("AESKey")));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 chatListInfo.setNickname(userMap.get("nickname"));
                 chatListInfo.setAvatarUrl(userMap.get("avatarUrl"));
                 chatListInfo.setPubTime(CommonUtil.timeFromNow(chatListInfo.getCreateTime()));
@@ -134,7 +142,7 @@ public class ChatServiceImpl implements ChatService {
     public Map<String,List<MessageSegment>> getMessageRecord(String token, String userId) {
         String currentUserId = loginService.getOpenIDFromToken(token);
         try {
-            userId = EncryptionUtil.AESDecrypt(userId.replace(' ','+'), environment.getProperty("AESKey"));
+            userId = EncryptionUtil.aesDncrypt(userId.replace(' ','+'), environment.getProperty("AESKey"));
         } catch (Exception e) {
             e.printStackTrace();
         }
