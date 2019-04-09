@@ -222,6 +222,7 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public void customerService(Map<String, Object> param){
         String userId = (String) param.get("FromUserName");
+        //客服消息专用token
         String token = (String) cacheService.get(userId+"cus");
         if (CommonUtil.isEmpty(token)) {
             try {
