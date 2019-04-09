@@ -8,6 +8,8 @@ import cn.compusshare.weshare.repository.entity.Message;
 import cn.compusshare.weshare.repository.mapper.MessageMapper;
 import cn.compusshare.weshare.service.LoginService;
 import cn.compusshare.weshare.utils.EncryptionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -27,6 +29,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @Component
 @ServerEndpoint(value = "/chat", configurator = MyEndPointConfigure.class,decoders = {MessageDecoder.class }, encoders = { MessageEncoder.class })
 public class WebSocketTask {
+
+    private final static Logger logger = LoggerFactory.getLogger(WebSocketTask.class);
 
     @Autowired
     private LoginService loginService;
@@ -49,20 +53,20 @@ public class WebSocketTask {
         this.userID = loginService.getOpenIDFromToken(token);
         this.session = session;
         webSocketSet.add(this);
-        System.out.println(userID+"连接成功");
+        logger.info(userID+"连接成功");
     }
 
     @OnClose
     public void onClose() {
         webSocketSet.remove(this);
-        System.out.println(userID+"关闭连接");
+        logger.info(userID+"关闭连接");
     }
 
     @OnMessage
     public void onMessage(MessageBody message) throws Exception {
         //userId解密
         message.setUserId(EncryptionUtil.aesDncrypt(message.getUserId(),environment.getProperty("AESKey")));
-        System.out.println("来自客户端的消息："+message.toString());
+        logger.info("onMessage来自客户端的消息："+message.toString());
         //数据表消息记录实体类
         Message userMessage = new Message();
         userMessage.setSenderId(this.userID);
@@ -78,7 +82,7 @@ public class WebSocketTask {
                     userMessage.setRead((byte) 1);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
                 continue;
             }
         }
@@ -90,11 +94,13 @@ public class WebSocketTask {
     public void onError( Throwable error) {
         System.out.println("发生错误");
         error.printStackTrace();
+        logger.error(error.getMessage());
     }
 
 
     public void sendMessage(MessageBody message) throws Exception {
         this.session.getBasicRemote().sendObject(message);
+        logger.info("sendMessage:"+message.toString());
     }
 
 }

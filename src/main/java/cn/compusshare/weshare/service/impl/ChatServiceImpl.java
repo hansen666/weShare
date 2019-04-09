@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class ChatServiceImpl implements ChatService {
 
-    private final static Logger logger = LoggerFactory.getLogger(Logger.class);
+    private final static Logger logger = LoggerFactory.getLogger(ChatService.class);
 
     @Autowired
     private LoginService loginService;
@@ -221,10 +221,12 @@ public class ChatServiceImpl implements ChatService {
      */
     @Override
     public void customerService(Map<String, Object> param){
+        logger.info("客服会话中");
         String userId = (String) param.get("FromUserName");
         //客服消息专用token
         String token = (String) cacheService.get(userId+"cus");
         if (CommonUtil.isEmpty(token)) {
+            logger.info("获取客服会话token");
             try {
                 JSONObject jsonObject = (JSONObject) JSONObject.parse(HttpUtil.requestByGet(customerServiceTokenUrl));
                 if ((int) jsonObject.get("errcode") != 0) {
@@ -249,8 +251,10 @@ public class ChatServiceImpl implements ChatService {
         String msgType = (String) param.get("MsgType");
         //如果为event，表示是进入可是界面的事件，发固定推送
         if (msgType.equals("event")) {
+            logger.info("事件");
             tempMap.put("content","欢迎来撩客服有小姐姐!\n1、第一个问题\n2、第二个问题");
         }else {
+            logger.info("会话");
             String content = (String) param.get("Content");
             if (content.equals("1")) {
                 tempMap.put("content", "第一条问题的回答");

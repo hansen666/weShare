@@ -21,7 +21,7 @@ import java.util.Map;
 @RequestMapping("/goods")
 public class GoodsController {
 
-    private final static Logger logger = LoggerFactory.getLogger(Logger.class);
+    private final static Logger logger = LoggerFactory.getLogger(GoodsController.class);
 
     @Autowired
     private GoodsService goodsService;

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class LoginController {
 
-    private final static Logger logger= LoggerFactory.getLogger(Logger.class);
+    private final static Logger logger= LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private LoginService loginService;

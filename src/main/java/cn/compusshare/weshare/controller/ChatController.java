@@ -21,7 +21,7 @@ import java.util.Map;
 @RequestMapping("/chat")
 public class ChatController {
 
-    private final static Logger logger = LoggerFactory.getLogger(Logger.class);
+    private final static Logger logger = LoggerFactory.getLogger(ChatController.class);
 
     @Autowired
     private ChatService chatService;

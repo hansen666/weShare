@@ -22,7 +22,7 @@ import java.io.IOException;
 @RequestMapping("/user")
 public class UserController {
 
-    private final static Logger logger = LoggerFactory.getLogger(Logger.class);
+    private final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
