@@ -46,10 +46,10 @@ public class ChatServiceImpl implements ChatService {
     @Autowired
     private Environment environment;
 
-    @Value("customerServiceTokenUrl")
+    @Value("${customerServiceTokenUrl}")
     private String customerServiceTokenUrl;
 
-    @Value("customerServiceMsgUrl")
+    @Value("${customerServiceMsgUrl}")
     private String customerServiceMsgUrl;
 
     /**
@@ -226,21 +226,21 @@ public class ChatServiceImpl implements ChatService {
         //客服消息专用token
         String token = (String) cacheService.get(userId+"cus");
         if (CommonUtil.isEmpty(token)) {
-            logger.info("获取客服会话token");
             try {
                 JSONObject jsonObject = (JSONObject) JSONObject.parse(HttpUtil.requestByGet(customerServiceTokenUrl));
-                if ((int) jsonObject.get("errcode") != 0) {
+                if (! jsonObject.containsKey("access_token")) {
                     logger.error(jsonObject.getString("errmsg"));
                     return;
                 }
                 token = jsonObject.getString("access_token");
                 //把token放到redis缓存中，并设置过期时限为100分钟
                 cacheService.set(userId+"cus",token,100, TimeUnit.MINUTES);
+                logger.info("获取客服会话token："+token);
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }
         }
-
+        logger.info("客服会话token："+token);
         //推送接口的请求参数
         Map<String,Object> msgBody = new HashMap<>(3);
         //用户openID
@@ -251,10 +251,10 @@ public class ChatServiceImpl implements ChatService {
         String msgType = (String) param.get("MsgType");
         //如果为event，表示是进入可是界面的事件，发固定推送
         if (msgType.equals("event")) {
-            logger.info("事件");
+            logger.info("触发事件");
             tempMap.put("content","欢迎来撩客服有小姐姐!\n1、第一个问题\n2、第二个问题");
         }else {
-            logger.info("会话");
+            logger.info("触发会话");
             String content = (String) param.get("Content");
             if (content.equals("1")) {
                 tempMap.put("content", "第一条问题的回答");
@@ -266,9 +266,9 @@ public class ChatServiceImpl implements ChatService {
         }
         msgBody.put("text",tempMap);
         JSONObject msgJson = (JSONObject) JSONObject.toJSON(msgBody);
-        customerServiceMsgUrl = customerServiceTokenUrl + token;
+        customerServiceMsgUrl = customerServiceMsgUrl + token;
         String result = HttpUtil.requestByPost(customerServiceMsgUrl,msgJson);
-        logger.info("customerService httpPost:"+result);
+        logger.info("customerService http PostRequest:"+result);
     }
 
 }
