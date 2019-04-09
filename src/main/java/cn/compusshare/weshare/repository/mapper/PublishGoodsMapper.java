@@ -37,4 +37,6 @@ public interface PublishGoodsMapper {
     int browseCountIncrement(Integer id);
 
     int updateStatus(@Param("id") Integer id, @Param("status") byte status);
+
+    int updateImage(@Param("id") Integer id, @Param("picUrl") String picUrl);
 }

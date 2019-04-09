@@ -292,8 +292,8 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse myPublishModify(String token, PublishGoods publishGoods) {
-        //String openID = loginService.getOpenIDFromToken(token);
-        String openID = "testAccount1";
+        String openID = loginService.getOpenIDFromToken(token);
+        //String openID = "testAccount1";
         publishGoods.setPublisherId(openID);
         publishGoodsMapper.updateByPrimaryKeySelective(publishGoods);
 
@@ -436,9 +436,9 @@ public class GoodsServiceImpl implements GoodsService {
             Map<String, Object> result = publishGoodsMapper.showGoodsDetail(id);
             publishGoodsMapper.browseCountIncrement(id);
             result.put("pubTime", CommonUtil.timeFromNow((Date) result.get("pubTime")));
-            try{
-                result.put("publisherID",EncryptionUtil.aesEncrypt((String)result.get("publisherID"),environment.getProperty("AESKey")));
-            }catch (Exception e){
+            try {
+                result.put("publisherID", EncryptionUtil.aesEncrypt((String) result.get("publisherID"), environment.getProperty("AESKey")));
+            } catch (Exception e) {
                 logger.info("publisherID加密错误");
                 return ResultUtil.fail(Common.FAIL, "publisherID加密错误");
             }
@@ -606,6 +606,63 @@ public class GoodsServiceImpl implements GoodsService {
             }
         });
         return commentList;
+    }
+
+    /**
+     * 删除图片
+     *
+     * @param id
+     * @param imageName
+     * @param method
+     * @return
+     */
+    @Override
+    public ResultResponse deleteImage(int id, String imageName, String method) {
+        String originUrl;
+        String resultUrl;
+        if (method.equals("publish")) {
+            originUrl = publishGoodsMapper.selectByPrimaryKey(id).getPicUrl();
+        } else {
+            originUrl = wantGoodsMapper.selectByPrimaryKey(id).getPicUrl();
+        }
+        String[] imageNames = originUrl.split(",");
+        if (imageNames.length == 1) {
+            resultUrl = "";
+        } else if (imageNames.length > 1 && imageNames[0].equals(imageName)) {
+            resultUrl = originUrl.replace(imageName + ",", "");
+        } else {
+            resultUrl = originUrl.replace("," + imageName, "");
+        }
+        if (method.equals("publish")) {
+            publishGoodsMapper.updateImage(id, resultUrl);
+        } else {
+            wantGoodsMapper.updateImage(id, resultUrl);
+        }
+        return ResultUtil.success();
+    }
+
+    /**
+     * 修改图片
+     *
+     * @param id
+     * @param imageName
+     * @param method
+     * @return
+     */
+    @Override
+    public ResultResponse updateImage(int id, String imageName, String method) {
+        String originUrl;
+        String resultUrl;
+        if (method.equals("publish")) {
+            originUrl = publishGoodsMapper.selectByPrimaryKey(id).getPicUrl();
+            resultUrl = originUrl + "," + imageName;
+            publishGoodsMapper.updateImage(id, resultUrl);
+        } else {
+            originUrl = wantGoodsMapper.selectByPrimaryKey(id).getPicUrl();
+            resultUrl = originUrl + "," + imageName;
+            wantGoodsMapper.updateImage(id, resultUrl);
+        }
+        return ResultUtil.success();
     }
 
 }

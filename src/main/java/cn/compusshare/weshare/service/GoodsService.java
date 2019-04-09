@@ -56,4 +56,8 @@ public interface GoodsService {
     ResultResponse sendComment(String token, Map<String, Object> request);
 
     List<Map<String,Object>> getComments(int goodsID);
+
+    ResultResponse deleteImage(int id, String imageName, String method);
+
+    ResultResponse updateImage(int id, String imageName, String method);
 }

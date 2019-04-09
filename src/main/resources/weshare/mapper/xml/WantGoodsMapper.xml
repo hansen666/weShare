@@ -326,4 +326,10 @@
     WHERE id = #{id};
   </update>
 
+  <update id="updateImage">
+    update publish_goods
+    set pic_url = #{picUrl}
+    WHERE id = #{id};
+  </update>
+
 </mapper>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -145,7 +146,7 @@ public class CommonUtil {
         String[] files = fileNames.split(",");
         AipContentCensor censor = new AipContentCensor("15804398", "cSzAUuAAbF3ZaIdMhlwDvpoM", "LyG0XwGzWaiiUcrMAoNcQlNQwincbSqg");
         for (String file : files) {
-            String filePath = "D:\\WeShare\\miniprogram\\images\\" + path + "\\" + file;
+            String filePath = "/www/weshare/" + path + File.separator + file;
             JSONObject result = censor.imageCensorUserDefined(filePath, EImgType.FILE, null);
             if (result.has("error_code")) {
                 return null;
