@@ -109,7 +109,7 @@
             '%${keyword}%')
         </if>
         order by pub_time DESC
-        limit #{currentPage},5
+        limit #{currentPage},7
     </select>
 
     <select id="selectSoldGoods" resultMap="SoldGoodsMap">

@@ -415,7 +415,7 @@ public class GoodsServiceImpl implements GoodsService {
         String key = CommonUtil.isEmpty(keyword) ? null : keyword.trim();
         try {
             List<HashMap<String, Object>> goodsList = publishGoodsMapper.selectShowGoods(publisherId,
-                    5 * currentPage, label, key, userMapper.selectByPrimaryKey(publisherId).getSchoolName(), currentTime);
+                    7 * currentPage, label, key, userMapper.selectByPrimaryKey(publisherId).getSchoolName(), currentTime);
             goodsList.forEach(t -> t.put("pubTime", CommonUtil.timeFromNow((Date) t.get("pubTime"))));
             return ResultUtil.success(goodsList);
         } catch (Exception e) {
@@ -460,7 +460,7 @@ public class GoodsServiceImpl implements GoodsService {
     public ResultResponse showWishWall(String token, int currentPage, Byte label, String currentTime) {
         String wantBuyer = loginService.getOpenIDFromToken(token);
         try {
-            List<HashMap<String, Object>> goodsList = wantGoodsMapper.selectWantGoods(wantBuyer, currentPage * 5,
+            List<HashMap<String, Object>> goodsList = wantGoodsMapper.selectWantGoods(wantBuyer, currentPage * 7,
                     label, userMapper.selectByPrimaryKey(wantBuyer).getSchoolName(), currentTime);
             goodsList.forEach(t -> t.put("pubTime", CommonUtil.timeFromNow((Date) t.get("pubTime"))));
             return ResultUtil.success(goodsList);
