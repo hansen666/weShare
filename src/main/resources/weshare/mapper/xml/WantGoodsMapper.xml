@@ -108,7 +108,7 @@
     <if test="currentTime!=null and currentTime!='null' and currentTime!=''"> and <![CDATA[pub_time < #{currentTime}]]> </if>
     <if test="label!=null and label!=0">and label=#{label}</if>
     order by pub_time DESC
-    limit #{currentPage},5
+    limit #{currentPage},7
   </select>
 
   <select id="selectMyWanted"   resultMap="myWantedMap">
@@ -323,6 +323,12 @@
   <update id="updateStatus"  >
     update want_goods
     set status = #{status}
+    WHERE id = #{id};
+  </update>
+
+  <update id="updateImage">
+    update publish_goods
+    set pic_url = #{picUrl}
     WHERE id = #{id};
   </update>
 

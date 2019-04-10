@@ -79,50 +79,54 @@ public class GoodsController {
 
     /**
      * 删除我的卖出的物品记录
+     *
      * @param token
      * @param data
      * @return
      */
     @DeleteMapping("/removeSoldGoods")
-    public ResultResponse removeSoldGoods(@RequestHeader String token, @RequestBody Map<String,Integer[]> data) {
+    public ResultResponse removeSoldGoods(@RequestHeader String token, @RequestBody Map<String, Integer[]> data) {
         logger.info("GoodsController.removeSoldGoods(),入参：token={},goodsID={}", token, data.get("goodsID"));
         return goodsService.removeSoldGoods(data.get("goodsID"));
     }
 
     /**
      * 物品是否被收藏
+     *
      * @param token
      * @param goodsID
      * @return
      */
     @GetMapping("isGoodsCollected")
-    public ResultResponse isGoodsCollected(@RequestHeader String token,@RequestParam int goodsID) {
+    public ResultResponse isGoodsCollected(@RequestHeader String token, @RequestParam int goodsID) {
         logger.info("GoodsController.isGoodsCollected(),入参：token={},goodsID={}", token, goodsID);
-        return ResultUtil.success(goodsService.isGoodsCollected(token,goodsID));
+        return ResultUtil.success(goodsService.isGoodsCollected(token, goodsID));
     }
 
     /**
      * 收藏操作
+     *
      * @param token
      * @param goodsID
      * @return
      */
     @PostMapping("/collect")
-    public ResultResponse collect(@RequestHeader String token,@RequestParam int goodsID) {
+    public ResultResponse collect(@RequestHeader String token, @RequestParam int goodsID) {
         logger.info("GoodsController.collect(),入参：token={},goodsID={}", token, goodsID);
-        return goodsService.collect(token,goodsID);
+        return goodsService.collect(token, goodsID);
     }
 
     /**
      * 取消收藏操作
+     *
      * @param token
      * @param data
      * @return
      */
     @DeleteMapping("/cancelCollection")
-    public ResultResponse cancelCollection(@RequestHeader String token,@RequestBody Map<String,Integer[]> data) {
+    public ResultResponse cancelCollection(@RequestHeader String token, @RequestBody Map<String, Integer[]> data) {
         logger.info("GoodsController.cancelCollection(),入参：token={},goodsID={}", token, data.get("goodsID"));
-        return goodsService.cancelCollection(token,data.get("goodsID"));
+        return goodsService.cancelCollection(token, data.get("goodsID"));
     }
 
     /**
@@ -139,6 +143,7 @@ public class GoodsController {
 
     /**
      * 我的发布
+     *
      * @param token
      * @return
      */
@@ -150,30 +155,33 @@ public class GoodsController {
 
     /**
      * 修改我的发布
+     *
      * @param token
      * @param publishGoods
      * @return
      */
     @PostMapping("/modifyMyPublish")
     public ResultResponse modifyMyPublish(@RequestHeader String token, @RequestBody PublishGoods publishGoods) {
-        logger.info("GoodsController.modifyMyPublish(),入参：token={}, publishGoods={}",token, publishGoods.toString());
+        logger.info("GoodsController.modifyMyPublish(),入参：token={}, publishGoods={}", token, publishGoods.toString());
         return goodsService.myPublishModify(token, publishGoods);
     }
 
     /**
      * 根据ID删除我的发布
+     *
      * @param token
      * @param data
      * @return
      */
     @DeleteMapping("/removePublish")
-    public ResultResponse removePublish(@RequestHeader String token, @RequestBody Map<String,Integer[]> data) {
+    public ResultResponse removePublish(@RequestHeader String token, @RequestBody Map<String, Integer[]> data) {
         logger.info("GoodsController.removePublish(),入参：token={},goodsID={}", token, data.get("goodsID"));
         return goodsService.removePublish(data.get("goodsID"));
     }
 
     /**
      * 我的求购
+     *
      * @param token
      * @return
      */
@@ -186,18 +194,19 @@ public class GoodsController {
 
     @PostMapping("/modifyMyWanted")
     public ResultResponse modifyMyWanted(@RequestHeader String token, @RequestBody WantGoods wantGoods) {
-        logger.info("GoodsController.modifyMyWanted(),入参：token={}, publishGoods={}",token, wantGoods.toString());
+        logger.info("GoodsController.modifyMyWanted(),入参：token={}, publishGoods={}", token, wantGoods.toString());
         return goodsService.myWantedModify(token, wantGoods);
     }
 
     /**
      * 根据ID删除我的求购
+     *
      * @param token
      * @param data
      * @return
      */
     @DeleteMapping("/removeWanted")
-    public ResultResponse removeWanted(@RequestHeader String token, @RequestParam Map<String,Integer[]> data) {
+    public ResultResponse removeWanted(@RequestHeader String token, @RequestParam Map<String, Integer[]> data) {
         logger.info("GoodsController.removeWanted(),入参：token={},goodsID={}", token, data.get("goodsID"));
         return goodsService.removeWanted(data.get("goodsID"));
     }
@@ -252,55 +261,85 @@ public class GoodsController {
      * @return
      */
     @GetMapping("/showWishDetail")
-    public ResultResponse showDetail(@RequestParam Integer id){
+    public ResultResponse showDetail(@RequestParam Integer id) {
         logger.info("GoodsController.showWishDetail(),入参:id={}", id);
         return goodsService.showWishDetail(id);
     }
 
     /**
      * 图片上传
+     *
      * @param imageRequest
      * @return
      */
     @PostMapping("/imageUpload")
     public ResultResponse upload(ImageRequest imageRequest) {
-        String savePath = environment.getProperty("image.path") + imageRequest.getFilePath()+ File.separator;
+        String savePath = environment.getProperty("image.path") + imageRequest.getFilePath() + File.separator;
         logger.info("ImageController.imageUpload(),传入图片={}", imageRequest.getFile().getOriginalFilename());
         return goodsService.uploadImage(imageRequest.getFile(), imageRequest.getId(), savePath);
     }
 
     /**
      * 交易完成接口
+     *
      * @param token
      * @param goodsID
      * @return
      */
     @PostMapping("/dealCompleted")
-    public ResultResponse dealCompleted(@RequestHeader String token, @RequestParam int goodsID){
-        logger.info("GoodsController.dealCompleted(),入参：token={},goodsID={}",token,goodsID);
+    public ResultResponse dealCompleted(@RequestHeader String token, @RequestParam int goodsID) {
+        logger.info("GoodsController.dealCompleted(),入参：token={},goodsID={}", token, goodsID);
         return goodsService.dealComplete(token, goodsID);
     }
 
     /**
      * 发送评论
+     *
      * @param token
      * @param request
      * @return
      */
     @PostMapping("/sendComment")
-    public ResultResponse sendComment(@RequestHeader String token, @RequestBody Map<String,Object> request) {
-        logger.info("GoodsController.sendComment(),入参：token={},request={}",token, request.toString());
-        return goodsService.sendComment(token,request);
+    public ResultResponse sendComment(@RequestHeader String token, @RequestBody Map<String, Object> request) {
+        logger.info("GoodsController.sendComment(),入参：token={},request={}", token, request.toString());
+        return goodsService.sendComment(token, request);
     }
 
     /**
      * 获取评论
+     *
      * @param goodsID
      * @return
      */
     @GetMapping("/getComments")
     public ResultResponse getComments(@RequestParam int goodsID) {
-        logger.info("GoodsController.getComments(),入参：goodsID={}",goodsID);
+        logger.info("GoodsController.getComments(),入参：goodsID={}", goodsID);
         return ResultUtil.success(goodsService.getComments(goodsID));
+    }
+
+    /**
+     * 删除图片
+     *
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("/deleteImage")
+    public ResultResponse deleteImage(@RequestHeader String token, @RequestBody Map<String, String> request) {
+        logger.info("GoodController.deleteImage(),入参: token={}, request={}", token, request.toString());
+        return goodsService.deleteImage(Integer.valueOf(request.get("id")), request.get("imageName"), request.get("method"));
+    }
+
+    /**
+     * 更新图片
+     *
+     * @param token
+     * @param request
+     * @return
+     */
+    @PostMapping("/updateImage")
+    public ResultResponse updateImage(@RequestHeader String token, @RequestBody Map<String, String> request) {
+        logger.info("GoodController.updateImage(),入参: token={}, request={}", token, request.toString());
+        return goodsService.updateImage(Integer.valueOf(request.get("id")), request.get("imageName"), request.get("method"));
     }
 }

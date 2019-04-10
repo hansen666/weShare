@@ -109,7 +109,7 @@
             '%${keyword}%')
         </if>
         order by pub_time DESC
-        limit #{currentPage},5
+        limit #{currentPage},7
     </select>
 
     <select id="selectSoldGoods" resultMap="SoldGoodsMap">
@@ -330,6 +330,12 @@
     <update id="updateStatus">
     update publish_goods
     set status = #{status}
+    WHERE id = #{id};
+  </update>
+
+    <update id="updateImage">
+    update publish_goods
+    set pic_url = #{picUrl}
     WHERE id = #{id};
   </update>
 </mapper>
