@@ -1,6 +1,7 @@
 package cn.compusshare.weshare.service.impl;
 
 import cn.compusshare.weshare.repository.entity.Message;
+import cn.compusshare.weshare.repository.mapper.CustomerServiceMapper;
 import cn.compusshare.weshare.repository.mapper.MessageMapper;
 import cn.compusshare.weshare.repository.mapper.UserMapper;
 import cn.compusshare.weshare.repository.responsebody.ChatListInfo;
@@ -42,6 +43,9 @@ public class ChatServiceImpl implements ChatService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private CustomerServiceMapper customerServiceMapper;
 
     @Autowired
     private Environment environment;
@@ -221,25 +225,37 @@ public class ChatServiceImpl implements ChatService {
      */
     @Override
     public void customerService(Map<String, Object> param){
-        logger.info("客服会话中");
+        logger.info("客服服务中");
         String userId = (String) param.get("FromUserName");
         //客服消息专用token
-        String token = (String) cacheService.get(userId+"cus");
-        if (CommonUtil.isEmpty(token)) {
-            try {
-                JSONObject jsonObject = (JSONObject) JSONObject.parse(HttpUtil.requestByGet(customerServiceTokenUrl));
-                if (! jsonObject.containsKey("access_token")) {
-                    logger.error(jsonObject.getString("errmsg"));
-                    return;
-                }
-                token = jsonObject.getString("access_token");
-                //把token放到redis缓存中，并设置过期时限为100分钟
-                cacheService.set(userId+"cus",token,100, TimeUnit.MINUTES);
-                logger.info("获取客服会话token："+token);
-            } catch (Exception e) {
-                logger.error(e.getMessage());
+        String token = null;// (String) cacheService.get(userId+"cus");
+
+        try {
+            JSONObject jsonObject = (JSONObject) JSONObject.parse(HttpUtil.requestByGet(customerServiceTokenUrl));
+            if (!jsonObject.containsKey("access_token")) {
+                logger.error(jsonObject.getString("errmsg"));
+                return;
             }
+            token = jsonObject.getString("access_token");
+        }catch (Exception e) {
+            logger.error(e.getMessage());
         }
+
+//        if (CommonUtil.isEmpty(token)) {
+//            logger.info("access_token过期，重新请求客服会话access_token");
+//            try {
+//                JSONObject jsonObject = (JSONObject) JSONObject.parse(HttpUtil.requestByGet(customerServiceTokenUrl));
+//                if (! jsonObject.containsKey("access_token")) {
+//                    logger.error(jsonObject.getString("errmsg"));
+//                    return;
+//                }
+//                token = jsonObject.getString("access_token");
+//                //把token放到redis缓存中，并设置过期时限为100分钟
+//                cacheService.set(userId+"cus",token,100, TimeUnit.MINUTES);
+//            } catch (Exception e) {
+//                logger.error(e.getMessage());
+//            }
+//        }
         logger.info("客服会话token："+token);
         //推送接口的请求参数
         Map<String,Object> msgBody = new HashMap<>(3);
@@ -252,20 +268,27 @@ public class ChatServiceImpl implements ChatService {
         //如果为event，表示是进入可是界面的事件，发固定推送
         if (msgType.equals("event")) {
             logger.info("触发事件");
-            tempMap.put("content","欢迎来撩客服有小姐姐!\n1、第一个问题\n2、第二个问题");
+            StringBuffer buffer = new StringBuffer();
+            buffer.append("欢迎来撩客服有小姐姐!想知道什么请按序号回复");
+            List<String> questions = customerServiceMapper.selectQuestions();
+            questions.forEach(question->buffer.append("\n"+question));
+            tempMap.put("content",buffer.toString());
         }else {
             logger.info("触发会话");
             String content = (String) param.get("Content");
-            if (content.equals("1")) {
-                tempMap.put("content", "第一条问题的回答");
-            } else if (content.equals("2")) {
-                tempMap.put("content", "第二条问题的回答");
-            } else {
+            if (!content.matches("^\\d+$")){
                 tempMap.put("content", "没有这个选项");
+            }else {
+                String answer = customerServiceMapper.selectAnswerByKey(Integer.valueOf(content));
+                if (CommonUtil.isEmpty(answer)) {
+                    tempMap.put("content", "没有这个选项");
+                }
+                tempMap.put("content", answer);
             }
         }
         msgBody.put("text",tempMap);
         JSONObject msgJson = (JSONObject) JSONObject.toJSON(msgBody);
+        System.out.println(msgJson.toJSONString());
         customerServiceMsgUrl = customerServiceMsgUrl + token;
         String result = HttpUtil.requestByPost(customerServiceMsgUrl,msgJson);
         logger.info("customerService http PostRequest:"+result);
