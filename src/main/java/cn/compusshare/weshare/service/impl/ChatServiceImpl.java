@@ -228,7 +228,7 @@ public class ChatServiceImpl implements ChatService {
         logger.info("客服服务中");
         String userId = (String) param.get("FromUserName");
         //客服消息专用token
-        String token = null;// (String) cacheService.get(userId+"cus");
+        String token = null;// (String) cacheService.get("cusToken");
 
         try {
             JSONObject jsonObject = (JSONObject) JSONObject.parse(HttpUtil.requestByGet(customerServiceTokenUrl));
@@ -251,7 +251,7 @@ public class ChatServiceImpl implements ChatService {
 //                }
 //                token = jsonObject.getString("access_token");
 //                //把token放到redis缓存中，并设置过期时限为100分钟
-//                cacheService.set(userId+"cus",token,100, TimeUnit.MINUTES);
+//                cacheService.set("cusToken",token,100, TimeUnit.MINUTES);
 //            } catch (Exception e) {
 //                logger.error(e.getMessage());
 //            }
@@ -271,7 +271,10 @@ public class ChatServiceImpl implements ChatService {
             StringBuffer buffer = new StringBuffer();
             buffer.append("欢迎来撩客服有小姐姐!想知道什么请按序号回复");
             List<String> questions = customerServiceMapper.selectQuestions();
-            questions.forEach(question->buffer.append("\n"+question));
+            for (int i = 0; i < questions.size(); i++) {
+                buffer.append("\n"+(i+1)+"、"+questions.get(i));
+            }
+            //questions.forEach(question->buffer.append("\n"+question));
             tempMap.put("content",buffer.toString());
         }else {
             logger.info("触发会话");
