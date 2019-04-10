@@ -273,10 +273,9 @@ public class GoodsController {
      * @return
      */
     @PostMapping("/imageUpload")
-    public ResultResponse upload(ImageRequest imageRequest) {
-        String savePath = environment.getProperty("image.path") + imageRequest.getFilePath() + File.separator;
+    public ResultResponse upload(@RequestHeader String token, ImageRequest imageRequest) {
         logger.info("ImageController.imageUpload(),传入图片={}", imageRequest.getFile().getOriginalFilename());
-        return goodsService.uploadImage(imageRequest.getFile(), imageRequest.getId(), savePath);
+        return goodsService.uploadImage(token, imageRequest.getFile(), imageRequest.getId(), imageRequest.getFilePath());
     }
 
     /**
@@ -330,16 +329,4 @@ public class GoodsController {
         return goodsService.deleteImage(Integer.valueOf(request.get("id")), request.get("imageName"), request.get("method"));
     }
 
-    /**
-     * 更新图片
-     *
-     * @param token
-     * @param request
-     * @return
-     */
-    @PostMapping("/updateImage")
-    public ResultResponse updateImage(@RequestHeader String token, @RequestBody Map<String, String> request) {
-        logger.info("GoodController.updateImage(),入参: token={}, request={}", token, request.toString());
-        return goodsService.updateImage(Integer.valueOf(request.get("id")), request.get("imageName"), request.get("method"));
-    }
 }

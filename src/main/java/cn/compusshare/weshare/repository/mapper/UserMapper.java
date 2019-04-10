@@ -32,4 +32,6 @@ public interface UserMapper {
     Map<String,String> selectNicknameAndAvatar(String userID);
 
     String selectAvatarUrl(String id);
+
+    int updateAvatarUrl(@Param("id") String id, @Param("avatarUrl") String avatarUrl);
 }

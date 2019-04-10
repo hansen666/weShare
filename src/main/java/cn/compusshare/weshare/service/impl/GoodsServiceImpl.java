@@ -295,7 +295,11 @@ public class GoodsServiceImpl implements GoodsService {
         String openID = loginService.getOpenIDFromToken(token);
         //String openID = "testAccount1";
         publishGoods.setPublisherId(openID);
+        String addUrl = publishGoods.getPicUrl();
+        publishGoods.setPicUrl(null);
         publishGoodsMapper.updateByPrimaryKeySelective(publishGoods);
+        String resultUrl = publishGoodsMapper.selectByPrimaryKey(publishGoods.getId()).getPicUrl() + "," + addUrl;
+        publishGoodsMapper.updateImage(publishGoods.getId(), resultUrl);
 
         //文本审核未通过
         if (!CommonUtil.isEmpty(publishGoods.getDescription()) && !CommonUtil.textCensor(publishGoods.getDescription())) {
@@ -359,7 +363,11 @@ public class GoodsServiceImpl implements GoodsService {
     public ResultResponse myWantedModify(String token, WantGoods wantGoods) {
         String openID = loginService.getOpenIDFromToken(token);
         wantGoods.setWantBuyerId(openID);
+        String addUrl = wantGoods.getPicUrl();
+        wantGoods.setPicUrl(null);
         wantGoodsMapper.updateByPrimaryKeySelective(wantGoods);
+        String resultUrl = wantGoodsMapper.selectByPrimaryKey(wantGoods.getId()).getPicUrl() + "," + addUrl;
+        wantGoodsMapper.updateImage(wantGoods.getId(), resultUrl);
 
         //文本审核未通过
         if (!CommonUtil.isEmpty(wantGoods.getDescription()) && !CommonUtil.textCensor(wantGoods.getDescription())) {
@@ -502,7 +510,10 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public ResultResponse uploadImage(MultipartFile file, int id, String filePath) {
+    public ResultResponse uploadImage(String token, MultipartFile file, int id, String filePath) {
+        String userId = loginService.getOpenIDFromToken(token);
+        //String userId = "hansen";
+        String savePath = environment.getProperty("image.path") + filePath + File.separator;
         Random rand = new Random();
         String originName = file.getOriginalFilename();
         String typeName = originName.substring(originName.lastIndexOf("."));
@@ -510,19 +521,28 @@ public class GoodsServiceImpl implements GoodsService {
         String nowTimeStamp = String.valueOf(time / 1000);
         int randNum = rand.nextInt(899) + 100;
         String fileName = nowTimeStamp + randNum + typeName;
-        File newFile = new File(filePath + fileName);
+        File newFile = new File(savePath + fileName);
         try {
             file.transferTo(newFile);
         } catch (IOException e) {
             logger.info("图片{}上传失败", originName);
             return ResultUtil.fail(-1, "图片" + originName + "上传失败");
         }
-        ImageResponse imageResponse = ImageResponse.builder()
-                .fileName(fileName)
-                .id(id)
-                .build();
-
-        return ResultUtil.success(imageResponse);
+        if (filePath.equals("avatar")) {
+            String result = "https://www.compusshare.cn/avatar/" + fileName;
+            ImageResponse imageResponse = ImageResponse.builder()
+                    .fileName(result)
+                    .id(id)
+                    .build();
+            userMapper.updateAvatarUrl(userId, result);
+            return ResultUtil.success(imageResponse);
+        } else {
+            ImageResponse imageResponse = ImageResponse.builder()
+                    .fileName(fileName)
+                    .id(id)
+                    .build();
+            return ResultUtil.success(imageResponse);
+        }
     }
 
     /**
@@ -636,30 +656,6 @@ public class GoodsServiceImpl implements GoodsService {
         if (method.equals("publish")) {
             publishGoodsMapper.updateImage(id, resultUrl);
         } else {
-            wantGoodsMapper.updateImage(id, resultUrl);
-        }
-        return ResultUtil.success();
-    }
-
-    /**
-     * 修改图片
-     *
-     * @param id
-     * @param imageName
-     * @param method
-     * @return
-     */
-    @Override
-    public ResultResponse updateImage(int id, String imageName, String method) {
-        String originUrl;
-        String resultUrl;
-        if (method.equals("publish")) {
-            originUrl = publishGoodsMapper.selectByPrimaryKey(id).getPicUrl();
-            resultUrl = originUrl + "," + imageName;
-            publishGoodsMapper.updateImage(id, resultUrl);
-        } else {
-            originUrl = wantGoodsMapper.selectByPrimaryKey(id).getPicUrl();
-            resultUrl = originUrl + "," + imageName;
             wantGoodsMapper.updateImage(id, resultUrl);
         }
         return ResultUtil.success();

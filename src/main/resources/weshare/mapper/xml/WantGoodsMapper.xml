@@ -327,7 +327,7 @@
   </update>
 
   <update id="updateImage">
-    update publish_goods
+    update want_goods
     set pic_url = #{picUrl}
     WHERE id = #{id};
   </update>
