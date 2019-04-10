@@ -15,4 +15,6 @@ public class MessageBody implements Serializable {
 
     Byte type;  //消息类型
 
+    Integer audioLength; //音频长度
+
 }

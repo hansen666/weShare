@@ -24,6 +24,8 @@ public class ChatListInfo implements Comparable{
 
     private Byte type;
 
+    private Integer audioLength;
+
     private Byte read;
 
     private Date createTime;

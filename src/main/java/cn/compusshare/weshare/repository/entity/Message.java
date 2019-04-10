@@ -13,9 +13,11 @@ public class Message {
 
     private Byte type;
 
-    private Byte firstMessage;
+    private Integer audioLength;
 
     private Byte read;
+
+    private Byte firstMessage;
 
     private Date createTime;
 
@@ -61,12 +63,12 @@ public class Message {
         this.type = type;
     }
 
-    public Byte getFirstMessage() {
-        return firstMessage;
+    public Integer getAudioLength() {
+        return audioLength;
     }
 
-    public void setFirstMessage(Byte firstMessage) {
-        this.firstMessage = firstMessage;
+    public void setAudioLength(Integer audioLength) {
+        this.audioLength = audioLength;
     }
 
     public Byte getRead() {
@@ -75,6 +77,14 @@ public class Message {
 
     public void setRead(Byte read) {
         this.read = read;
+    }
+
+    public Byte getFirstMessage() {
+        return firstMessage;
+    }
+
+    public void setFirstMessage(Byte firstMessage) {
+        this.firstMessage = firstMessage;
     }
 
     public Date getCreateTime() {

@@ -72,7 +72,12 @@ public class WebSocketTask {
         userMessage.setSenderId(this.userID);
         userMessage.setReceiverId(message.getUserId());
         userMessage.setContent(message.getContent());
-        userMessage.setType(message.getType());
+        byte type = message.getType();
+        //如果是音频文件
+        if (type == 2) {
+            userMessage.setAudioLength(message.getAudioLength());
+        }
+        userMessage.setType(type);
         userMessage.setFirstMessage(message.getIsFirstMessage());
         for (WebSocketTask item : webSocketSet) {
             try {

@@ -7,27 +7,32 @@
     <result column="receiver_id" jdbcType="VARCHAR" property="receiverId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="type" jdbcType="TINYINT" property="type" />
-    <result column="first_message" jdbcType="TINYINT" property="firstMessage" />
+    <result column="audio_length" jdbcType="INTEGER" property="audioLength" />
     <result column="read" jdbcType="TINYINT" property="read" />
+    <result column="first_message" jdbcType="TINYINT" property="firstMessage" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
 
   <resultMap id="MessageList" type="cn.compusshare.weshare.repository.responsebody.ChatListInfo">
-      <result column="sender_id" jdbcType="VARCHAR" property="userId" />
+    <result column="sender_id" jdbcType="VARCHAR" property="userId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="read" jdbcType="TINYINT" property="read" />
+    <result column="audio_length" jdbcType="INTEGER" property="audioLength" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
 
 
+
+
   <sql id="Base_Column_List">
-    id, sender_id, receiver_id, content, type, first_message, `read`, create_time, update_time
+    id, sender_id, receiver_id, content, `type`, audio_length, `read`, first_message, create_time,
+    update_time
   </sql>
 
   <sql id="message_Column_List">
-    sender_id,content, `type`, first_message, `read`, create_time
+    sender_id,content, `type`, first_message, `read`, `audio_length`,create_time
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -36,6 +41,8 @@
     from message
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+
 
   <select id="selectMessageRecord"  resultMap="BaseResultMap">
     select
@@ -65,8 +72,8 @@
     <include refid="message_Column_List"/>
     FROM `message`
     where create_time =
-   ( SELECT max(create_time) FROM message
-                  where sender_id = #{userId} and receiver_id = #{anotherUserId} or sender_id = #{anotherUserId} and receiver_id = #{userId});
+    ( SELECT max(create_time) FROM message
+    where sender_id = #{userId} and receiver_id = #{anotherUserId} or sender_id = #{anotherUserId} and receiver_id = #{userId});
   </select>
 
   <select id="selectChatListSingle" resultMap="MessageList">
@@ -79,19 +86,23 @@
   </select>
 
 
+
+
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from message
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.Message">
     insert into message (id, sender_id, receiver_id, 
-      content, type, first_message, 
-      read, create_time, update_time
-      )
+      content, `type`, audio_length,
+      `read`, first_message, create_time,
+      update_time)
     values (#{id,jdbcType=INTEGER}, #{senderId,jdbcType=VARCHAR}, #{receiverId,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{firstMessage,jdbcType=TINYINT}, 
-      #{read,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+      #{content,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{audioLength,jdbcType=INTEGER}, 
+      #{read,jdbcType=TINYINT}, #{firstMessage,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="cn.compusshare.weshare.repository.entity.Message">
     insert into message
@@ -109,13 +120,16 @@
         content,
       </if>
       <if test="type != null">
-        type,
+        `type`,
+      </if>
+      <if test="audioLength != null">
+        audio_length,
+      </if>
+      <if test="read != null">
+        `read`,
       </if>
       <if test="firstMessage != null">
         first_message,
-      </if>
-      <if test="read != null">
-        read,
       </if>
       <if test="createTime != null">
         create_time,
@@ -140,11 +154,14 @@
       <if test="type != null">
         #{type,jdbcType=TINYINT},
       </if>
-      <if test="firstMessage != null">
-        #{firstMessage,jdbcType=TINYINT},
+      <if test="audioLength != null">
+        #{audioLength,jdbcType=INTEGER},
       </if>
       <if test="read != null">
         #{read,jdbcType=TINYINT},
+      </if>
+      <if test="firstMessage != null">
+        #{firstMessage,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -167,13 +184,16 @@
         content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
+        `type` = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="audioLength != null">
+        audio_length = #{audioLength,jdbcType=INTEGER},
+      </if>
+      <if test="read != null">
+        `read` = #{read,jdbcType=TINYINT},
       </if>
       <if test="firstMessage != null">
         first_message = #{firstMessage,jdbcType=TINYINT},
-      </if>
-      <if test="read != null">
-        read = #{read,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -189,18 +209,22 @@
     set sender_id = #{senderId,jdbcType=VARCHAR},
       receiver_id = #{receiverId,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT},
+      `type` = #{type,jdbcType=TINYINT},
+      audio_length = #{audioLength,jdbcType=INTEGER},
+      `read` = #{read,jdbcType=TINYINT},
       first_message = #{firstMessage,jdbcType=TINYINT},
-      read = #{read,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+
+
   <update id="updateMessageStatus" >
-      UPDATE message
-      set `read` = 1
-      where sender_id = #{userId} and receiver_id=#{currentUserId} and `read` = 0
+    UPDATE message
+    set `read` = 1
+    where sender_id = #{userId} and receiver_id=#{currentUserId} and `read` = 0
   </update>
+
 
 </mapper>
