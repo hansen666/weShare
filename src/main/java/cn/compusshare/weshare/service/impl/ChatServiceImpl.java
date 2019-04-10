@@ -226,36 +226,35 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public void customerService(Map<String, Object> param){
         logger.info("客服服务中");
-        String userId = (String) param.get("FromUserName");
         //客服消息专用token
-        String token = null;// (String) cacheService.get("cusToken");
+        String token = (String) cacheService.get("cusToken");
 
-        try {
-            JSONObject jsonObject = (JSONObject) JSONObject.parse(HttpUtil.requestByGet(customerServiceTokenUrl));
-            if (!jsonObject.containsKey("access_token")) {
-                logger.error(jsonObject.getString("errmsg"));
-                return;
-            }
-            token = jsonObject.getString("access_token");
-        }catch (Exception e) {
-            logger.error(e.getMessage());
-        }
-
-//        if (CommonUtil.isEmpty(token)) {
-//            logger.info("access_token过期，重新请求客服会话access_token");
-//            try {
-//                JSONObject jsonObject = (JSONObject) JSONObject.parse(HttpUtil.requestByGet(customerServiceTokenUrl));
-//                if (! jsonObject.containsKey("access_token")) {
-//                    logger.error(jsonObject.getString("errmsg"));
-//                    return;
-//                }
-//                token = jsonObject.getString("access_token");
-//                //把token放到redis缓存中，并设置过期时限为100分钟
-//                cacheService.set("cusToken",token,100, TimeUnit.MINUTES);
-//            } catch (Exception e) {
-//                logger.error(e.getMessage());
+//        try {
+//            JSONObject jsonObject = (JSONObject) JSONObject.parse(HttpUtil.requestByGet(customerServiceTokenUrl));
+//            if (!jsonObject.containsKey("access_token")) {
+//                logger.error(jsonObject.getString("errmsg"));
+//                return;
 //            }
+//            token = jsonObject.getString("access_token");
+//        }catch (Exception e) {
+//            logger.error(e.getMessage());
 //        }
+
+        if (CommonUtil.isEmpty(token)) {
+            logger.info("access_token过期，重新请求客服会话access_token");
+            try {
+                JSONObject jsonObject = (JSONObject) JSONObject.parse(HttpUtil.requestByGet(customerServiceTokenUrl));
+                if (! jsonObject.containsKey("access_token")) {
+                    logger.error(jsonObject.getString("errmsg"));
+                    return;
+                }
+                token = jsonObject.getString("access_token");
+                //把token放到redis缓存中，并设置过期时限为100分钟
+                cacheService.set("cusToken",token,100, TimeUnit.MINUTES);
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+        }
         logger.info("客服会话token："+token);
         //推送接口的请求参数
         Map<String,Object> msgBody = new HashMap<>(3);
