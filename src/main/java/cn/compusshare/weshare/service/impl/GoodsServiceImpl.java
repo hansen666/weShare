@@ -529,7 +529,7 @@ public class GoodsServiceImpl implements GoodsService {
             return ResultUtil.fail(-1, "图片" + originName + "上传失败");
         }
         if (filePath.equals("avatar")) {
-            String result = "https://www.compusshare.cn/avatar/" + fileName;
+            String result = "https://www.compusshare.cn/weshare/avatar/" + fileName;
             ImageResponse imageResponse = ImageResponse.builder()
                     .fileName(result)
                     .id(id)
