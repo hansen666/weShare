@@ -49,7 +49,7 @@ public interface GoodsService {
 
     ResultResponse showHomeDetail(Integer id);
 
-    ResultResponse uploadImage(MultipartFile file, int id, String filePath);
+    ResultResponse uploadImage(String token, MultipartFile file, int id, String filePath);
 
     ResultResponse dealComplete(String token, int goodsID);
 
@@ -59,5 +59,4 @@ public interface GoodsService {
 
     ResultResponse deleteImage(int id, String imageName, String method);
 
-    ResultResponse updateImage(int id, String imageName, String method);
 }
