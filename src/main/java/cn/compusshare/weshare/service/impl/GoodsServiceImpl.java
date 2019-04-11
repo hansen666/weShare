@@ -296,11 +296,20 @@ public class GoodsServiceImpl implements GoodsService {
         //String openID = "testAccount1";
         publishGoods.setPublisherId(openID);
         String addUrl = publishGoods.getPicUrl();
-        publishGoods.setPicUrl(null);
-        publishGoodsMapper.updateByPrimaryKeySelective(publishGoods);
-        String resultUrl = publishGoodsMapper.selectByPrimaryKey(publishGoods.getId()).getPicUrl() + "," + addUrl;
-        publishGoodsMapper.updateImage(publishGoods.getId(), resultUrl);
-
+        if (addUrl == null || addUrl.equals("")) {
+            publishGoods.setPicUrl(null);
+            publishGoodsMapper.updateByPrimaryKeySelective(publishGoods);
+        } else {
+            String originUrl = publishGoodsMapper.selectByPrimaryKey(publishGoods.getId()).getPicUrl();
+            if (originUrl == null || originUrl.equals("")) {
+                publishGoodsMapper.updateByPrimaryKeySelective(publishGoods);
+            } else {
+                publishGoods.setPicUrl(null);
+                String resultUrl = publishGoodsMapper.selectByPrimaryKey(publishGoods.getId()).getPicUrl() + "," + addUrl;
+                publishGoods.setPicUrl(resultUrl);
+                publishGoodsMapper.updateByPrimaryKeySelective(publishGoods);
+            }
+        }
         //文本审核未通过
         if (!CommonUtil.isEmpty(publishGoods.getDescription()) && !CommonUtil.textCensor(publishGoods.getDescription())) {
             publishGoodsMapper.updateStatus(publishGoods.getId(), (byte) 0);
@@ -362,12 +371,23 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public ResultResponse myWantedModify(String token, WantGoods wantGoods) {
         String openID = loginService.getOpenIDFromToken(token);
+        //String openID = "testAccount1";
         wantGoods.setWantBuyerId(openID);
         String addUrl = wantGoods.getPicUrl();
-        wantGoods.setPicUrl(null);
-        wantGoodsMapper.updateByPrimaryKeySelective(wantGoods);
-        String resultUrl = wantGoodsMapper.selectByPrimaryKey(wantGoods.getId()).getPicUrl() + "," + addUrl;
-        wantGoodsMapper.updateImage(wantGoods.getId(), resultUrl);
+        if (addUrl == null || addUrl.equals("")) {
+            wantGoods.setPicUrl(null);
+            wantGoodsMapper.updateByPrimaryKeySelective(wantGoods);
+        } else {
+            String originUrl = wantGoodsMapper.selectByPrimaryKey(wantGoods.getId()).getPicUrl();
+            if (originUrl == null || originUrl.equals("")) {
+                wantGoodsMapper.updateByPrimaryKeySelective(wantGoods);
+            } else {
+                wantGoods.setPicUrl(null);
+                String resultUrl = wantGoodsMapper.selectByPrimaryKey(wantGoods.getId()).getPicUrl() + "," + addUrl;
+                wantGoods.setPicUrl(resultUrl);
+                wantGoodsMapper.updateByPrimaryKeySelective(wantGoods);
+            }
+        }
 
         //文本审核未通过
         if (!CommonUtil.isEmpty(wantGoods.getDescription()) && !CommonUtil.textCensor(wantGoods.getDescription())) {
