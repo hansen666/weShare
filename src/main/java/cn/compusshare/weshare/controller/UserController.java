@@ -5,6 +5,7 @@ import cn.compusshare.weshare.repository.entity.User;
 import cn.compusshare.weshare.service.UserService;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,7 @@ public class UserController {
      */
     @PostMapping("/addUser")
     public ResultResponse addUser(@RequestHeader String token, @RequestBody AddUserRequest addUserRequest) {
-        logger.info("UserController.addUser(),入参:token={},schoolName={},nickName={},avatarUrl={}",
-                token, addUserRequest.getSchoolName(), addUserRequest.getNickname(), addUserRequest.getAvatarUrl());
+        logger.info("UserController.addUser(),入参:token={}, addUserRequest={}", token, addUserRequest.toString());
         return userService.addUser(token, addUserRequest);
     }
 

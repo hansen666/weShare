@@ -48,6 +48,7 @@ public class LoginFilter implements Filter {
         //如果是需要检查登录态的路径
         if (needCheck(request.getRequestURL().toString())) {
             logger.info("loginFilter拦截：" + request.getRequestURL().toString());
+
             String token = request.getHeader("token");
             //token为空
             if (CommonUtil.isEmpty(token)) {

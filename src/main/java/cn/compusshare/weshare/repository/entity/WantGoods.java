@@ -1,11 +1,13 @@
 package cn.compusshare.weshare.repository.entity;
 
 import lombok.Builder;
+import lombok.ToString;
 import lombok.experimental.Tolerate;
 
 import java.util.Date;
 
 @Builder
+@ToString
 public class WantGoods {
 
     @Tolerate

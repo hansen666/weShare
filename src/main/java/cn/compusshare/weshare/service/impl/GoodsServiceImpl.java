@@ -293,15 +293,14 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public ResultResponse myPublishModify(String token, PublishGoods publishGoods) {
         String openID = loginService.getOpenIDFromToken(token);
-        //String openID = "testAccount1";
         publishGoods.setPublisherId(openID);
         String addUrl = publishGoods.getPicUrl();
-        if (addUrl == null || addUrl.equals("")) {
+        if (CommonUtil.isEmpty(addUrl)) {
             publishGoods.setPicUrl(null);
             publishGoodsMapper.updateByPrimaryKeySelective(publishGoods);
         } else {
             String originUrl = publishGoodsMapper.selectByPrimaryKey(publishGoods.getId()).getPicUrl();
-            if (originUrl == null || originUrl.equals("")) {
+            if (CommonUtil.isEmpty(originUrl)) {
                 publishGoodsMapper.updateByPrimaryKeySelective(publishGoods);
             } else {
                 publishGoods.setPicUrl(null);
