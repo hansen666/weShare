@@ -34,7 +34,7 @@ import java.util.*;
 @Component
 public class GoodsServiceImpl implements GoodsService {
 
-    private final static Logger logger = LoggerFactory.getLogger(Logger.class);
+    private final static Logger logger = LoggerFactory.getLogger(GoodsService.class);
 
     @Autowired
     private LoginService loginService;
