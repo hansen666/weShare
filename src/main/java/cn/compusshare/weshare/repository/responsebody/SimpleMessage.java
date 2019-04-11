@@ -18,4 +18,7 @@ public class SimpleMessage {
 
     //内容
     private String content;
+
+    //音频长度
+    private Integer audioLength;
 }

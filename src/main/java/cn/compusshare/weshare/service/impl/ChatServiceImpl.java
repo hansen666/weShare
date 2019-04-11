@@ -190,7 +190,11 @@ public class ChatServiceImpl implements ChatService {
     private SimpleMessage generatorSimpleMessage(Message message, String currentUserId) {
         SimpleMessage simpleMessage = new SimpleMessage();
         simpleMessage.setContent(message.getContent());
+        if (message.getType() == 2) {
+            simpleMessage.setAudioLength(message.getAudioLength());
+        }
         simpleMessage.setType(message.getType());
+        //消息发送方向
         if (message.getSenderId().equals(currentUserId)) {
             simpleMessage.setFrom((byte) 0);
         }else {
