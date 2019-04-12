@@ -56,6 +56,9 @@ public class ChatServiceImpl implements ChatService {
     @Value("${customerServiceMsgUrl}")
     private String customerServiceMsgUrl;
 
+    @Value("${tokenKey}")
+    private String tokenKey;
+
     /**
      * 获取消息列表
      *
@@ -64,7 +67,7 @@ public class ChatServiceImpl implements ChatService {
      */
     @Override
     public ResultResponse messageList(String token) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token,tokenKey,"openID");
         Set<String> senders = messageMapper.selectSender(openID);
         Set<String> receivers = messageMapper.selectReceiver(openID);
         Set<String> common = new HashSet<>();
@@ -144,7 +147,7 @@ public class ChatServiceImpl implements ChatService {
      */
     @Override
     public Map<String,List<MessageSegment>> getMessageRecord(String token, String userId) {
-        String currentUserId = loginService.getOpenIDFromToken(token);
+        String currentUserId = loginService.getIDFromToken(token,tokenKey,"openID");
         try {
             userId = EncryptionUtil.aesDncrypt(userId.replace(' ','+'), environment.getProperty("AESKey"));
         } catch (Exception e) {

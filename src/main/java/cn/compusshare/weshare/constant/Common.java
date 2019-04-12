@@ -31,5 +31,11 @@ public class Common {
     public final static String CENSOR_FAIL_MSG = "审核未通过";
 
 
+    //管理员登录相关
+    public final static int WRONG_PASSWORD = -1;
+    public final static int LOGIN_ALREADY = -2;
+
+    public final static String WRONG_PASSWORD_MSG = "密码错误";
+    public final static String LOGIN_ALREADY_MSG = "账号已登录";
 
 }

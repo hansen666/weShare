@@ -16,7 +16,9 @@ public interface LoginService {
 
     ResultResponse getToken(String code) throws Exception;
 
-    String getOpenIDFromToken(String token);
+    String getIDFromToken(String token, String key, String IdName);
 
     List<String> allSchoolName();
+
+    String adminToken(String key, String sessionId);
 }

@@ -1,7 +1,10 @@
 package cn.compusshare.weshare.filter;
 
+
 import cn.compusshare.weshare.constant.Common;
+import cn.compusshare.weshare.repository.mapper.AdminMapper;
 import cn.compusshare.weshare.service.LoginService;
+import cn.compusshare.weshare.service.common.CacheService;
 import cn.compusshare.weshare.utils.CommonUtil;
 import cn.compusshare.weshare.utils.ResultUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -19,31 +22,39 @@ import java.io.PrintWriter;
 
 /**
  * @Author: LZing
- * @Date: 2019/3/11
- * 登录过滤器
+ * @Date: 2019/4/11
  */
-@WebFilter(urlPatterns = "/*", filterName = "login")
-public class LoginFilter implements Filter {
+@WebFilter(urlPatterns = "/*", filterName = "AdminLogin")
+public class AdminLoginFilter implements Filter {
 
-    private final static Logger logger = LoggerFactory.getLogger(Logger.class);
-
-    //不需要拦截的路径
-    private String[] unNeedCheckPathPrefix = {
-            "/login",
-            "/test/",
-            "/customerService"
-    };
+    private final static Logger logger = LoggerFactory.getLogger(AdminLoginFilter.class);
 
     @Autowired
     private LoginService loginService;
 
-    @Value("${tokenKey}")
-    private String tokenKey;
+    @Autowired
+    private CacheService cacheService;
+
+    @Autowired
+    private AdminMapper adminMapper;
+
+    @Value("${adminTokenKey}")
+    private String adminTokenKey;
+
+    @Value("${overdueTime}")
+    private long overdueTime;
+
+    //需要拦截的路径
+    private String[] needCheckPathPrefix = {
+            "/admin",
+    };
+
 
     @Override
     public void init(FilterConfig filterConfig) {
-        logger.info("初始化loginFilter");
+        logger.info("初始化adminLoginFilter");
     }
+
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -51,8 +62,7 @@ public class LoginFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         //如果是需要检查登录态的路径
         if (needCheck(request.getRequestURL().toString())) {
-            logger.info("loginFilter拦截：" + request.getRequestURL().toString());
-
+            logger.info("adminLoginFilter拦截：" + request.getRequestURL().toString());
             String token = request.getHeader("token");
             //token为空
             if (CommonUtil.isEmpty(token)) {
@@ -60,36 +70,44 @@ public class LoginFilter implements Filter {
                 output(response, Common.TOKEN_NULL, Common.TOKEN_NULL_MSG);
                 return;
             }
-            String openID = loginService.getIDFromToken(token, tokenKey, "openID");
-            //openID为空，说明token失效
-            if (CommonUtil.isEmpty(openID)) {
+
+            String account = request.getHeader("account");
+            //account为空说明token无效
+            if (CommonUtil.isEmpty(account)) {
                 logger.error(Common.TOKEN_INVALID_MSG);
                 output(response, Common.TOKEN_INVALID, Common.TOKEN_INVALID_MSG);
                 return;
             }
+
+            //从缓存中取sessionId
+            String sessionId = (String) cacheService.get(token);
+            //sessionId为空，说明token失效过期
+            if (CommonUtil.isEmpty(sessionId)) {
+                logger.error(Common.TOKEN_INVALID_MSG);
+                output(response, Common.TOKEN_INVALID, Common.TOKEN_INVALID_MSG);
+                return;
+            }
+
+            //当前请求的sessionId
+            String currentSessionId = request.getSession().getId();
+            if (! currentSessionId.equals(sessionId)) {
+                //Id不相等则刷新缓存和数据库
+                cacheService.set(token,currentSessionId);
+//                String account = loginService.getIDFromToken(token, adminTokenKey, "account");
+//                int result = adminMapper.updateSessionId(account);
+//                logger.info("更新sessionId结果：{}",result);
+            }
+
+            //刷新token的过期时间
+            cacheService.expire(token,overdueTime);
         }
         //下游过滤链
         filterChain.doFilter(request, response);
     }
 
-    /**
-     * 检查该路径是否需要通过过滤器
-     *
-     * @param path
-     * @return
-     */
-    private boolean needCheck(String path) {
-        for (String prefix : unNeedCheckPathPrefix) {
-            if (path.contains(prefix)) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     /**
-     * 返回json数据
-     *
+     *  返回json数据
      * @param response
      * @param code
      * @param msg
@@ -104,7 +122,7 @@ public class LoginFilter implements Filter {
             return;
 
         } catch (IOException e) {
-            logger.error("loginFilter error", e);
+            logger.error("adminLoginFilter error", e);
             return;
         } finally {
             if (writer != null)
@@ -112,8 +130,22 @@ public class LoginFilter implements Filter {
         }
     }
 
+    /**
+     * 检查路径是否需要过滤
+     * @param path
+     * @return
+     */
+    private boolean needCheck(String path) {
+        for (String prefix : needCheckPathPrefix) {
+            if (path.contains(prefix) && (! path.contains("login"))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void destroy() {
-        logger.info("loginFilter destroy");
+        logger.info("adminLoginFilter destroy");
     }
 }

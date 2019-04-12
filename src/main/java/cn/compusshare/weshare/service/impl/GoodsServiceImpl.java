@@ -20,6 +20,7 @@ import cn.compusshare.weshare.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.*;
 
 
@@ -60,6 +60,9 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private Environment environment;
 
+    @Value("${tokenKey}")
+    private String tokenKey;
+
     /**
      * 首页物品发布
      *
@@ -78,7 +81,7 @@ public class GoodsServiceImpl implements GoodsService {
             status = 1;
         }
         PublishGoods publishGoods = PublishGoods.builder()
-                .publisherId(loginService.getOpenIDFromToken(token))
+                .publisherId(loginService.getIDFromToken(token, tokenKey, "openID"))
                 .name(goodsRequest.getName())
                 .label(goodsRequest.getLabel())
                 .description(goodsRequest.getDescription())
@@ -118,7 +121,7 @@ public class GoodsServiceImpl implements GoodsService {
             status = 1;
         }
         WantGoods wantGoods = WantGoods.builder()
-                .wantBuyerId(loginService.getOpenIDFromToken(token))
+                .wantBuyerId(loginService.getIDFromToken(token, tokenKey, "openID"))
                 .name(goodsRequest.getName())
                 .label(goodsRequest.getLabel())
                 .description(goodsRequest.getDescription())
@@ -150,7 +153,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public List<Map<String, Object>> getSoldGoods(String token) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         //到交易记录表中查该用户的交易记录中的物品ID
         List<Integer> goodsIds = transactionRecordMapper.selectGoodsId(openID);
         if (CommonUtil.isNullList(goodsIds)) {
@@ -192,7 +195,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse collect(String token, int goodsID) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         boolean isCollected = collectionMapper.isRecordExist(openID, goodsID) == 1 ? true : false;
         if (isCollected) {
             return ResultUtil.success();
@@ -217,7 +220,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse cancelCollection(String token, Integer[] goodsID) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         for (Integer id : goodsID) {
             collectionMapper.deleteByUserIDAndGoodsID(openID, id);
         }
@@ -233,7 +236,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public Map<String, Boolean> isGoodsCollected(String token, int goodsID) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         boolean isCollected = collectionMapper.isRecordExist(openID, goodsID) == 1 ? true : false;
         Map<String, Boolean> result = new HashMap<>(1);
         result.put("isCollected", isCollected);
@@ -250,7 +253,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public List<Map<String, Object>> collections(String token) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         //到收藏表中查该用户的收藏记录中的物品ID
         List<Integer> goodsIds = collectionMapper.selectGoodsId(openID);
         if (CommonUtil.isNullList(goodsIds)) {
@@ -277,7 +280,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public List<Map<String, Object>> myPublish(String token) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         List<Map<String, Object>> result = publishGoodsMapper.selectMyPublish(openID);
         result.forEach(map -> map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime"))));
         return result;
@@ -292,7 +295,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse myPublishModify(String token, PublishGoods publishGoods) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         publishGoods.setPublisherId(openID);
         String addUrl = publishGoods.getPicUrl();
         if (CommonUtil.isEmpty(addUrl)) {
@@ -354,7 +357,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public List<Map<String, Object>> myWanted(String token) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         List<Map<String, Object>> result = wantGoodsMapper.selectMyWanted(openID);
         result.forEach(map -> map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime"))));
         return result;
@@ -369,7 +372,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse myWantedModify(String token, WantGoods wantGoods) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         //String openID = "testAccount1";
         wantGoods.setWantBuyerId(openID);
         String addUrl = wantGoods.getPicUrl();
@@ -438,7 +441,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse showHomeGoods(String token, int currentPage, Byte label, String keyword, String currentTime) {
-        String publisherId = loginService.getOpenIDFromToken(token);
+        String publisherId = loginService.getIDFromToken(token, tokenKey, "openID");
         String key = CommonUtil.isEmpty(keyword) ? null : keyword.trim();
         try {
             List<HashMap<String, Object>> goodsList = publishGoodsMapper.selectShowGoods(publisherId,
@@ -485,7 +488,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse showWishWall(String token, int currentPage, Byte label, String currentTime) {
-        String wantBuyer = loginService.getOpenIDFromToken(token);
+        String wantBuyer = loginService.getIDFromToken(token, tokenKey, "openID");
         try {
             List<HashMap<String, Object>> goodsList = wantGoodsMapper.selectWantGoods(wantBuyer, currentPage * 7,
                     label, userMapper.selectByPrimaryKey(wantBuyer).getSchoolName(), currentTime);
@@ -530,7 +533,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse uploadImage(String token, MultipartFile file, int id, String filePath) {
-        String userId = loginService.getOpenIDFromToken(token);
+        String userId = loginService.getIDFromToken(token, tokenKey, "openID");
         //String userId = "hansen";
         String savePath = environment.getProperty("image.path") + filePath + File.separator;
         Random rand = new Random();
@@ -574,7 +577,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     @Transactional
     public ResultResponse dealComplete(String token, int goodsID) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         TransactionRecord record = new TransactionRecord();
         record.setSellerId(openID);
         record.setGoodsId(goodsID);
@@ -597,7 +600,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public ResultResponse sendComment(String token, Map<String, Object> request) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         Comment comment = new Comment();
         comment.setGoodsId((Integer) request.get("goodsID"));
         comment.setSenderId(openID);

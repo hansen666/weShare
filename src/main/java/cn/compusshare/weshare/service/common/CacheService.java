@@ -98,6 +98,16 @@ public class CacheService {
         return key == null ? null : redisTemplate.opsForValue().get(key);
     }
 
+    /**
+     * 根据key获取String类型的value
+     * @param key
+     * @return
+     */
+    public String getString(String key) {
+        return key == null ? null : (String) redisTemplate.opsForValue().get(key);
+    }
+
+
 
 
     /**

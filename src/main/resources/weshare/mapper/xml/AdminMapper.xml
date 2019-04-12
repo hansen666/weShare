@@ -15,6 +15,16 @@
     from admin
     where account = #{account,jdbcType=VARCHAR}
   </select>
+
+
+  <select id="selectSessionId" parameterType="java.lang.String" resultType="java.lang.String">
+    select session_id
+    from admin
+    where account = #{account}
+  </select>
+
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from admin
     where account = #{account,jdbcType=VARCHAR}
@@ -67,5 +77,13 @@
     set password = #{password,jdbcType=VARCHAR},
       session_id = #{sessionId,jdbcType=VARCHAR}
     where account = #{account,jdbcType=VARCHAR}
+  </update>
+
+
+
+  <update id="updateSessionId" parameterType="java.lang.String">
+    update admin
+    set session_id = #{sessionId}
+    where account = #{account}
   </update>
 </mapper>
