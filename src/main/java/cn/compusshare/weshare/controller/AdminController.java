@@ -5,6 +5,7 @@ import cn.compusshare.weshare.utils.ResultResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,8 @@ public class AdminController {
 
     private final static Logger logger = LoggerFactory.getLogger(AdminController.class);
 
+
+
     @Autowired
     private AdminService adminService;
 
@@ -26,5 +29,12 @@ public class AdminController {
     public ResultResponse login(HttpSession session, @RequestBody Map<String,String> param) {
         logger.info("AdminController.login, 入参：session = {}， param = {}", session, param.toString());
         return adminService.login(param.get("account"), param.get("password"), session);
+    }
+
+
+    @GetMapping("/verifiedUser")
+    public ResultResponse verifiedUser(@RequestHeader String token, @RequestParam int type) {
+        logger.info("AdminController.verifiedUser(),入参：token={},type={}", token, type);
+        return adminService.userQuery(type);
     }
 }

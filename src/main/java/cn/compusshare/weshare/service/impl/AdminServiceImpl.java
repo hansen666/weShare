@@ -3,6 +3,7 @@ package cn.compusshare.weshare.service.impl;
 import cn.compusshare.weshare.constant.Common;
 import cn.compusshare.weshare.repository.entity.Admin;
 import cn.compusshare.weshare.repository.mapper.AdminMapper;
+import cn.compusshare.weshare.repository.mapper.UserMapper;
 import cn.compusshare.weshare.service.AdminService;
 import cn.compusshare.weshare.service.LoginService;
 import cn.compusshare.weshare.service.common.CacheService;
@@ -19,11 +20,15 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 @Component
 public class AdminServiceImpl implements AdminService {
 
     private final static Logger logger = LoggerFactory.getLogger(AdminService.class);
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private CacheService cacheService;
@@ -36,6 +41,19 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private Environment environment;
+
+    @Override
+    public ResultResponse userQuery(int type){
+        try {
+            List<Map<String, Object>> userList = userMapper.selectUserByType(type);
+            return ResultUtil.success(userList);
+        }catch (Exception e){
+            logger.info("用户数据库查询错误");
+            return  ResultUtil.fail(-1, e.getMessage());
+        }
+    }
+
+
 
 
     /**

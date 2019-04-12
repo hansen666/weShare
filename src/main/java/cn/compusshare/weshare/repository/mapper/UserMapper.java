@@ -4,6 +4,7 @@ import cn.compusshare.weshare.repository.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 @Mapper
@@ -34,4 +35,6 @@ public interface UserMapper {
     String selectAvatarUrl(String id);
 
     int updateAvatarUrl(@Param("id") String id, @Param("avatarUrl") String avatarUrl);
+
+    List<Map<String, Object>> selectUserByType(@Param("type") int type);
 }

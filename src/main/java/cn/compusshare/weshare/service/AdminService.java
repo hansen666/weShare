@@ -7,5 +7,8 @@ import javax.servlet.http.HttpSession;
 
 @Service
 public interface AdminService {
+
     ResultResponse login(String account, String password, HttpSession session);
+
+    ResultResponse userQuery(int type);
 }

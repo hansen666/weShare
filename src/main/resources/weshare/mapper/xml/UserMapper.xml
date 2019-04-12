@@ -27,6 +27,16 @@
     <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
   </resultMap>
 
+  <resultMap id="userInfoByType" type="java.util.Map">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="identified_type" jdbcType="TINYINT" property="identifiedType" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+    <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
   <resultMap id="nicknameAndAvatarMap" type="java.util.Map">
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
@@ -36,12 +46,24 @@
     nickname, real_name, identified_type, avatar_url, wx_number, phone, school_name
   </sql>
 
+  <sql id="userInfoByType_Column_List">
+    id, nickname, real_name, identified_type, avatar_url, school_name, update_time
+  </sql>
+
 
   <sql id="Base_Column_List">
     id, nickname, real_name, identified_type, avatar_url, wx_number, phone, school_name, 
     degree, major, department, create_time, update_time
   </sql>
 
+  <select id="selectUserByType" resultMap="userInfoByType">
+    select
+    <include refid="userInfoByType_Column_List" />
+    from user
+    <where>
+      <if test="type!=2"> identified_type = #{type}</if>
+    </where>
+  </select>
 
   <select id="isUserExist" parameterType="java.lang.String" resultType="java.lang.Integer">
     select case when
