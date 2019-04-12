@@ -28,6 +28,7 @@
   </resultMap>
 
   <resultMap id="userInfoByType" type="java.util.Map">
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="real_name" jdbcType="VARCHAR" property="realName" />
     <result column="identified_type" jdbcType="TINYINT" property="identifiedType" />
@@ -46,7 +47,7 @@
   </sql>
 
   <sql id="userInfoByType_Column_List">
-    nickname, real_name, identified_type, avatar_url, school_name, update_time
+    id, nickname, real_name, identified_type, avatar_url, school_name, update_time
   </sql>
 
 
