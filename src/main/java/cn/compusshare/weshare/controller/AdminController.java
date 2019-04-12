@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/test/admin")
+@RequestMapping("/admin")
 public class AdminController {
     private final static Logger logger = LoggerFactory.getLogger(AdminController.class);
 
