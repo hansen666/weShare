@@ -34,8 +34,13 @@ public class Common {
     //管理员登录相关
     public final static int WRONG_PASSWORD = -1;
     public final static int LOGIN_ALREADY = -2;
+    public final static int TOKEN_OR_ACCOUNT_EMPTY = -3;
+    public final static int TOKEN_INVALID_OR_ACCOUNT_ERROR = -4;
+
 
     public final static String WRONG_PASSWORD_MSG = "密码错误";
     public final static String LOGIN_ALREADY_MSG = "账号已登录";
+    public final static String TOKEN_OR_ACCOUNT_EMPTY_MSG = "token或account为空";
+    public final static String TOKEN_INVALID_OR_ACCOUNT_ERROR_MSG = "token无效或account错误";
 
 }

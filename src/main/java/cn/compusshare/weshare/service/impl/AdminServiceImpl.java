@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class AdminServiceImpl implements AdminService {
@@ -77,10 +78,37 @@ public class AdminServiceImpl implements AdminService {
         if (! password.equals(admin.getPassword())) {
             return ResultUtil.fail(Common.WRONG_PASSWORD, Common.WRONG_PASSWORD_MSG);
         }
-        token = loginService.adminToken(environment.getProperty("weShareAdmin@&!!!8900"),session.getId());
+        token = loginService.adminToken(environment.getProperty("adminTokenKey"),session.getId());
+        cacheService.set(account,token, Long.valueOf(environment.getProperty("overdueTime")), TimeUnit.SECONDS);
         Map<String,String> result = new HashMap<>(1);
         result.put("token",token);
+        logger.info(account+"成功登录");
         return ResultUtil.success(result);
     }
+
+    /**
+     * 退出登录
+     * @param account
+     * @param currentToken
+     * @return
+     */
+    @Override
+    public ResultResponse logout(String account, String currentToken) {
+        String token = cacheService.getString(account);
+        //token为空，直接退出
+        if (CommonUtil.isEmpty(token)) {
+            logger.info(account+"退出登录");
+            return ResultUtil.success();
+        }
+
+        if (! currentToken.equals(token)) {
+            return ResultUtil.fail(Common.TOKEN_INVALID_OR_ACCOUNT_ERROR,Common.TOKEN_INVALID_OR_ACCOUNT_ERROR_MSG);
+        }
+        //删除token缓存
+        cacheService.del(account);
+        logger.info(account+"退出登录");
+        return ResultUtil.success();
+    }
+
 
 }

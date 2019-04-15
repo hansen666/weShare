@@ -25,15 +25,33 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    /**
+     * 登录
+     * @param session
+     * @param param
+     * @return
+     */
     @PostMapping("/login")
     public ResultResponse login(HttpSession session, @RequestBody Map<String,String> param) {
-        logger.info("AdminController.login, 入参：session = {}， param = {}", session, param.toString());
+        logger.info("AdminController.login, 入参：session = {}， param = {}", session.getId(), param.toString());
         return adminService.login(param.get("account"), param.get("password"), session);
+    }
+
+    /**
+     * 退出登录
+     * @param account
+     * @param token
+     * @return
+     */
+    @GetMapping("/logout")
+    public ResultResponse logout(@RequestHeader String account, @RequestHeader String token) {
+        logger.info("AdminController.logout, 入参：account = {}, token = {}", account, token);
+        return adminService.logout(account, token);
     }
 
 
     @GetMapping("/verifiedUser")
-    public ResultResponse verifiedUser(@RequestHeader String token, @RequestParam int type) {
+    public ResultResponse verifiedUser(@RequestHeader String token, @RequestHeader String account, @RequestParam int type) {
         logger.info("AdminController.verifiedUser(),入参：token={},type={}", token, type);
         return adminService.userQuery(type);
     }

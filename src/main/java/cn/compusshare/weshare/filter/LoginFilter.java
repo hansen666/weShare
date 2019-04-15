@@ -25,13 +25,14 @@ import java.io.PrintWriter;
 @WebFilter(urlPatterns = "/*", filterName = "login")
 public class LoginFilter implements Filter {
 
-    private final static Logger logger = LoggerFactory.getLogger(Logger.class);
+    private final static Logger logger = LoggerFactory.getLogger(LoginFilter.class);
 
     //不需要拦截的路径
     private String[] unNeedCheckPathPrefix = {
             "/login",
             "/test/",
-            "/customerService"
+            "/customerService",
+            "/admin"
     };
 
     @Autowired

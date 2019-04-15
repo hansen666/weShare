@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -38,6 +39,9 @@ public class AdminLoginFilter implements Filter {
     @Autowired
     private AdminMapper adminMapper;
 
+    @Autowired
+    private Environment environment;
+
     @Value("${adminTokenKey}")
     private String adminTokenKey;
 
@@ -63,43 +67,27 @@ public class AdminLoginFilter implements Filter {
         //如果是需要检查登录态的路径
         if (needCheck(request.getRequestURL().toString())) {
             logger.info("adminLoginFilter拦截：" + request.getRequestURL().toString());
-            String token = request.getHeader("token");
-            //token为空
-            if (CommonUtil.isEmpty(token)) {
-                logger.error(Common.TOKEN_NULL_MSG);
-                output(response, Common.TOKEN_NULL, Common.TOKEN_NULL_MSG);
-                return;
-            }
-
+            String currentToken = request.getHeader("token");
             String account = request.getHeader("account");
-            //account为空说明token无效
-            if (CommonUtil.isEmpty(account)) {
-                logger.error(Common.TOKEN_INVALID_MSG);
-                output(response, Common.TOKEN_INVALID, Common.TOKEN_INVALID_MSG);
+            //token或account为空
+            if (CommonUtil.isEmpty(currentToken) || CommonUtil.isEmpty(account)) {
+                logger.info(Common.TOKEN_OR_ACCOUNT_EMPTY_MSG);
+                output(response, Common.TOKEN_OR_ACCOUNT_EMPTY, Common.TOKEN_OR_ACCOUNT_EMPTY_MSG);
                 return;
             }
 
-            //从缓存中取sessionId
-            String sessionId = (String) cacheService.get(token);
-            //sessionId为空，说明token失效过期
-            if (CommonUtil.isEmpty(sessionId)) {
-                logger.error(Common.TOKEN_INVALID_MSG);
-                output(response, Common.TOKEN_INVALID, Common.TOKEN_INVALID_MSG);
+            String token = cacheService.getString(account);
+            //token无效或account错误
+            if (CommonUtil.isEmpty(token) || !currentToken.equals(token)) {
+                logger.info(Common.TOKEN_INVALID_OR_ACCOUNT_ERROR_MSG);
+                output(response, Common.TOKEN_INVALID_OR_ACCOUNT_ERROR, Common.TOKEN_INVALID_OR_ACCOUNT_ERROR_MSG);
                 return;
             }
 
-            //当前请求的sessionId
-            String currentSessionId = request.getSession().getId();
-            if (! currentSessionId.equals(sessionId)) {
-                //Id不相等则刷新缓存和数据库
-                cacheService.set(token,currentSessionId);
-//                String account = loginService.getIDFromToken(token, adminTokenKey, "account");
-//                int result = adminMapper.updateSessionId(account);
-//                logger.info("更新sessionId结果：{}",result);
-            }
 
             //刷新token的过期时间
-            cacheService.expire(token,overdueTime);
+            boolean result = cacheService.expire(account,Long.valueOf(environment.getProperty("overdueTime")));
+            logger.info("token过期时间刷新：{}", result);
         }
         //下游过滤链
         filterChain.doFilter(request, response);

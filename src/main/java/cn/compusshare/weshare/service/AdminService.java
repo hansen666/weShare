@@ -11,4 +11,6 @@ public interface AdminService {
     ResultResponse login(String account, String password, HttpSession session);
 
     ResultResponse userQuery(int type);
+
+    ResultResponse logout(String account, String currentToken);
 }
