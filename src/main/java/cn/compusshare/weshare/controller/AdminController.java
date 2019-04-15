@@ -52,7 +52,7 @@ public class AdminController {
 
     @GetMapping("/verifiedUser")
     public ResultResponse verifiedUser(@RequestHeader String token, @RequestHeader String account, @RequestParam int type) {
-        logger.info("AdminController.verifiedUser(),入参：token={},type={}", token, type);
+        logger.info("AdminController.verifiedUser(),入参：account = {},token={},type={}", account, token, type);
         return adminService.userQuery(type);
     }
 }
