@@ -39,4 +39,8 @@ public interface PublishGoodsMapper {
     int updateStatus(@Param("id") Integer id, @Param("status") byte status);
 
     int updateImage(@Param("id") Integer id, @Param("picUrl") String picUrl);
+
+    List<Map<String, Object>> monthlyQuantity(Integer year);
+
+    List<Map<String, Object>> dailyQuantity(@Param("year") Integer year, @Param("month") Integer month);
 }

@@ -3,6 +3,7 @@ package cn.compusshare.weshare.service.impl;
 import cn.compusshare.weshare.constant.Common;
 import cn.compusshare.weshare.repository.entity.Admin;
 import cn.compusshare.weshare.repository.mapper.AdminMapper;
+import cn.compusshare.weshare.repository.mapper.PublishGoodsMapper;
 import cn.compusshare.weshare.repository.mapper.UserMapper;
 import cn.compusshare.weshare.service.AdminService;
 import cn.compusshare.weshare.service.LoginService;
@@ -39,6 +40,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AdminMapper adminMapper;
+
+    @Autowired
+    private PublishGoodsMapper publishGoodsMapper;
 
     @Autowired
     private Environment environment;
@@ -110,5 +114,34 @@ public class AdminServiceImpl implements AdminService {
         return ResultUtil.success();
     }
 
+
+    /**
+     * 统计某一年中每月发布的物品数量
+     * @param year
+     * @return
+     */
+    @Override
+    public ResultResponse monthlyPublishGoodsQuantity(int year) {
+        if (year < 0) {
+            return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
+        }
+        List<Map<String, Object>> resultMap = publishGoodsMapper.monthlyQuantity(year);
+        return ResultUtil.success(resultMap);
+    }
+
+    /**
+     * 某月中每日的物品发布量
+     * @param year
+     * @param month
+     * @return
+     */
+    @Override
+    public ResultResponse dailyPublishGoodsQuantity(int year, int month) {
+        if (year < 0 || (month < 1 || month >12)) {
+            return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
+        }
+        List<Map<String, Object>> resultMap = publishGoodsMapper.dailyQuantity(year, month);
+        return ResultUtil.success(resultMap);
+    }
 
 }

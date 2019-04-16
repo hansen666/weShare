@@ -30,27 +30,21 @@ public class AdminLoginFilter implements Filter {
 
     private final static Logger logger = LoggerFactory.getLogger(AdminLoginFilter.class);
 
-    @Autowired
-    private LoginService loginService;
 
     @Autowired
     private CacheService cacheService;
 
-    @Autowired
-    private AdminMapper adminMapper;
 
     @Autowired
     private Environment environment;
 
-    @Value("${adminTokenKey}")
-    private String adminTokenKey;
 
     @Value("${overdueTime}")
     private long overdueTime;
 
     //需要拦截的路径
     private String[] needCheckPathPrefix = {
-            "/admin",
+            //"/admin",
     };
 
 

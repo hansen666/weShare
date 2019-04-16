@@ -33,7 +33,7 @@ public class AdminController {
      */
     @PostMapping("/login")
     public ResultResponse login(HttpSession session, @RequestBody Map<String,String> param) {
-        logger.info("AdminController.login, 入参：session = {}， param = {}", session.getId(), param.toString());
+        logger.info("AdminController.login, 入参：session={}， param={}", session.getId(), param.toString());
         return adminService.login(param.get("account"), param.get("password"), session);
     }
 
@@ -45,14 +45,43 @@ public class AdminController {
      */
     @GetMapping("/logout")
     public ResultResponse logout(@RequestHeader String account, @RequestHeader String token) {
-        logger.info("AdminController.logout, 入参：account = {}, token = {}", account, token);
+        logger.info("AdminController.logout, 入参：account={}, token={}", account, token);
         return adminService.logout(account, token);
     }
 
 
     @GetMapping("/verifiedUser")
     public ResultResponse verifiedUser(@RequestHeader String token, @RequestHeader String account, @RequestParam int type) {
-        logger.info("AdminController.verifiedUser(),入参：account = {},token={},type={}", account, token, type);
+        logger.info("AdminController.verifiedUser(),入参：account={},token={},type={}", account, token, type);
         return adminService.userQuery(type);
+    }
+
+    /**
+     * 每日发布物品数量
+     * @param account
+     * @param token
+     * @param year
+     * @return
+     */
+    @GetMapping("/monthlyPublishGoodsQuantity")
+    public ResultResponse monthlyPublishGoodsQuantity(@RequestHeader String account, @RequestHeader String token,@RequestParam Integer year) {
+        logger.info("AdminController.monthlyPublishGoodsQuantity(),入参：account={},token={},year={}", account, token, year);
+        return adminService.monthlyPublishGoodsQuantity(year);
+    }
+
+    /**
+     * 每日物品发布量统计
+     * @param account
+     * @param token
+     * @param year
+     * @param month
+     * @return
+     */
+    @GetMapping("/dailyPublishGoodsQuantity")
+    public ResultResponse dailyPublishGoodsQuantity(@RequestHeader String account, @RequestHeader String token,
+                                                    @RequestParam Integer year, @RequestParam Integer month) {
+        logger.info("AdminController.dailyPublishGoodsQuantity(),入参：account={},token={},year={},month={}",
+                account, token, year, month);
+        return adminService.dailyPublishGoodsQuantity(year, month);
     }
 }

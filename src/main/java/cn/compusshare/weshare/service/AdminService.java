@@ -13,4 +13,8 @@ public interface AdminService {
     ResultResponse userQuery(int type);
 
     ResultResponse logout(String account, String currentToken);
+
+    ResultResponse monthlyPublishGoodsQuantity(int year);
+
+    ResultResponse dailyPublishGoodsQuantity(int year, int month);
 }
