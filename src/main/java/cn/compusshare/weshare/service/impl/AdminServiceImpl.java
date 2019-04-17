@@ -48,21 +48,20 @@ public class AdminServiceImpl implements AdminService {
     private Environment environment;
 
     @Override
-    public ResultResponse userQuery(int type){
+    public ResultResponse userQuery(int type, int currentPage) {
         try {
-            List<Map<String, Object>> userList = userMapper.selectUserByType(type);
+            List<Map<String, Object>> userList = userMapper.selectUserByType(type, currentPage * 7);
             return ResultUtil.success(userList);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.info("用户数据库查询错误");
-            return  ResultUtil.fail(-1, e.getMessage());
+            return ResultUtil.fail(-1, e.getMessage());
         }
     }
 
 
-
-
     /**
      * 管理员登录
+     *
      * @param account
      * @param password
      * @param session
@@ -72,26 +71,27 @@ public class AdminServiceImpl implements AdminService {
     public ResultResponse login(String account, String password, HttpSession session) {
         String token = cacheService.getString(account);
         //如果缓存中有token，说明之前已有人登录
-        if (! CommonUtil.isEmpty(token)) {
+        if (!CommonUtil.isEmpty(token)) {
             return ResultUtil.fail(Common.LOGIN_ALREADY, Common.LOGIN_ALREADY_MSG);
         }
         Admin admin = adminMapper.selectByPrimaryKey(account);
         //md5加密
         password = DigestUtils.md5Hex(password);
         //密码不相等
-        if (! password.equals(admin.getPassword())) {
+        if (!password.equals(admin.getPassword())) {
             return ResultUtil.fail(Common.WRONG_PASSWORD, Common.WRONG_PASSWORD_MSG);
         }
-        token = loginService.adminToken(environment.getProperty("adminTokenKey"),session.getId());
-        cacheService.set(account,token, Long.valueOf(environment.getProperty("overdueTime")), TimeUnit.SECONDS);
-        Map<String,String> result = new HashMap<>(1);
-        result.put("token",token);
-        logger.info(account+"成功登录");
+        token = loginService.adminToken(environment.getProperty("adminTokenKey"), session.getId());
+        cacheService.set(account, token, Long.valueOf(environment.getProperty("overdueTime")), TimeUnit.SECONDS);
+        Map<String, String> result = new HashMap<>(1);
+        result.put("token", token);
+        logger.info(account + "成功登录");
         return ResultUtil.success(result);
     }
 
     /**
      * 退出登录
+     *
      * @param account
      * @param currentToken
      * @return
@@ -101,22 +101,23 @@ public class AdminServiceImpl implements AdminService {
         String token = cacheService.getString(account);
         //token为空，直接退出
         if (CommonUtil.isEmpty(token)) {
-            logger.info(account+"退出登录");
+            logger.info(account + "退出登录");
             return ResultUtil.success();
         }
 
-        if (! currentToken.equals(token)) {
-            return ResultUtil.fail(Common.TOKEN_INVALID_OR_ACCOUNT_ERROR,Common.TOKEN_INVALID_OR_ACCOUNT_ERROR_MSG);
+        if (!currentToken.equals(token)) {
+            return ResultUtil.fail(Common.TOKEN_INVALID_OR_ACCOUNT_ERROR, Common.TOKEN_INVALID_OR_ACCOUNT_ERROR_MSG);
         }
         //删除token缓存
         cacheService.del(account);
-        logger.info(account+"退出登录");
+        logger.info(account + "退出登录");
         return ResultUtil.success();
     }
 
 
     /**
      * 统计某一年中每月发布的物品数量
+     *
      * @param year
      * @return
      */
@@ -131,13 +132,14 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 某月中每日的物品发布量
+     *
      * @param year
      * @param month
      * @return
      */
     @Override
     public ResultResponse dailyPublishGoodsQuantity(int year, int month) {
-        if (year < 0 || (month < 1 || month >12)) {
+        if (year < 0 || (month < 1 || month > 12)) {
             return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
         }
         List<Map<String, Object>> resultMap = publishGoodsMapper.dailyQuantity(year, month);

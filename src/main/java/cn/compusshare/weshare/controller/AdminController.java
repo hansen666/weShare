@@ -21,24 +21,25 @@ public class AdminController {
     private final static Logger logger = LoggerFactory.getLogger(AdminController.class);
 
 
-
     @Autowired
     private AdminService adminService;
 
     /**
      * 登录
+     *
      * @param session
      * @param param
      * @return
      */
     @PostMapping("/login")
-    public ResultResponse login(HttpSession session, @RequestBody Map<String,String> param) {
+    public ResultResponse login(HttpSession session, @RequestBody Map<String, String> param) {
         logger.info("AdminController.login, 入参：session={}， param={}", session.getId(), param.toString());
         return adminService.login(param.get("account"), param.get("password"), session);
     }
 
     /**
      * 退出登录
+     *
      * @param account
      * @param token
      * @return
@@ -51,26 +52,28 @@ public class AdminController {
 
 
     @GetMapping("/verifiedUser")
-    public ResultResponse verifiedUser(@RequestHeader String token, @RequestHeader String account, @RequestParam int type) {
-        logger.info("AdminController.verifiedUser(),入参：account={},token={},type={}", account, token, type);
-        return adminService.userQuery(type);
+    public ResultResponse verifiedUser(@RequestHeader String account, @RequestHeader String token, @RequestParam int type, @RequestParam int currentPage) {
+        logger.info("AdminController.verifiedUser(),入参：account={},token={},type={}, currentPage={}", account, token, type, currentPage);
+        return adminService.userQuery(type, currentPage);
     }
 
     /**
      * 每日发布物品数量
+     *
      * @param account
      * @param token
      * @param year
      * @return
      */
     @GetMapping("/monthlyPublishGoodsQuantity")
-    public ResultResponse monthlyPublishGoodsQuantity(@RequestHeader String account, @RequestHeader String token,@RequestParam Integer year) {
+    public ResultResponse monthlyPublishGoodsQuantity(@RequestHeader String account, @RequestHeader String token, @RequestParam Integer year) {
         logger.info("AdminController.monthlyPublishGoodsQuantity(),入参：account={},token={},year={}", account, token, year);
         return adminService.monthlyPublishGoodsQuantity(year);
     }
 
     /**
      * 每日物品发布量统计
+     *
      * @param account
      * @param token
      * @param year
