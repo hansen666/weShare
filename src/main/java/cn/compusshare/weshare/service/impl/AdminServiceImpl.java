@@ -5,6 +5,7 @@ import cn.compusshare.weshare.repository.entity.Admin;
 import cn.compusshare.weshare.repository.mapper.AdminMapper;
 import cn.compusshare.weshare.repository.mapper.PublishGoodsMapper;
 import cn.compusshare.weshare.repository.mapper.UserMapper;
+import cn.compusshare.weshare.repository.mapper.WantGoodsMapper;
 import cn.compusshare.weshare.service.AdminService;
 import cn.compusshare.weshare.service.LoginService;
 import cn.compusshare.weshare.service.common.CacheService;
@@ -19,6 +20,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -43,6 +45,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private PublishGoodsMapper publishGoodsMapper;
+
+    @Autowired
+    private WantGoodsMapper wantGoodsMapper;
 
     @Autowired
     private Environment environment;
@@ -180,4 +185,42 @@ public class AdminServiceImpl implements AdminService {
         List<Map<String, Object>> resultMap = userMapper.dailyQuantity(year, month);
         return ResultUtil.success(resultMap);
     }
+    /**
+     * 查询审核未通过的物品
+     * @param currentPage 分页
+     * @param flag 标识，发布的或求购的
+     * @return
+     */
+    @Override
+    public ResultResponse auditFailGoods(int currentPage, int flag) {
+        List<Map<String, Object>> result;
+        if (flag == 0) {
+            result = publishGoodsMapper.auditFailGoods(currentPage * 0);
+        }else {
+            result = wantGoodsMapper.auditFailGoods(currentPage * 10);
+        }
+        result.forEach(map->map.put("pubTime",CommonUtil.timeFromNow((Date) map.get("pubTime"))));
+        return ResultUtil.success(result);
+    }
+
+    /**
+     * 更新物品状态
+     * @param id
+     * @param status
+     * @param flag
+     * @return
+     */
+    @Override
+    public ResultResponse changeGoodsStatus(int id, byte status, int flag) {
+        int result;
+        if (flag == 0) {
+            result = publishGoodsMapper.updateStatus(id, status);
+        }else {
+            result = wantGoodsMapper.updateStatus(id, status);
+        }
+        logger.info("数据库更新结果:" + result);
+        return ResultUtil.success();
+    }
+
+
 }

@@ -21,4 +21,8 @@ public interface AdminService {
     ResultResponse monthlyUserQuantity(int year);
 
     ResultResponse dailyUserQuantity(int year, int month);
+
+    ResultResponse auditFailGoods(int currentPage, int flag);
+
+    ResultResponse changeGoodsStatus(int id, byte status, int flag);
 }

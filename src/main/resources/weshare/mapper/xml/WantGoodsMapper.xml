@@ -70,7 +70,14 @@
     <result column="latitude" jdbcType="DOUBLE" property="latitude" />
   </resultMap>
 
-
+  <resultMap id="auditFailMap" type="java.util.Map" >
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="want_buyer_id" jdbcType="VARCHAR" property="wantBuyerId"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="label" jdbcType="TINYINT" property="label"/>
+    <result column="description" jdbcType="VARCHAR" property="description"/>
+    <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime"/>
+  </resultMap>
 
   <sql id="Want_Goods_List">
     want_goods.id, name, label, pic_url, description, price, browse_count, status,
@@ -90,6 +97,10 @@
   <sql id="Base_Column_List">
     id, want_buyer_id, name, label, pic_url, description, price, browse_count, phone, 
     status, pub_time, longitude, latitude, create_time, update_time
+  </sql>
+
+  <sql id="audit_Fail_List">
+    id, want_buyer_id, name, label, description,pub_time
   </sql>
 
   <select id="showGoodsDetail" parameterType="java.lang.Integer" resultMap="ShowDetailMap">
@@ -119,7 +130,13 @@
     order by pub_time desc
   </select>
 
-
+  <select id="auditFailGoods" parameterType="java.lang.Integer" resultMap="auditFailMap">
+    select
+    <include refid="audit_Fail_List"/>
+    from want_goods
+    where `status` = 0
+    limit #{index}, 10
+  </select>
 
 
 

@@ -62,6 +62,15 @@
         <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl"/>
     </resultMap>
 
+    <resultMap id="auditFailMap" type="java.util.Map" >
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="publisher_id" jdbcType="VARCHAR" property="publisherID"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="label" jdbcType="TINYINT" property="label"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
     id, publisher_id, name, label, pic_url, description, price, browse_count, phone,
     status, pub_time, longitude, latitude, create_time, update_time
@@ -81,6 +90,10 @@
     id, name, label, pic_url, description, price, phone,
     pub_time,update_time
   </sql>
+
+    <sql id="audit_Fail_List">
+        id, publisher_id, name, label, description,pub_time
+    </sql>
 
 
     <select id="showGoodsDetail" parameterType="java.lang.Integer" resultMap="ShowDetailMap">
@@ -151,6 +164,14 @@
         from publish_goods
         where year(create_time)= #{year} and month(create_time)=#{month}
         group by day(create_time)
+    </select>
+
+    <select id="auditFailGoods" parameterType="java.lang.Integer" resultMap="auditFailMap">
+        select
+        <include refid="audit_Fail_List"/>
+        from publish_goods
+        where `status` = 0
+        limit #{index}, 10
     </select>
 
 

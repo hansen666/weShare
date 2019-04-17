@@ -25,7 +25,6 @@ public class AdminController {
 
     /**
      * 登录
-     *
      * @param session
      * @param param
      * @return
@@ -65,7 +64,8 @@ public class AdminController {
      * @return
      */
     @GetMapping("/monthlyPublishGoodsQuantity")
-    public ResultResponse monthlyPublishGoodsQuantity(@RequestHeader String account, @RequestHeader String token, @RequestParam Integer year) {
+    public ResultResponse monthlyPublishGoodsQuantity(@RequestHeader String account,
+                                                      @RequestHeader String token, @RequestParam Integer year) {
         logger.info("AdminController.monthlyPublishGoodsQuantity(),入参：account={},token={},year={}", account, token, year);
         return adminService.monthlyPublishGoodsQuantity(year);
     }
@@ -108,4 +108,36 @@ public class AdminController {
                 account, token, year, month);
         return adminService.dailyUserQuantity(year, month);
     }
+
+    /**
+     * 查询审核未通过的物品
+     * @param account
+     * @param token
+     * @param currentPage
+     * @param flag  标识，从发布表或求购表查
+     * @return
+     */
+    @GetMapping("/auditFailGoods")
+    public ResultResponse auditFailGoods(@RequestHeader String account,
+                                         @RequestHeader String token,@RequestParam Integer currentPage, @RequestParam Integer flag) {
+        logger.info("AdminController.auditFailGoods(),入参：account={},token={},currentPage={},flag={}",
+                account, token, currentPage, flag);
+        return adminService.auditFailGoods(currentPage,flag);
+    }
+
+    /**
+     * 修改物品的审核状态
+     * @param account
+     * @param token
+     * @param param
+     * @return
+     */
+    @PostMapping("/changeGoodsStatus")
+    public ResultResponse changeGoodsStatus(@RequestHeader String account, @RequestHeader String token,
+                                            @RequestBody Map<String, Object> param) {
+        logger.info("AdminController.changeGoodsStatus(),入参：account={},token={}，param={}", account, token, param.toString());
+        return adminService.changeGoodsStatus(((Integer) param.get("id")), (Byte) param.get("status"), (Integer) param.get("flag"));
+    }
+
+
 }

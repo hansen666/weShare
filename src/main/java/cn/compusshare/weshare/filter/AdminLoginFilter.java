@@ -2,8 +2,6 @@ package cn.compusshare.weshare.filter;
 
 
 import cn.compusshare.weshare.constant.Common;
-import cn.compusshare.weshare.repository.mapper.AdminMapper;
-import cn.compusshare.weshare.service.LoginService;
 import cn.compusshare.weshare.service.common.CacheService;
 import cn.compusshare.weshare.utils.CommonUtil;
 import cn.compusshare.weshare.utils.ResultUtil;
