@@ -47,17 +47,23 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private Environment environment;
 
+    /**
+     * 用户查询
+     *
+     * @param  type
+     * @param  currentPage
+     * @return
+     */
     @Override
     public ResultResponse userQuery(int type, int currentPage) {
         try {
             List<Map<String, Object>> userList = userMapper.selectUserByType(type, currentPage * 7);
             return ResultUtil.success(userList);
         } catch (Exception e) {
-            logger.info("用户数据库查询错误");
-            return ResultUtil.fail(-1, e.getMessage());
+            logger.info("userQuery用户数据库查询错误"+e.getMessage());
+            return ResultUtil.fail(Common.FAIL, e.getMessage());
         }
     }
-
 
     /**
      * 管理员登录
@@ -114,7 +120,6 @@ public class AdminServiceImpl implements AdminService {
         return ResultUtil.success();
     }
 
-
     /**
      * 统计某一年中每月发布的物品数量
      *
@@ -146,4 +151,33 @@ public class AdminServiceImpl implements AdminService {
         return ResultUtil.success(resultMap);
     }
 
+    /**
+     * 某年的用户注册数量
+     *
+     * @param year
+     * @return
+     */
+    @Override
+    public ResultResponse monthlyUserQuantity(int year){
+        if (year < 0) {
+            return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
+        }
+        List<Map<String, Object>> resultMap = userMapper.monthlyQuantity(year);
+        return ResultUtil.success(resultMap);
+    }
+
+    /**
+     * 某年某月的用户注册数量
+     *
+     * @param year
+     * @param month
+     * @return
+     */
+    public ResultResponse dailyUserQuantity(int year, int month){
+        if (year < 0 || (month < 1 || month > 12)) {
+            return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
+        }
+        List<Map<String, Object>> resultMap = userMapper.dailyQuantity(year, month);
+        return ResultUtil.success(resultMap);
+    }
 }

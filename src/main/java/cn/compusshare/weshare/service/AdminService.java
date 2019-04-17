@@ -17,4 +17,8 @@ public interface AdminService {
     ResultResponse monthlyPublishGoodsQuantity(int year);
 
     ResultResponse dailyPublishGoodsQuantity(int year, int month);
+
+    ResultResponse monthlyUserQuantity(int year);
+
+    ResultResponse dailyUserQuantity(int year, int month);
 }

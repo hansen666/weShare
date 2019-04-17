@@ -20,7 +20,6 @@ public class AdminController {
 
     private final static Logger logger = LoggerFactory.getLogger(AdminController.class);
 
-
     @Autowired
     private AdminService adminService;
 
@@ -86,5 +85,27 @@ public class AdminController {
         logger.info("AdminController.dailyPublishGoodsQuantity(),入参：account={},token={},year={},month={}",
                 account, token, year, month);
         return adminService.dailyPublishGoodsQuantity(year, month);
+    }
+
+    /**
+     * 每月用户注册统计
+     *
+     * @param account
+     * @param token
+     * @param year
+     * @return
+     */
+    @GetMapping("/monthlyUserQuantity")
+    public ResultResponse monthlyUserQuantity(@RequestHeader String account, @RequestHeader String token, @RequestParam Integer year) {
+        logger.info("AdminController.monthlyUserQuantity(),入参：account={},token={},year={}", account, token, year);
+        return adminService.monthlyUserQuantity(year);
+    }
+
+    @GetMapping("/dailyUserQuantity")
+    public ResultResponse dailyUserQuantity(@RequestHeader String account, @RequestHeader String token,
+                                            @RequestParam Integer year, @RequestParam Integer month) {
+        logger.info("AdminController.dailyUserQuantity(),入参：account={},token={},year={},month={}",
+                account, token, year, month);
+        return adminService.dailyUserQuantity(year, month);
     }
 }
