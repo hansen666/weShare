@@ -80,11 +80,6 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public ResultResponse login(String account, String password, HttpSession session) {
-        String token = cacheService.getString(account);
-        //如果缓存中有token，说明之前已有人登录
-        if (!CommonUtil.isEmpty(token)) {
-            return ResultUtil.fail(Common.LOGIN_ALREADY, Common.LOGIN_ALREADY_MSG);
-        }
         Admin admin = adminMapper.selectByPrimaryKey(account);
         //md5加密
         password = DigestUtils.md5Hex(password);
@@ -92,12 +87,26 @@ public class AdminServiceImpl implements AdminService {
         if (!password.equals(admin.getPassword())) {
             return ResultUtil.fail(Common.WRONG_PASSWORD, Common.WRONG_PASSWORD_MSG);
         }
-        token = loginService.adminToken(environment.getProperty("adminTokenKey"), session.getId());
-        cacheService.set(account, token, Long.valueOf(environment.getProperty("overdueTime")), TimeUnit.SECONDS);
+
+        String token = cacheService.getString(account);
+
+        if (!CommonUtil.isEmpty(token)) {
+            token = refreshToken(account, environment.getProperty("adminTokenKey"), session.getId());
+            logger.info(account + "登录成功");
+        }else {  //如果缓存中有token，说明之前已有人登录,把另一账号挤下线
+            token = refreshToken(account, environment.getProperty("adminTokenKey"), session.getId());
+            logger.info(account + "登录成功，另一地点登录的账号被迫下线");
+        }
+
         Map<String, String> result = new HashMap<>(1);
         result.put("token", token);
-        logger.info(account + "成功登录");
         return ResultUtil.success(result);
+    }
+
+    public String refreshToken(String account, String key, String claim) {
+        String token = loginService.adminToken(key, claim);
+        cacheService.set(account, token, Long.valueOf(environment.getProperty("overdueTime")), TimeUnit.MINUTES);
+        return token;
     }
 
     /**
