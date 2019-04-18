@@ -19,7 +19,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 .allowCredentials(true)
                 .allowedHeaders("*")
                 .allowedOrigins("*")
-                .allowedMethods("*");
+                .allowedMethods("*")
+                .exposedHeaders("access-control-allow-headers","access-control-allow-methods","access-control-allow-origin","access-control-max-age","X-Frame-Options");
 
     }
 }
