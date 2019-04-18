@@ -1,7 +1,7 @@
 package cn.compusshare.weshare.utils;
 
 
-import cn.compusshare.weshare.constant.ResultEnum;
+import cn.compusshare.weshare.constant.Common;
 
 /**
  * @Author: LZing
@@ -10,12 +10,17 @@ import cn.compusshare.weshare.constant.ResultEnum;
  */
 public class ResultUtil {
     public static ResultResponse success(Object object) {
-        ResultResponse resultResponse = new ResultResponse(ResultEnum.success.getCode(),ResultEnum.success.getMsg(),object);
+        ResultResponse resultResponse = new ResultResponse(Common.SUCCESS, Common.SUCCESS_MSG,object);
         return resultResponse;
     }
 
     public static ResultResponse success() {
         return success(null);
+    }
+
+    public static ResultResponse success(Integer code,String msg){
+        ResultResponse resultResponse=new ResultResponse(code,msg);
+        return resultResponse;
     }
 
     public static ResultResponse success(Integer code,String msg,Object object){
@@ -29,7 +34,7 @@ public class ResultUtil {
     }
 
     public static ResultResponse fail(){
-        ResultResponse resultResponse=new ResultResponse(ResultEnum.fail.getCode(),ResultEnum.fail.getMsg());
+        ResultResponse resultResponse=new ResultResponse(Common.FAIL,Common.FAIL_MSG);
         return resultResponse;
     }
 }

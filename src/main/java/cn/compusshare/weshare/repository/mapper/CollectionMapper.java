@@ -2,6 +2,9 @@ package cn.compusshare.weshare.repository.mapper;
 
 import cn.compusshare.weshare.repository.entity.Collection;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface CollectionMapper {
@@ -16,4 +19,10 @@ public interface CollectionMapper {
     int updateByPrimaryKeySelective(Collection record);
 
     int updateByPrimaryKey(Collection record);
+
+    List<Integer> selectGoodsId(@Param("userID") String userID);
+
+    int isRecordExist(@Param("userID") String userID, @Param("goodsID") Integer goodsID);
+
+    int deleteByUserIDAndGoodsID(@Param("userID") String userID, @Param("goodsID") Integer goodsID);
 }

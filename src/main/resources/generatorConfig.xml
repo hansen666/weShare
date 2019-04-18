@@ -62,11 +62,16 @@
 
 
         <!--生成mapper示例-->
-        <table tableName="user" domainObjectName="User"
+        <!--<table tableName="publish_goods" domainObjectName="PublishGoods"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
+        <table tableName="want_goods" domainObjectName="WantGoods"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>-->
 
 
 

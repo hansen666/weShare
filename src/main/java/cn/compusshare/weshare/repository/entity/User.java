@@ -19,6 +19,12 @@ public class User {
 
     private String schoolName;
 
+    private String degree;
+
+    private String major;
+
+    private String department;
+
     private Date createTime;
 
     private Date updateTime;
@@ -85,6 +91,30 @@ public class User {
 
     public void setSchoolName(String schoolName) {
         this.schoolName = schoolName == null ? null : schoolName.trim();
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree == null ? null : degree.trim();
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major == null ? null : major.trim();
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department == null ? null : department.trim();
     }
 
     public Date getCreateTime() {

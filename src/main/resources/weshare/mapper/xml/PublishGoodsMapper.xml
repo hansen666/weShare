@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.compusshare.weshare.repository.mapper.PublishGoodsMapper">
+    <resultMap id="BaseResultMap" type="cn.compusshare.weshare.repository.entity.PublishGoods">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="publisher_id" jdbcType="VARCHAR" property="publisherId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="label" jdbcType="TINYINT" property="label"/>
+        <result column="pic_url" jdbcType="VARCHAR" property="picUrl"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="price" jdbcType="REAL" property="price"/>
+        <result column="browse_count" jdbcType="INTEGER" property="browseCount"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime"/>
+        <result column="longitude" jdbcType="DOUBLE" property="longitude"/>
+        <result column="latitude" jdbcType="DOUBLE" property="latitude"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap id="ShowGoodsMap" type="java.util.HashMap">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="label" jdbcType="TINYINT" property="label"/>
+        <result column="pic_url" jdbcType="VARCHAR" property="picUrl"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="price" jdbcType="REAL" property="price"/>
+        <result column="browse_count" jdbcType="INTEGER" property="browseCount"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime"/>
+        <result column="longitude" jdbcType="DOUBLE" property="longitude"/>
+        <result column="latitude" jdbcType="DOUBLE" property="latitude"/>
+    </resultMap>
+
+    <resultMap id="SoldGoodsMap" type="java.util.HashMap">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="label" jdbcType="TINYINT" property="label"/>
+        <result column="pic_url" jdbcType="VARCHAR" property="picUrl"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="price" jdbcType="REAL" property="price"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap id="ShowDetailMap" type="java.util.HashMap">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="publisher_id" jdbcType="VARCHAR" property="publisherID"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="label" jdbcType="TINYINT" property="label"/>
+        <result column="pic_url" jdbcType="VARCHAR" property="picUrl"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="price" jdbcType="REAL" property="price"/>
+        <result column="browse_count" jdbcType="INTEGER" property="browseCount"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime"/>
+        <result column="longitude" jdbcType="DOUBLE" property="longitude"/>
+        <result column="latitude" jdbcType="DOUBLE" property="latitude"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="identified_type" jdbcType="TINYINT" property="identifiedType"/>
+        <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, publisher_id, name, label, pic_url, description, price, browse_count, phone,
+    status, pub_time, longitude, latitude, create_time, update_time
+  </sql>
+
+    <sql id="Show_Detail_List">
+    publish_goods.id, publisher_id, name, label, pic_url, description, price, browse_count, publish_goods.phone,
+    status, pub_time, longitude, latitude, nickname, identified_type, avatar_url
+  </sql>
+
+    <sql id="Show_Goods_List">
+    publish_goods.id, name, label, pic_url, description, price, browse_count, status,
+    pub_time, longitude, latitude
+  </sql>
+
+    <sql id="Sold_Goods_List">
+    id, name, label, pic_url, description, price, phone,
+    pub_time,update_time
+  </sql>
+
+
+    <select id="showGoodsDetail" parameterType="java.lang.Integer" resultMap="ShowDetailMap">
+        select
+        <include refid="Show_Detail_List"/>
+        from publish_goods,user
+        where publish_goods.publisher_id = user.id and publish_goods.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from publish_goods
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectShowGoods" resultMap="ShowGoodsMap">
+        select
+        <include refid="Show_Goods_List"/>
+        from publish_goods,user
+        where publisher_id != #{publisherId} and status = 1
+        and publish_goods.publisher_id = user.id and user.school_name = #{school}
+        <if test="currentTime!=null and currentTime!='null' and currentTime!=''">and
+            <![CDATA[pub_time < #{currentTime}]]> </if>
+        <if test="label!=null and label!=0">and label=#{label}</if>
+        <if test="keyword!=null and keyword!='null' and keyword!=''">and (name like '%${keyword}%' or description like
+            '%${keyword}%')
+        </if>
+        order by pub_time DESC
+        limit #{currentPage},7
+    </select>
+
+    <select id="selectSoldGoods" resultMap="SoldGoodsMap">
+        select
+        <include refid="Sold_Goods_List"/>
+        from publish_goods
+        where id = #{id,jdbcType=INTEGER}
+        order by id
+    </select>
+
+    <select id="selectCollection" resultMap="ShowGoodsMap">
+        select
+        <include refid="Show_Goods_List"/>
+        from publish_goods
+        where id = #{id,jdbcType=INTEGER} and status = 1
+        order by id
+    </select>
+
+
+    <select id="selectMyPublish" resultMap="ShowGoodsMap">
+        select
+        <include refid="Show_Goods_List"/>
+        from publish_goods
+        where publisher_id = #{userID} and status != 2
+        order by pub_time desc
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from publish_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.PublishGoods">
+    insert into publish_goods (id, publisher_id, name,
+      label, pic_url, description,
+      price, browse_count, phone,
+      status, pub_time, longitude,
+      latitude, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{publisherId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{label,jdbcType=TINYINT}, #{picUrl,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+      #{price,jdbcType=REAL}, #{browseCount,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, #{pubTime,jdbcType=TIMESTAMP}, #{longitude,jdbcType=DOUBLE},
+      #{latitude,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="cn.compusshare.weshare.repository.entity.PublishGoods">
+        insert into publish_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="publisherId != null">
+                publisher_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="label != null">
+                label,
+            </if>
+            <if test="picUrl != null">
+                pic_url,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="browseCount != null">
+                browse_count,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="pubTime != null">
+                pub_time,
+            </if>
+            <if test="longitude != null">
+                longitude,
+            </if>
+            <if test="latitude != null">
+                latitude,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="publisherId != null">
+                #{publisherId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="label != null">
+                #{label,jdbcType=TINYINT},
+            </if>
+            <if test="picUrl != null">
+                #{picUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=REAL},
+            </if>
+            <if test="browseCount != null">
+                #{browseCount,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="pubTime != null">
+                #{pubTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.compusshare.weshare.repository.entity.PublishGoods">
+        update publish_goods
+        <set>
+            <if test="publisherId != null">
+                publisher_id = #{publisherId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="label != null">
+                label = #{label,jdbcType=TINYINT},
+            </if>
+            <if test="picUrl != null">
+                pic_url = #{picUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=REAL},
+            </if>
+            <if test="browseCount != null">
+                browse_count = #{browseCount,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="pubTime != null">
+                pub_time = #{pubTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="longitude != null">
+                longitude = #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                latitude = #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.compusshare.weshare.repository.entity.PublishGoods">
+    update publish_goods
+    set publisher_id = #{publisherId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      label = #{label,jdbcType=TINYINT},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      price = #{price,jdbcType=REAL},
+      browse_count = #{browseCount,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      pub_time = #{pubTime,jdbcType=TIMESTAMP},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+    <update id="browseCountIncrement" parameterType="java.lang.Integer">
+    update publish_goods
+    set browse_count = browse_count + 1
+    WHERE id = #{id};
+  </update>
+
+    <update id="updateStatus">
+    update publish_goods
+    set status = #{status}
+    WHERE id = #{id};
+  </update>
+
+    <update id="updateImage">
+    update publish_goods
+    set pic_url = #{picUrl}
+    WHERE id = #{id};
+  </update>
+</mapper>

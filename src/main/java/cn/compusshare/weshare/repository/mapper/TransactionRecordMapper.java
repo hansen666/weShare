@@ -2,6 +2,9 @@ package cn.compusshare.weshare.repository.mapper;
 
 import cn.compusshare.weshare.repository.entity.TransactionRecord;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface TransactionRecordMapper {
@@ -16,4 +19,10 @@ public interface TransactionRecordMapper {
     int updateByPrimaryKeySelective(TransactionRecord record);
 
     int updateByPrimaryKey(TransactionRecord record);
+
+    List<Integer> selectGoodsId(@Param("userID") String userID);
+
+    int deleteByUserIDAndGoodsID(@Param("userID") String userID, @Param("goodsID") Integer goodsID);
+
+    int deleteByGoodsID(@Param("goodsID") Integer goodsID);
 }

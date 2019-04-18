@@ -10,13 +10,86 @@
     <result column="wx_number" jdbcType="VARCHAR" property="wxNumber" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
+    <result column="degree" jdbcType="VARCHAR" property="degree" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+
+  <resultMap id="userInfo" type="java.util.Map">
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="identified_type" jdbcType="TINYINT" property="identifiedType" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+    <result column="wx_number" jdbcType="VARCHAR" property="wxNumber" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
+  </resultMap>
+
+  <resultMap id="nicknameAndAvatarMap" type="java.util.Map">
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+  </resultMap>
+
+  <sql id="userInfo_Column_List">
+    nickname, real_name, identified_type, avatar_url, wx_number, phone, school_name
+  </sql>
+
+
   <sql id="Base_Column_List">
     id, nickname, real_name, identified_type, avatar_url, wx_number, phone, school_name, 
-    create_time, update_time
+    degree, major, department, create_time, update_time
   </sql>
+
+
+  <select id="isUserExist" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select case when
+    EXISTS(select 1 from `user` where `id`=#{userID,jdbcType=VARCHAR})
+    then 1 else 0 end as result
+  </select>
+  <select id="selectIdentifiedType" parameterType="java.lang.String" resultType="java.lang.Byte">
+    SELECT identified_type
+    FROM user
+    WHERE id = #{userID}
+  </select>
+
+
+  <select id="selectUserInfo" parameterType="java.lang.String" resultMap="userInfo">
+    select
+    <include refid="userInfo_Column_List" />
+    from user
+    where id = #{userID,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectNicknameAndAvatar" parameterType="java.lang.String" resultMap="nicknameAndAvatarMap">
+    select
+    nickname,avatar_url
+    from user
+    where id = #{userID,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAvatarUrl" parameterType="java.lang.String" resultType="java.lang.String">
+    select avatar_url
+    from user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+
+
+  
+  <update id="certify">
+    update user
+    set
+    identified_type = #{type},
+    school_name = #{college},
+    degree = #{degree,jdbcType=VARCHAR},
+    major = #{major,jdbcType=VARCHAR},
+    department = #{department,jdbcType=VARCHAR}
+    where id = #{userID,jdbcType=VARCHAR}
+
+  </update>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -30,11 +103,13 @@
   <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.User">
     insert into user (id, nickname, real_name, 
       identified_type, avatar_url, wx_number, 
-      phone, school_name, create_time, 
+      phone, school_name, degree, 
+      major, department, create_time, 
       update_time)
     values (#{id,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
       #{identifiedType,jdbcType=TINYINT}, #{avatarUrl,jdbcType=VARCHAR}, #{wxNumber,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{phone,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, 
+      #{major,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="cn.compusshare.weshare.repository.entity.User">
@@ -63,6 +138,15 @@
       </if>
       <if test="schoolName != null">
         school_name,
+      </if>
+      <if test="degree != null">
+        degree,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="department != null">
+        department,
       </if>
       <if test="createTime != null">
         create_time,
@@ -96,6 +180,15 @@
       <if test="schoolName != null">
         #{schoolName,jdbcType=VARCHAR},
       </if>
+      <if test="degree != null">
+        #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -128,6 +221,15 @@
       <if test="schoolName != null">
         school_name = #{schoolName,jdbcType=VARCHAR},
       </if>
+      <if test="degree != null">
+        degree = #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -146,8 +248,17 @@
       wx_number = #{wxNumber,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       school_name = #{schoolName,jdbcType=VARCHAR},
+      degree = #{degree,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateAvatarUrl">
+    update user
+    set avatar_url = #{avatarUrl}
+    WHERE id = #{id};
   </update>
 </mapper>

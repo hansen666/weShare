@@ -1,34 +1,43 @@
 package cn.compusshare.weshare.repository.entity;
 
-import java.math.BigDecimal;
+import lombok.Builder;
+import lombok.ToString;
+import lombok.experimental.Tolerate;
+
 import java.util.Date;
 
-public class Goods {
+@Builder
+@ToString
+public class PublishGoods {
+
+    @Tolerate
+    public PublishGoods(){}
+
     private Integer id;
 
     private String publisherId;
 
     private String name;
 
-    private Byte type;
-
     private Byte label;
 
     private String picUrl;
 
-    private String discription;
+    private String description;
 
-    private BigDecimal price;
+    private Float price;
 
     private Integer browseCount;
+
+    private String phone;
 
     private Byte status;
 
     private Date pubTime;
 
-    private Float longitude;
+    private Double longitude;
 
-    private Float latitude;
+    private Double latitude;
 
     private Date createTime;
 
@@ -58,14 +67,6 @@ public class Goods {
         this.name = name == null ? null : name.trim();
     }
 
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
-    }
-
     public Byte getLabel() {
         return label;
     }
@@ -82,19 +83,19 @@ public class Goods {
         this.picUrl = picUrl == null ? null : picUrl.trim();
     }
 
-    public String getDiscription() {
-        return discription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDiscription(String discription) {
-        this.discription = discription == null ? null : discription.trim();
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
     }
 
-    public BigDecimal getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
@@ -104,6 +105,14 @@ public class Goods {
 
     public void setBrowseCount(Integer browseCount) {
         this.browseCount = browseCount;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public Byte getStatus() {
@@ -122,19 +131,19 @@ public class Goods {
         this.pubTime = pubTime;
     }
 
-    public Float getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public Float getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 

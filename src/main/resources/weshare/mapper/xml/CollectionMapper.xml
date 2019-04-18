@@ -17,6 +17,24 @@
     from collection
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectGoodsId"  resultType="java.lang.Integer">
+    select goods_id from collection where user_id = #{userID,jdbcType=VARCHAR}
+    order by create_time  desc
+  </select>
+
+  <select id="isRecordExist"  resultType="java.lang.Integer">
+    select case when
+    EXISTS(select 1 from collection where user_id=#{userID} and goods_id=#{goodsID})
+    then 1 else 0 end as result
+  </select>
+
+  <delete id="deleteByUserIDAndGoodsID" >
+    delete from collection
+    where user_id=#{userID} and goods_id=#{goodsID}
+  </delete>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from collection
     where id = #{id,jdbcType=INTEGER}
