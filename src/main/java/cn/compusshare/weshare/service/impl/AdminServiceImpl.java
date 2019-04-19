@@ -81,11 +81,15 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public ResultResponse login(String account, String password, HttpSession session) {
         Admin admin = adminMapper.selectByPrimaryKey(account);
+        if (admin == null) {
+            return ResultUtil.fail(Common.ACCOUNT_OR_PASSWORD_ERROR, Common.ACCOUNT_OR_PASSWORD_ERROR_MSG);
+        }
+
         //md5加密
         password = DigestUtils.md5Hex(password);
         //密码不相等
         if (!password.equals(admin.getPassword())) {
-            return ResultUtil.fail(Common.WRONG_PASSWORD, Common.WRONG_PASSWORD_MSG);
+            return ResultUtil.fail(Common.ACCOUNT_OR_PASSWORD_ERROR, Common.ACCOUNT_OR_PASSWORD_ERROR_MSG);
         }
 
         String token = cacheService.getString(account);
@@ -93,17 +97,26 @@ public class AdminServiceImpl implements AdminService {
         if (!CommonUtil.isEmpty(token)) {
             token = refreshToken(account, environment.getProperty("adminTokenKey"), session.getId());
             logger.info(account + "登录成功");
+            Map<String, String> result = new HashMap<>(1);
+            result.put("token", token);
+            return ResultUtil.success(result);
         }else {  //如果缓存中有token，说明之前已有人登录,把另一账号挤下线
             token = refreshToken(account, environment.getProperty("adminTokenKey"), session.getId());
             logger.info(account + "登录成功，另一地点登录的账号被迫下线");
+            Map<String, String> result = new HashMap<>(1);
+            result.put("token", token);
+            return ResultUtil.success(Common.LOGIN_ALREADY, Common.LOGIN_ALREADY_MSG, result);
         }
-
-        Map<String, String> result = new HashMap<>(1);
-        result.put("token", token);
-        return ResultUtil.success(result);
     }
 
-    public String refreshToken(String account, String key, String claim) {
+    /**
+     * 刷新token
+     * @param account
+     * @param key
+     * @param claim
+     * @return
+     */
+    private String refreshToken(String account, String key, String claim) {
         String token = loginService.adminToken(key, claim);
         cacheService.set(account, token, Long.valueOf(environment.getProperty("overdueTime")), TimeUnit.MINUTES);
         return token;
