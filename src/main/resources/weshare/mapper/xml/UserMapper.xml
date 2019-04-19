@@ -60,9 +60,9 @@
         select
         <include refid="userInfoByType_Column_List"/>
         from user
-        <where>
-            <if test="type!=2">identified_type = #{type}</if>
-        </where>
+        where 1 = 1
+            <if test="type!=2">and identified_type = #{type}</if>
+            <if test="nickname!='' and nickname!=null">and nickname = #{nickname}</if>
         limit #{currentPage},7
     </select>
 

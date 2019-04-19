@@ -36,7 +36,7 @@ public interface UserMapper {
 
     int updateAvatarUrl(@Param("id") String id, @Param("avatarUrl") String avatarUrl);
 
-    List<Map<String, Object>> selectUserByType(@Param("type") int type, @Param("currentPage") int currentPage);
+    List<Map<String, Object>> selectUserByType(@Param("nickname") String nickname, @Param("type") Integer type, @Param("currentPage") Integer currentPage);
 
     List<Map<String, Object>> monthlyQuantity(Integer year);
 

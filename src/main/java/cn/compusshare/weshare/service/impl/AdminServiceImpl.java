@@ -60,9 +60,9 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
-    public ResultResponse userQuery(int type, int currentPage) {
+    public ResultResponse userQuery(String nickname, Integer type, Integer currentPage) {
         try {
-            List<Map<String, Object>> userList = userMapper.selectUserByType(type, currentPage * 7);
+            List<Map<String, Object>> userList = userMapper.selectUserByType(nickname, type, currentPage * 7);
             return ResultUtil.success(userList);
         } catch (Exception e) {
             logger.info("userQuery用户数据库查询错误"+e.getMessage());

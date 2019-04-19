@@ -25,6 +25,7 @@ public class AdminController {
 
     /**
      * 登录
+     *
      * @param session
      * @param param
      * @return
@@ -48,11 +49,19 @@ public class AdminController {
         return adminService.logout(account, token);
     }
 
-
-    @GetMapping("/verifiedUser")
-    public ResultResponse verifiedUser(@RequestHeader String account, @RequestHeader String token, @RequestParam int type, @RequestParam int currentPage) {
-        logger.info("AdminController.verifiedUser(),入参：account={},token={},type={}, currentPage={}", account, token, type, currentPage);
-        return adminService.userQuery(type, currentPage);
+    /**
+     * 获取用户列表
+     *
+     * @param account
+     * @param token
+     * @param type
+     * @param currentPage
+     * @return
+     */
+    @GetMapping("/getUserList")
+    public ResultResponse getUserList(@RequestHeader String account, @RequestHeader String token,@RequestParam String nickname, @RequestParam Integer type, @RequestParam Integer currentPage) {
+        logger.info("AdminController.getUserList(),入参：account={}, token={}, nickname={}, type={}, currentPage={}", account, token, nickname, type, currentPage);
+        return adminService.userQuery(nickname, type, currentPage);
     }
 
     /**
@@ -101,6 +110,15 @@ public class AdminController {
         return adminService.monthlyUserQuantity(year);
     }
 
+    /**
+     * 每日用户注册统计
+     *
+     * @param account
+     * @param token
+     * @param year
+     * @param month
+     * @return
+     */
     @GetMapping("/dailyUserQuantity")
     public ResultResponse dailyUserQuantity(@RequestHeader String account, @RequestHeader String token,
                                             @RequestParam Integer year, @RequestParam Integer month) {
@@ -111,22 +129,24 @@ public class AdminController {
 
     /**
      * 查询审核未通过的物品
+     *
      * @param account
      * @param token
      * @param currentPage
-     * @param flag  标识，从发布表或求购表查
+     * @param flag        标识，从发布表或求购表查
      * @return
      */
     @GetMapping("/auditFailGoods")
     public ResultResponse auditFailGoods(@RequestHeader String account,
-                                         @RequestHeader String token,@RequestParam Integer currentPage, @RequestParam Integer flag) {
+                                         @RequestHeader String token, @RequestParam Integer currentPage, @RequestParam Integer flag) {
         logger.info("AdminController.auditFailGoods(),入参：account={},token={},currentPage={},flag={}",
                 account, token, currentPage, flag);
-        return adminService.auditFailGoods(currentPage,flag);
+        return adminService.auditFailGoods(currentPage, flag);
     }
 
     /**
      * 修改物品的审核状态
+     *
      * @param account
      * @param token
      * @param param

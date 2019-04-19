@@ -10,7 +10,7 @@ public interface AdminService {
 
     ResultResponse login(String account, String password, HttpSession session);
 
-    ResultResponse userQuery(int type, int currentPage);
+    ResultResponse userQuery(String nickname, Integer type, Integer currentPage);
 
     ResultResponse logout(String account, String currentToken);
 
