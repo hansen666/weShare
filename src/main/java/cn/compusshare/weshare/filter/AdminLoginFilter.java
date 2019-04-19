@@ -57,43 +57,36 @@ public class AdminLoginFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+        //OPTION请求直接放行
         if (request.getMethod().equals(RequestMethod.OPTIONS.name())) {
-            //解决跨域的问题
-            response.setHeader("Access-Control-Allow-Origin","*");
-            response.setHeader("Access-Control-Allow-Credentials","true");
-            response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With,X-App-Id, X-Token");
-            response.setHeader("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-            response.setHeader("Access-Control-Max-Age", "3600");
-            filterChain.doFilter(request, response);
+            response.setStatus(HttpServletResponse.SC_OK);
+        }else {
+            //如果是需要检查登录态的路径
+            if (needCheck(request.getRequestURL().toString())) {
+                logger.info("adminLoginFilter拦截：" + request.getRequestURL().toString());
+                String currentToken = request.getHeader("token");
+                String account = request.getHeader("account");
+                //token或account为空
+                if (CommonUtil.isEmpty(currentToken) || CommonUtil.isEmpty(account)) {
+                    logger.info(Common.TOKEN_OR_ACCOUNT_EMPTY_MSG);
+                    output(response, Common.TOKEN_OR_ACCOUNT_EMPTY, Common.TOKEN_OR_ACCOUNT_EMPTY_MSG);
+                    return;
+                }
+
+                String token = cacheService.getString(account);
+                //token无效或account错误
+                if (CommonUtil.isEmpty(token) || !currentToken.equals(token)) {
+                    logger.info(Common.TOKEN_INVALID_OR_ACCOUNT_ERROR_MSG);
+                    output(response, Common.TOKEN_INVALID_OR_ACCOUNT_ERROR, Common.TOKEN_INVALID_OR_ACCOUNT_ERROR_MSG);
+                    return;
+                }
+
+                //刷新token的过期时间
+                boolean result = cacheService.expire(account,Long.valueOf(environment.getProperty("overdueTime")));
+                logger.info("token过期时间刷新：{}", result);
+            }
         }
 
-
-
-        //如果是需要检查登录态的路径
-        if (needCheck(request.getRequestURL().toString())) {
-            logger.info("adminLoginFilter拦截：" + request.getRequestURL().toString());
-            String currentToken = request.getHeader("token");
-            String account = request.getHeader("account");
-            //token或account为空
-            if (CommonUtil.isEmpty(currentToken) || CommonUtil.isEmpty(account)) {
-                logger.info(Common.TOKEN_OR_ACCOUNT_EMPTY_MSG);
-                output(response, Common.TOKEN_OR_ACCOUNT_EMPTY, Common.TOKEN_OR_ACCOUNT_EMPTY_MSG);
-                return;
-            }
-
-            String token = cacheService.getString(account);
-            //token无效或account错误
-            if (CommonUtil.isEmpty(token) || !currentToken.equals(token)) {
-                logger.info(Common.TOKEN_INVALID_OR_ACCOUNT_ERROR_MSG);
-                output(response, Common.TOKEN_INVALID_OR_ACCOUNT_ERROR, Common.TOKEN_INVALID_OR_ACCOUNT_ERROR_MSG);
-                return;
-            }
-
-
-            //刷新token的过期时间
-            boolean result = cacheService.expire(account,Long.valueOf(environment.getProperty("overdueTime")));
-            logger.info("token过期时间刷新：{}", result);
-        }
         //下游过滤链
         filterChain.doFilter(request, response);
     }
