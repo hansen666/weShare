@@ -94,7 +94,7 @@ public class AdminServiceImpl implements AdminService {
 
         String token = cacheService.getString(account);
 
-        if (!CommonUtil.isEmpty(token)) {
+        if (CommonUtil.isEmpty(token)) {
             token = refreshToken(account, environment.getProperty("adminTokenKey"), session.getId());
             logger.info(account + "登录成功");
             Map<String, String> result = new HashMap<>(1);

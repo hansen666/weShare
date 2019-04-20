@@ -100,19 +100,22 @@ public class AdminLoginFilter implements Filter {
      */
     private void output(HttpServletResponse response, int code, String msg) {
         response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html; charset=utf-8");
+        response.setContentType("application/json; charset=utf-8");
         PrintWriter writer = null;
         try {
             writer = response.getWriter();
             writer.print(JSONObject.toJSON(ResultUtil.fail(code, msg)));
+            response.flushBuffer();
             return;
 
         } catch (IOException e) {
             logger.error("adminLoginFilter error", e);
             return;
         } finally {
-            if (writer != null)
+            if (writer != null) {
                 writer.close();
+            }
+
         }
     }
 
