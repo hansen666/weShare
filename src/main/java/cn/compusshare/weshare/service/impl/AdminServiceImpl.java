@@ -2,10 +2,7 @@ package cn.compusshare.weshare.service.impl;
 
 import cn.compusshare.weshare.constant.Common;
 import cn.compusshare.weshare.repository.entity.Admin;
-import cn.compusshare.weshare.repository.mapper.AdminMapper;
-import cn.compusshare.weshare.repository.mapper.PublishGoodsMapper;
-import cn.compusshare.weshare.repository.mapper.UserMapper;
-import cn.compusshare.weshare.repository.mapper.WantGoodsMapper;
+import cn.compusshare.weshare.repository.mapper.*;
 import cn.compusshare.weshare.service.AdminService;
 import cn.compusshare.weshare.service.LoginService;
 import cn.compusshare.weshare.service.common.CacheService;
@@ -20,10 +17,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -48,6 +43,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private WantGoodsMapper wantGoodsMapper;
+
+    @Autowired
+    private TransactionRecordMapper transactionRecordMapper;
 
     @Autowired
     private Environment environment;
@@ -142,8 +140,8 @@ public class AdminServiceImpl implements AdminService {
             return ResultUtil.fail(Common.TOKEN_INVALID_OR_ACCOUNT_ERROR, Common.TOKEN_INVALID_OR_ACCOUNT_ERROR_MSG);
         }
         //删除token缓存
-        cacheService.del(account);
-        logger.info(account + "退出登录");
+        boolean redisResult = cacheService.del(account);
+        logger.info(account + "退出登录, token缓存删除：" + redisResult);
         return ResultUtil.success();
     }
 
@@ -151,15 +149,25 @@ public class AdminServiceImpl implements AdminService {
      * 统计某一年中每月发布的物品数量
      *
      * @param year
+     * @param flag
      * @return
      */
     @Override
-    public ResultResponse monthlyPublishGoodsQuantity(int year) {
+    public ResultResponse monthlyGoodsQuantity(int year, int flag) {
         if (year < 0) {
             return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
         }
-        List<Map<String, Object>> resultMap = publishGoodsMapper.monthlyQuantity(year);
-        return ResultUtil.success(resultMap);
+
+        List<Map<String, Object>> result;
+        if (flag == 0) {
+            //在publishGoods表中查
+            result = publishGoodsMapper.monthlyQuantity(year);
+        }else {
+            //在wantGoods表中查
+            result = wantGoodsMapper.monthlyQuantity(year);
+        }
+        fillMonth(result);
+        return ResultUtil.success(result);
     }
 
     /**
@@ -167,15 +175,24 @@ public class AdminServiceImpl implements AdminService {
      *
      * @param year
      * @param month
+     * @param flag
      * @return
      */
     @Override
-    public ResultResponse dailyPublishGoodsQuantity(int year, int month) {
+    public ResultResponse dailyGoodsQuantity(int year, int month, int flag) {
         if (year < 0 || (month < 1 || month > 12)) {
             return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
         }
-        List<Map<String, Object>> resultMap = publishGoodsMapper.dailyQuantity(year, month);
-        return ResultUtil.success(resultMap);
+        List<Map<String, Object>> result;
+        if (flag == 0) {
+            //在publishGoods表中查
+            result = publishGoodsMapper.dailyQuantity(year, month);
+        }else {
+            //在wantGoods表中查
+            result = wantGoodsMapper.dailyQuantity(year, month);
+        }
+        fillDay(result, year, month);
+        return ResultUtil.success(result);
     }
 
     /**
@@ -200,6 +217,7 @@ public class AdminServiceImpl implements AdminService {
      * @param month
      * @return
      */
+    @Override
     public ResultResponse dailyUserQuantity(int year, int month){
         if (year < 0 || (month < 1 || month > 12)) {
             return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
@@ -242,6 +260,99 @@ public class AdminServiceImpl implements AdminService {
         }
         logger.info("数据库更新结果:" + result);
         return ResultUtil.success();
+    }
+
+    /**
+     * 填充月份
+     * @param result
+     */
+    private void fillMonth(List<Map<String, Object>> result) {
+        fill(result, 12);
+    }
+
+    /**
+     * 填充日期
+     * @param result
+     * @param year
+     * @param month
+     */
+    private void fillDay(List<Map<String, Object>> result, int year, int month) {
+        //获取月的天数
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.getTimeInMillis();
+        int day = calendar.getActualMaximum(Calendar.DATE);
+
+        //填充
+        fill(result, day);
+    }
+
+    /**
+     * 填充函数
+     * @param result
+     * @param total 根据total判断填充月份还是日期
+     */
+    private void fill(List<Map<String, Object>> result, int total) {
+        //确定要填充的是月份还是日期
+        String key = total > 12 ? "day" : "month";
+        for (int i = 1; i <= total; i++) {
+            // 填充标识
+            int flag = 0;
+            for (Map<String, Object> map : result) {
+                //如果已经包含，直接退出
+                if (((Integer)map.get(key)) == i) {
+                    flag = 1;
+                    break;
+                }
+            }
+            // flag为0说明未包含，填充
+            if (flag == 0) {
+                Map<String, Object> newMap = new HashMap<>(2);
+                newMap.put(key,i);
+                newMap.put("count",0);
+                result.add(newMap);
+            }
+        }
+
+        //排序
+        result.sort(new Comparator<Map<String, Object>>() {
+            @Override
+            public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                return (Integer) o1.get(key)- (Integer) o2.get(key);
+            }
+        });
+    }
+
+    /**
+     * 每月成交量统计
+     * @param year
+     * @return
+     */
+    @Override
+    public ResultResponse monthlyGoodsTransactionQuantity(int year) {
+        if (year < 0) {
+            return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
+        }
+        List<Map<String, Object>> result = transactionRecordMapper.monthlyQuantity(year);
+        fillMonth(result);
+        return ResultUtil.success(result);
+    }
+
+    /**
+     * 每日成交量统计
+     * @param year
+     * @param month
+     * @return
+     */
+    @Override
+    public ResultResponse dailyGoodsTransactionQuantity(int year, int month) {
+        if (year < 0 || (month < 1 || month > 12)) {
+            return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
+        }
+        List<Map<String, Object>> result = transactionRecordMapper.dailyQuantity(year, month);
+        fillDay(result, year, month);
+        return ResultUtil.success(result);
     }
 
 

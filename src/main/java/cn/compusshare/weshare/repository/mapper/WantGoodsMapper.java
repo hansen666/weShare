@@ -37,4 +37,8 @@ public interface WantGoodsMapper {
     int updateImage(@Param("id") Integer id, @Param("picUrl") String picUrl);
 
     List<Map<String, Object>> auditFailGoods(Integer Index);
+
+    List<Map<String, Object>> monthlyQuantity(Integer year);
+
+    List<Map<String, Object>> dailyQuantity(@Param("year") Integer year, @Param("month") Integer month);
 }

@@ -14,9 +14,9 @@ public interface AdminService {
 
     ResultResponse logout(String account, String currentToken);
 
-    ResultResponse monthlyPublishGoodsQuantity(int year);
+    ResultResponse monthlyGoodsQuantity(int year, int flag);
 
-    ResultResponse dailyPublishGoodsQuantity(int year, int month);
+    ResultResponse dailyGoodsQuantity(int year, int month, int flag);
 
     ResultResponse monthlyUserQuantity(int year);
 
@@ -25,4 +25,8 @@ public interface AdminService {
     ResultResponse auditFailGoods(int currentPage, int flag);
 
     ResultResponse changeGoodsStatus(int id, byte status, int flag);
+
+    ResultResponse monthlyGoodsTransactionQuantity(int year);
+
+    ResultResponse dailyGoodsTransactionQuantity(int year, int month);
 }

@@ -114,14 +114,15 @@ public class CacheService {
      * 删除一个或多个缓存
      * @param key
      */
-    public void del(String... key) {
+    public boolean del(String... key) {
         if (key != null && key.length > 0) {
             if (key.length == 1) {
-                redisTemplate.delete(key[0]);
+                return redisTemplate.delete(key[0]);
             } else {
-                redisTemplate.delete(CollectionUtils.arrayToList(key));
+                return redisTemplate.delete(CollectionUtils.arrayToList(key)) == 0 ?false:true;
             }
         }
+        return false;
     }
 
      //===================List=======================

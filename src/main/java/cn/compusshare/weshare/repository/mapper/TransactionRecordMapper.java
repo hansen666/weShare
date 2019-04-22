@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface TransactionRecordMapper {
@@ -25,4 +26,8 @@ public interface TransactionRecordMapper {
     int deleteByUserIDAndGoodsID(@Param("userID") String userID, @Param("goodsID") Integer goodsID);
 
     int deleteByGoodsID(@Param("goodsID") Integer goodsID);
+
+    List<Map<String, Object>> monthlyQuantity(Integer year);
+
+    List<Map<String, Object>> dailyQuantity(@Param("year") Integer year, @Param("month") Integer month);
 }

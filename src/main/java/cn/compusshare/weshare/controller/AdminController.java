@@ -73,10 +73,11 @@ public class AdminController {
      * @return
      */
     @GetMapping("/monthlyPublishGoodsQuantity")
-    public ResultResponse monthlyPublishGoodsQuantity(@RequestHeader String account,
-                                                      @RequestHeader String token, @RequestParam Integer year) {
-        logger.info("AdminController.monthlyPublishGoodsQuantity(),入参：account={},token={},year={}", account, token, year);
-        return adminService.monthlyPublishGoodsQuantity(year);
+    public ResultResponse monthlyPublishGoodsQuantity(@RequestHeader String account, @RequestHeader String token,
+                                                      @RequestParam Integer year, @RequestParam Integer flag) {
+        logger.info("AdminController.monthlyPublishGoodsQuantity(),入参：account={},token={},year={},flag={}",
+                account, token, year, flag);
+        return adminService.monthlyGoodsQuantity(year, flag);
     }
 
     /**
@@ -90,10 +91,10 @@ public class AdminController {
      */
     @GetMapping("/dailyPublishGoodsQuantity")
     public ResultResponse dailyPublishGoodsQuantity(@RequestHeader String account, @RequestHeader String token,
-                                                    @RequestParam Integer year, @RequestParam Integer month) {
-        logger.info("AdminController.dailyPublishGoodsQuantity(),入参：account={},token={},year={},month={}",
-                account, token, year, month);
-        return adminService.dailyPublishGoodsQuantity(year, month);
+                                                    @RequestParam Integer year, @RequestParam Integer month, @RequestParam Integer flag) {
+        logger.info("AdminController.dailyPublishGoodsQuantity(),入参：account={},token={},year={},month={},flag={}",
+                account, token, year, month, flag);
+        return adminService.dailyGoodsQuantity(year, month, flag);
     }
 
     /**
@@ -158,6 +159,37 @@ public class AdminController {
         logger.info("AdminController.changeGoodsStatus(),入参：account={},token={}，param={}", account, token, param.toString());
         return adminService.changeGoodsStatus(((Integer) param.get("id")), (Byte) param.get("status"), (Integer) param.get("flag"));
     }
+
+    /**
+     * 每月成交量统计
+     * @param account
+     * @param token
+     * @param year
+     * @return
+     */
+    @GetMapping("/monthlyGoodsTransactionQuantity")
+    public ResultResponse monthlyGoodsTransactionQuantity(@RequestHeader String account, @RequestHeader String token,
+                                                          @RequestParam Integer year) {
+        logger.info("AdminController.monthlyGoodsTransactionQuantity(),入参：account={},token={},year={}", account, token, year);
+        return adminService.monthlyGoodsTransactionQuantity(year);
+    }
+
+    /**
+     * 每日成量统计
+     * @param account
+     * @param token
+     * @param year
+     * @param month
+     * @return
+     */
+    @GetMapping("/dailyGoodsTransactionQuantity")
+    public ResultResponse dailyGoodsTransactionQuantity(@RequestHeader String account, @RequestHeader String token,
+                                                        @RequestParam Integer year, @RequestParam Integer month) {
+        logger.info("AdminController.dailyGoodsTransactionQuantity(),入参：account={},token={},year={},month={}",
+                account, token, year, month);
+        return adminService.dailyGoodsTransactionQuantity(year, month);
+    }
+
 
 
 }
