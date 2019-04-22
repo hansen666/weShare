@@ -61,8 +61,8 @@
         <include refid="userInfoByType_Column_List"/>
         from user
         where 1 = 1
-            <if test="type!=2">and identified_type = #{type}</if>
-            <if test="nickname!='' and nickname!=null">and nickname = #{nickname}</if>
+        <if test="type!=2">and identified_type = #{type}</if>
+        <if test="nickname!='' and nickname!=null">and nickname like '%${nickname}%'</if>
         limit #{currentPage},7
     </select>
 
@@ -76,6 +76,14 @@
     FROM user
     WHERE id = #{userID}
   </select>
+
+    <select id="userQueryCount" resultType="java.lang.Integer">
+        SELECT count(*)
+        from user
+        where 1 = 1
+        <if test="type!=2">and identified_type = #{type}</if>
+        <if test="nickname!='' and nickname!=null">and nickname like '%${nickname}%'</if>
+    </select>
 
 
     <select id="selectUserInfo" parameterType="java.lang.String" resultMap="userInfo">
