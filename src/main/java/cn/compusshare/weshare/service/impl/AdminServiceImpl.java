@@ -61,6 +61,12 @@ public class AdminServiceImpl implements AdminService {
     public ResultResponse userQuery(String nickname, Integer type, Integer currentPage) {
         try {
             List<Map<String, Object>> userList = userMapper.selectUserByType(nickname, type, currentPage * 7);
+            int count = userMapper.userQueryCount(nickname, type);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            userList.forEach(t -> {
+                t.put("updateTime", df.format(t.get("updateTime")));
+                t.put("count", count);
+            });
             return ResultUtil.success(userList);
         } catch (Exception e) {
             logger.info("userQuery用户数据库查询错误"+e.getMessage());

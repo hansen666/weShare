@@ -38,6 +38,8 @@ public interface UserMapper {
 
     List<Map<String, Object>> selectUserByType(@Param("nickname") String nickname, @Param("type") Integer type, @Param("currentPage") Integer currentPage);
 
+    int userQueryCount(@Param("nickname") String nickname, @Param("type") Integer type);
+
     List<Map<String, Object>> monthlyQuantity(Integer year);
 
     List<Map<String, Object>> dailyQuantity(@Param("year") int year, @Param("month") int month);
