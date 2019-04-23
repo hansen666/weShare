@@ -213,6 +213,7 @@ public class AdminServiceImpl implements AdminService {
             return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
         }
         List<Map<String, Object>> resultMap = userMapper.monthlyQuantity(year);
+        fillMonth(resultMap);
         return ResultUtil.success(resultMap);
     }
 
@@ -229,6 +230,7 @@ public class AdminServiceImpl implements AdminService {
             return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
         }
         List<Map<String, Object>> resultMap = userMapper.dailyQuantity(year, month);
+        fillDay(resultMap, year, month);
         return ResultUtil.success(resultMap);
     }
     /**
