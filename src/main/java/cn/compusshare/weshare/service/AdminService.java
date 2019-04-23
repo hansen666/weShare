@@ -29,4 +29,12 @@ public interface AdminService {
     ResultResponse monthlyGoodsTransactionQuantity(int year);
 
     ResultResponse dailyGoodsTransactionQuantity(int year, int month);
+
+    ResultResponse userSold(String id);
+
+    ResultResponse userWanted(String id);
+
+    ResultResponse userPublish(String id);
+
+    ResultResponse userCollections(String id);
 }
