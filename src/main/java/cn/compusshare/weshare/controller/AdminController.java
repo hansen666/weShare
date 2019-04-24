@@ -239,4 +239,18 @@ public class AdminController {
         logger.info("AdminController.userCollections(), 入参:account={},token={},id={}", account, token, id);
         return adminService.userCollections(id);
     }
+
+    /**
+     * 获取用户详细信息
+     *
+     * @param account
+     * @param token
+     * @param id
+     * @return
+     */
+    @GetMapping("/userFullInfo")
+    public ResultResponse userFullInfo(@RequestHeader String account, @RequestHeader String token, @RequestParam String id) {
+        logger.info("AdminController.userFullInfo(), 入参:account={}, token={}, id={}", account, token, id);
+        return adminService.getUserFullInfo(id);
+    }
 }

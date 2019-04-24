@@ -2,6 +2,7 @@ package cn.compusshare.weshare.service.impl;
 
 import cn.compusshare.weshare.constant.Common;
 import cn.compusshare.weshare.repository.entity.Admin;
+import cn.compusshare.weshare.repository.entity.User;
 import cn.compusshare.weshare.repository.mapper.*;
 import cn.compusshare.weshare.service.AdminService;
 import cn.compusshare.weshare.service.LoginService;
@@ -448,5 +449,17 @@ public class AdminServiceImpl implements AdminService {
             }
         }
         return ResultUtil.success(collectionGoodsList);
+    }
+
+    /**
+     * 获取用户详细信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ResultResponse getUserFullInfo(String id) {
+        User user = userMapper.selectByPrimaryKey(id);
+        return ResultUtil.success(user);
     }
 }

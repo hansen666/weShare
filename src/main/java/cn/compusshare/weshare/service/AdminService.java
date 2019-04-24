@@ -37,4 +37,6 @@ public interface AdminService {
     ResultResponse userPublish(String id);
 
     ResultResponse userCollections(String id);
+
+    ResultResponse getUserFullInfo(String id);
 }
