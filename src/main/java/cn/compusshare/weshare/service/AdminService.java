@@ -42,4 +42,6 @@ public interface AdminService {
     ResultResponse userCollections(String id);
 
     ResultResponse getUserFullInfo(String id);
+
+    ResultResponse goodsDetail(int id, int flag);
 }
