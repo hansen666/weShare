@@ -1,6 +1,7 @@
 package cn.compusshare.weshare.service.impl;
 
 import cn.compusshare.weshare.constant.Common;
+import cn.compusshare.weshare.repository.RequestBody.AdminGoodsRequest;
 import cn.compusshare.weshare.repository.entity.Admin;
 import cn.compusshare.weshare.repository.mapper.*;
 import cn.compusshare.weshare.service.AdminService;
@@ -17,6 +18,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -361,5 +364,46 @@ public class AdminServiceImpl implements AdminService {
         return ResultUtil.success(result);
     }
 
+    /**
+     * 查询物品记录
+     * @param request
+     * @return
+     */
+    @Override
+    public ResultResponse goodsRecord(AdminGoodsRequest request) {
+        List<Map<String, Object>> result;
+        if (request.getFlag() == 1) {
+            result = wantGoodsMapper.selectAdminGoods(request.getGoodsName(), request.getNickname(),
+                    request.getLabel(), request.getStatus(), request.getStartDate(), request.getEndDate(),
+                    request.getSchoolName(), request.getCurrentPage() * 10);
+        }else {
+            result = publishGoodsMapper.selectAdminGoods(request.getGoodsName(), request.getNickname(),
+                    request.getLabel(), request.getStatus(), request.getStartDate(), request.getEndDate(),
+                    request.getSchoolName(), request.getCurrentPage() * 10);
+        }
+        result.forEach(map -> map.put("pubTime",CommonUtil.timeFromNow((Date)map.get("pubTime"))));
+
+        return ResultUtil.success(result);
+
+    }
+
+    /**
+     * 获取时间戳
+     * @param dateString
+     * @return
+     * @throws Exception
+     */
+    private long getTimeStamp(String dateString) throws Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = sdf.parse(dateString);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return calendar.getTimeInMillis();
+    }
 
 }

@@ -1,5 +1,6 @@
 package cn.compusshare.weshare.service;
 
+import cn.compusshare.weshare.repository.RequestBody.AdminGoodsRequest;
 import cn.compusshare.weshare.utils.ResultResponse;
 import org.springframework.stereotype.Service;
 
@@ -29,4 +30,6 @@ public interface AdminService {
     ResultResponse monthlyGoodsTransactionQuantity(int year);
 
     ResultResponse dailyGoodsTransactionQuantity(int year, int month);
+
+    ResultResponse goodsRecord(AdminGoodsRequest request);
 }

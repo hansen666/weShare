@@ -71,6 +71,18 @@
         <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime"/>
     </resultMap>
 
+    <resultMap id="AdminGoodsMap" type="java.util.Map">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="label" jdbcType="TINYINT" property="label"/>
+        <result column="pic_url" jdbcType="VARCHAR" property="picUrl"/>
+        <result column="price" jdbcType="REAL" property="price"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="school_name" jdbcType="VARCHAR" property="schoolName"/>
+        <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
     id, publisher_id, name, label, pic_url, description, price, browse_count, phone,
     status, pub_time, longitude, latitude, create_time, update_time
@@ -93,6 +105,10 @@
 
     <sql id="audit_Fail_List">
         id, publisher_id, name, label, description,pub_time
+    </sql>
+
+    <sql id="admin_goods_List">
+        publish_goods.id, nickname, name, label, price, pic_url, status, pub_time, school_name
     </sql>
 
 
@@ -123,6 +139,36 @@
         </if>
         order by pub_time DESC
         limit #{currentPage},7
+    </select>
+
+    <select id="selectAdminGoods" resultMap="AdminGoodsMap">
+        select
+        <include refid="admin_goods_List"/>
+        from publish_goods,`user`
+        <where>
+            <if test="goodsName!=null and goodsName !=''">
+            and name like '%${goodsName}%'
+            </if>
+            <if test="nickname !=null and nickname !=''">
+                and  user.nickname = #{nickname}
+            </if>
+            <if test="label !=null">
+                and  label = #{label}
+            </if>
+            <if test="status !=null">
+                and  status = #{status}
+            </if>
+            <if test="startDate !=null and startDate != '' and endDate !=null and endDate != ''">
+                and  publish_goods.create_time &gt;= #{startDate} and publish_goods.create_time &lt;= #{endDate}
+            </if>
+            <if test="schoolName !=null and schoolName !=''">
+                and  `user`.school_name = #{schoolName}
+            </if>
+            and publish_goods.publisher_id = `user`.id
+        </where>
+
+        order by pub_time DESC
+        limit #{currentIndex},10
     </select>
 
     <select id="selectSoldGoods" resultMap="SoldGoodsMap">

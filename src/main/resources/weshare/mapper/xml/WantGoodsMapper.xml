@@ -79,6 +79,18 @@
     <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime"/>
   </resultMap>
 
+  <resultMap id="AdminGoodsMap" type="java.util.Map">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="label" jdbcType="TINYINT" property="label"/>
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl"/>
+    <result column="price" jdbcType="REAL" property="price"/>
+    <result column="status" jdbcType="TINYINT" property="status"/>
+    <result column="school_name" jdbcType="VARCHAR" property="schoolName"/>
+    <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime"/>
+  </resultMap>
+
   <sql id="Want_Goods_List">
     want_goods.id, name, label, pic_url, description, price, browse_count, status,
     pub_time, longitude, latitude, nickname, avatar_url
@@ -101,6 +113,10 @@
 
   <sql id="audit_Fail_List">
     id, want_buyer_id, name, label, description,pub_time
+  </sql>
+
+  <sql id="admin_goods_List">
+    want_goods.id, nickname, name, label, price, pic_url, status, pub_time, school_name
   </sql>
 
   <select id="showGoodsDetail" parameterType="java.lang.Integer" resultMap="ShowDetailMap">
@@ -155,6 +171,35 @@
     group by day(create_time)
   </select>
 
+  <select id="selectAdminGoods" resultMap="AdminGoodsMap">
+    select
+    <include refid="admin_goods_List"/>
+    from want_goods,`user`
+    <where>
+      <if test="goodsName!=null and goodsName !=''">
+        and name like '%${goodsName}%'
+      </if>
+      <if test="nickname !=null and nickname !=''">
+        and  user.nickname = #{nickname} and
+      </if>
+      <if test="label !=null">
+        and  label = #{label}
+      </if>
+      <if test="status !=null">
+        and  status = #{status}
+      </if>
+      <if test="startDate !=null and startDate != '' and endDate !=null and endDate != ''">
+        and  want_goods.create_time &gt;= #{startDate} and want_goods.create_time &lt;= #{endDate}
+      </if>
+      <if test="schoolName !=null and schoolName !=''">
+        and  `user`.school_name = #{schoolName}
+      </if>
+      and want_goods.want_buyer_id = `user`.id
+    </where>
+
+    order by pub_time DESC
+    limit #{currentIndex},10
+  </select>
 
 
 

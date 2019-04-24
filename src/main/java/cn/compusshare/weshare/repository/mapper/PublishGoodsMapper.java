@@ -45,4 +45,8 @@ public interface PublishGoodsMapper {
     List<Map<String, Object>> dailyQuantity(@Param("year") Integer year, @Param("month") Integer month);
 
     List<Map<String, Object>> auditFailGoods(Integer Index);
+
+    List<Map<String, Object>> selectAdminGoods(@Param("goodsName") String goodsName, @Param("nickname") String nickname, @Param("label") Byte label,
+                                               @Param("status") Byte status, @Param("startDate") String startDate, @Param("endDate") String endDate,
+                                               @Param("schoolName") String schoolName, @Param("currentIndex") Integer currentIndex);
 }

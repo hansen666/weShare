@@ -1,5 +1,6 @@
 package cn.compusshare.weshare.controller;
 
+import cn.compusshare.weshare.repository.RequestBody.AdminGoodsRequest;
 import cn.compusshare.weshare.service.AdminService;
 import cn.compusshare.weshare.utils.ResultResponse;
 import org.slf4j.Logger;
@@ -188,6 +189,12 @@ public class AdminController {
         logger.info("AdminController.dailyGoodsTransactionQuantity(),入参：account={},token={},year={},month={}",
                 account, token, year, month);
         return adminService.dailyGoodsTransactionQuantity(year, month);
+    }
+
+    @PostMapping("/goodsRecord")
+    public ResultResponse goodsRecord(@RequestHeader String account, @RequestHeader String token, @RequestBody AdminGoodsRequest request) {
+        logger.info("AdminController.goodsRecord(), 入参:account={},token={},requestParam={}", account, token, request.toString());
+        return adminService.goodsRecord(request);
     }
 
 
