@@ -6,6 +6,7 @@ import cn.compusshare.weshare.repository.entity.Admin;
 import cn.compusshare.weshare.repository.entity.User;
 import cn.compusshare.weshare.repository.mapper.*;
 import cn.compusshare.weshare.service.AdminService;
+import cn.compusshare.weshare.service.GoodsService;
 import cn.compusshare.weshare.service.LoginService;
 import cn.compusshare.weshare.service.common.CacheService;
 import cn.compusshare.weshare.utils.CommonUtil;
@@ -36,6 +37,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private GoodsService goodsService;
 
     @Autowired
     private AdminMapper adminMapper;
@@ -485,5 +489,20 @@ public class AdminServiceImpl implements AdminService {
     public ResultResponse getUserFullInfo(String id) {
         User user = userMapper.selectByPrimaryKey(id);
         return ResultUtil.success(user);
+    }
+
+    /**
+     * 查询物品详情
+     * @param id
+     * @param flag
+     * @return
+     */
+    @Override
+    public ResultResponse goodsDetail(int id, int flag) {
+        if (flag == 1) {
+            return goodsService.showWishDetail(id);
+        } else {
+            return goodsService.showHomeDetail(id);
+        }
     }
 }

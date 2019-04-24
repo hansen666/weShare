@@ -260,4 +260,18 @@ public class AdminController {
         logger.info("AdminController.userFullInfo(), 入参:account={}, token={}, id={}", account, token, id);
         return adminService.getUserFullInfo(id);
     }
+
+    /**
+     * 查询物品详情
+     * @param account
+     * @param token
+     * @param id
+     * @param flag
+     * @return
+     */
+    @GetMapping("/goodsDetail")
+    public ResultResponse goodsDetail(@RequestHeader String account, @RequestHeader String token, @RequestParam Integer id, @RequestParam Integer flag) {
+        logger.info("AdminController.goodsDetail(),入参：account={},token={},id={},flag={}", account, token, id, flag);
+        return adminService.goodsDetail(id, flag);
+    }
 }
