@@ -3,6 +3,7 @@ package cn.compusshare.weshare.service.impl;
 import cn.compusshare.weshare.constant.Common;
 import cn.compusshare.weshare.repository.RequestBody.AdminGoodsRequest;
 import cn.compusshare.weshare.repository.entity.Admin;
+import cn.compusshare.weshare.repository.entity.User;
 import cn.compusshare.weshare.repository.mapper.*;
 import cn.compusshare.weshare.service.AdminService;
 import cn.compusshare.weshare.service.LoginService;
@@ -18,8 +19,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
-import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -51,13 +50,16 @@ public class AdminServiceImpl implements AdminService {
     private TransactionRecordMapper transactionRecordMapper;
 
     @Autowired
+    private CollectionMapper collectionMapper;
+
+    @Autowired
     private Environment environment;
 
     /**
      * 用户查询
      *
-     * @param  type
-     * @param  currentPage
+     * @param type
+     * @param currentPage
      * @return
      */
     @Override
@@ -66,13 +68,13 @@ public class AdminServiceImpl implements AdminService {
             List<Map<String, Object>> userList = userMapper.selectUserByType(nickname, type, currentPage * 7);
             int count = userMapper.userQueryCount(nickname, type);
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            userList.forEach(t -> {
-                t.put("updateTime", df.format(t.get("updateTime")));
-                t.put("count", count);
-            });
-            return ResultUtil.success(userList);
+            userList.forEach(t -> t.put("updateTime", df.format(t.get("updateTime"))));
+            HashMap<String, Object> result = new HashMap<>();
+            result.put("count", count);
+            result.put("userList", userList);
+            return ResultUtil.success(result);
         } catch (Exception e) {
-            logger.info("userQuery用户数据库查询错误"+e.getMessage());
+            logger.info("userQuery用户数据库查询错误" + e.getMessage());
             return ResultUtil.fail(Common.FAIL, e.getMessage());
         }
     }
@@ -107,7 +109,7 @@ public class AdminServiceImpl implements AdminService {
             Map<String, String> result = new HashMap<>(1);
             result.put("token", token);
             return ResultUtil.success(result);
-        }else {  //如果缓存中有token，说明之前已有人登录,把另一账号挤下线
+        } else {  //如果缓存中有token，说明之前已有人登录,把另一账号挤下线
             token = refreshToken(account, environment.getProperty("adminTokenKey"), session.getId());
             logger.info(account + "登录成功，另一地点登录的账号被迫下线");
             Map<String, String> result = new HashMap<>(1);
@@ -118,6 +120,7 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 刷新token
+     *
      * @param account
      * @param key
      * @param claim
@@ -171,7 +174,7 @@ public class AdminServiceImpl implements AdminService {
         if (flag == 0) {
             //在publishGoods表中查
             result = publishGoodsMapper.monthlyQuantity(year);
-        }else {
+        } else {
             //在wantGoods表中查
             result = wantGoodsMapper.monthlyQuantity(year);
         }
@@ -196,7 +199,7 @@ public class AdminServiceImpl implements AdminService {
         if (flag == 0) {
             //在publishGoods表中查
             result = publishGoodsMapper.dailyQuantity(year, month);
-        }else {
+        } else {
             //在wantGoods表中查
             result = wantGoodsMapper.dailyQuantity(year, month);
         }
@@ -211,11 +214,12 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
-    public ResultResponse monthlyUserQuantity(int year){
+    public ResultResponse monthlyUserQuantity(int year) {
         if (year < 0) {
             return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
         }
         List<Map<String, Object>> resultMap = userMapper.monthlyQuantity(year);
+        fillMonth(resultMap);
         return ResultUtil.success(resultMap);
     }
 
@@ -227,17 +231,20 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
-    public ResultResponse dailyUserQuantity(int year, int month){
+    public ResultResponse dailyUserQuantity(int year, int month) {
         if (year < 0 || (month < 1 || month > 12)) {
             return ResultUtil.fail(Common.PARAM_INVALID, Common.PARAM_INVALID_MSG);
         }
         List<Map<String, Object>> resultMap = userMapper.dailyQuantity(year, month);
+        fillDay(resultMap, year, month);
         return ResultUtil.success(resultMap);
     }
+
     /**
      * 查询审核未通过的物品
+     *
      * @param currentPage 分页
-     * @param flag 标识，发布的或求购的
+     * @param flag        标识，发布的或求购的
      * @return
      */
     @Override
@@ -245,15 +252,16 @@ public class AdminServiceImpl implements AdminService {
         List<Map<String, Object>> result;
         if (flag == 0) {
             result = publishGoodsMapper.auditFailGoods(currentPage * 0);
-        }else {
+        } else {
             result = wantGoodsMapper.auditFailGoods(currentPage * 10);
         }
-        result.forEach(map->map.put("pubTime",CommonUtil.timeFromNow((Date) map.get("pubTime"))));
+        result.forEach(map -> map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime"))));
         return ResultUtil.success(result);
     }
 
     /**
      * 更新物品状态
+     *
      * @param id
      * @param status
      * @param flag
@@ -264,7 +272,7 @@ public class AdminServiceImpl implements AdminService {
         int result;
         if (flag == 0) {
             result = publishGoodsMapper.updateStatus(id, status);
-        }else {
+        } else {
             result = wantGoodsMapper.updateStatus(id, status);
         }
         logger.info("数据库更新结果:" + result);
@@ -273,6 +281,7 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 填充月份
+     *
      * @param result
      */
     private void fillMonth(List<Map<String, Object>> result) {
@@ -281,6 +290,7 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 填充日期
+     *
      * @param result
      * @param year
      * @param month
@@ -299,8 +309,9 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 填充函数
+     *
      * @param result
-     * @param total 根据total判断填充月份还是日期
+     * @param total  根据total判断填充月份还是日期
      */
     private void fill(List<Map<String, Object>> result, int total) {
         //确定要填充的是月份还是日期
@@ -310,7 +321,7 @@ public class AdminServiceImpl implements AdminService {
             int flag = 0;
             for (Map<String, Object> map : result) {
                 //如果已经包含，直接退出
-                if (((Integer)map.get(key)) == i) {
+                if (((Integer) map.get(key)) == i) {
                     flag = 1;
                     break;
                 }
@@ -318,8 +329,8 @@ public class AdminServiceImpl implements AdminService {
             // flag为0说明未包含，填充
             if (flag == 0) {
                 Map<String, Object> newMap = new HashMap<>(2);
-                newMap.put(key,i);
-                newMap.put("count",0);
+                newMap.put(key, i);
+                newMap.put("count", 0);
                 result.add(newMap);
             }
         }
@@ -328,13 +339,14 @@ public class AdminServiceImpl implements AdminService {
         result.sort(new Comparator<Map<String, Object>>() {
             @Override
             public int compare(Map<String, Object> o1, Map<String, Object> o2) {
-                return (Integer) o1.get(key)- (Integer) o2.get(key);
+                return (Integer) o1.get(key) - (Integer) o2.get(key);
             }
         });
     }
 
     /**
      * 每月成交量统计
+     *
      * @param year
      * @return
      */
@@ -350,6 +362,7 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 每日成交量统计
+     *
      * @param year
      * @param month
      * @return
@@ -364,6 +377,43 @@ public class AdminServiceImpl implements AdminService {
         return ResultUtil.success(result);
     }
 
+    /**
+     * 用户卖出的
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ResultResponse userSold(String id) {
+        List<Integer> goodsIds = transactionRecordMapper.selectGoodsId(id);
+        if (CommonUtil.isNullList(goodsIds)) {
+            return null;
+        }
+        //根据物品ID查物品详情
+        List<Map<String, Object>> soldGoodsList = new ArrayList<>();
+        for (Integer goodsId : goodsIds) {
+            Map<String, Object> goods = publishGoodsMapper.selectSoldGoods(goodsId);
+            if (goods != null) {
+                goods.put("pubTime", CommonUtil.timeFromNow((Date) goods.get("pubTime")));
+                goods.put("updateTime", CommonUtil.timeFromNow((Date) goods.get("updateTime")));
+                soldGoodsList.add(goods);
+            }
+        }
+        return ResultUtil.success(soldGoodsList);
+    }
+
+    /**
+     * 用户求购的
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ResultResponse userWanted(String id) {
+        List<Map<String, Object>> result = wantGoodsMapper.selectMyWanted(id);
+        result.forEach(map -> map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime"))));
+        return ResultUtil.success(result);
+    }
     /**
      * 查询物品记录
      * @param request
@@ -387,23 +437,53 @@ public class AdminServiceImpl implements AdminService {
 
     }
 
-    /**
-     * 获取时间戳
-     * @param dateString
-     * @return
-     * @throws Exception
-     */
-    private long getTimeStamp(String dateString) throws Exception{
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = sdf.parse(dateString);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
 
-        return calendar.getTimeInMillis();
+    /**
+     * 用户发布的
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ResultResponse userPublish(String id) {
+        List<Map<String, Object>> result = publishGoodsMapper.selectMyPublish(id);
+        result.forEach(map -> map.put("pubTime", CommonUtil.timeFromNow((Date) map.get("pubTime"))));
+        return ResultUtil.success(result);
     }
 
+    /**
+     * 用户收藏的
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ResultResponse userCollections(String id) {
+        List<Integer> goodsIds = collectionMapper.selectGoodsId(id);
+        if (CommonUtil.isNullList(goodsIds)) {
+            return null;
+        }
+        //根据物品ID查物品详情,筛选审核中的物品
+        List<Map<String, Object>> collectionGoodsList = new ArrayList<>();
+        for (Integer goodsId : goodsIds) {
+            Map<String, Object> goods = publishGoodsMapper.selectCollection(goodsId);
+            if (goods != null) {
+                goods.put("pubTime", CommonUtil.timeFromNow((Date) goods.get("pubTime")));
+                collectionGoodsList.add(goods);
+            }
+        }
+        return ResultUtil.success(collectionGoodsList);
+    }
+
+    /**
+     * 获取用户详细信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ResultResponse getUserFullInfo(String id) {
+        User user = userMapper.selectByPrimaryKey(id);
+        return ResultUtil.success(user);
+    }
 }

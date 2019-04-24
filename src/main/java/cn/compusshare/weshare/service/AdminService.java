@@ -32,4 +32,14 @@ public interface AdminService {
     ResultResponse dailyGoodsTransactionQuantity(int year, int month);
 
     ResultResponse goodsRecord(AdminGoodsRequest request);
+
+    ResultResponse userSold(String id);
+
+    ResultResponse userWanted(String id);
+
+    ResultResponse userPublish(String id);
+
+    ResultResponse userCollections(String id);
+
+    ResultResponse getUserFullInfo(String id);
 }

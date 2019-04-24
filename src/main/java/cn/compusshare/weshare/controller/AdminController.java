@@ -60,7 +60,7 @@ public class AdminController {
      * @return
      */
     @GetMapping("/getUserList")
-    public ResultResponse getUserList(@RequestHeader String account, @RequestHeader String token,@RequestParam String nickname, @RequestParam Integer type, @RequestParam Integer currentPage) {
+    public ResultResponse getUserList(@RequestHeader String account, @RequestHeader String token, @RequestParam String nickname, @RequestParam Integer type, @RequestParam Integer currentPage) {
         logger.info("AdminController.getUserList(),入参：account={}, token={}, nickname={}, type={}, currentPage={}", account, token, nickname, type, currentPage);
         return adminService.userQuery(nickname, type, currentPage);
     }
@@ -163,6 +163,7 @@ public class AdminController {
 
     /**
      * 每月成交量统计
+     *
      * @param account
      * @param token
      * @param year
@@ -177,6 +178,7 @@ public class AdminController {
 
     /**
      * 每日成量统计
+     *
      * @param account
      * @param token
      * @param year
@@ -191,6 +193,29 @@ public class AdminController {
         return adminService.dailyGoodsTransactionQuantity(year, month);
     }
 
+    /**
+     * 用户卖出的
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/userSold")
+    public ResultResponse userSold(@RequestHeader String account, @RequestHeader String token, @RequestParam String id) {
+        logger.info("AdminController.userSold(), 入参:account={},token={},id={}", account, token, id);
+        return adminService.userSold(id);
+    }
+
+    /**
+     * 用户求购
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/userWanted")
+    public ResultResponse userWanted(@RequestHeader String account, @RequestHeader String token, @RequestParam String id) {
+        logger.info("AdminController.userWanted(), 入参:account={},token={},id={}", account, token, id);
+        return adminService.userWanted(id);
+    }
     @PostMapping("/goodsRecord")
     public ResultResponse goodsRecord(@RequestHeader String account, @RequestHeader String token, @RequestBody AdminGoodsRequest request) {
         logger.info("AdminController.goodsRecord(), 入参:account={},token={},requestParam={}", account, token, request.toString());
@@ -198,5 +223,41 @@ public class AdminController {
     }
 
 
+    /**
+     * 用户发布
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/userPublish")
+    public ResultResponse userPublish(@RequestHeader String account, @RequestHeader String token, @RequestParam String id) {
+        logger.info("AdminController.userPublish(), 入参:account={},token={},id={}", account, token, id);
+        return adminService.userPublish(id);
+    }
 
+    /**
+     * 用户收藏
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/userCollections")
+    public ResultResponse userCollections(@RequestHeader String account, @RequestHeader String token, @RequestParam String id) {
+        logger.info("AdminController.userCollections(), 入参:account={},token={},id={}", account, token, id);
+        return adminService.userCollections(id);
+    }
+
+    /**
+     * 获取用户详细信息
+     *
+     * @param account
+     * @param token
+     * @param id
+     * @return
+     */
+    @GetMapping("/userFullInfo")
+    public ResultResponse userFullInfo(@RequestHeader String account, @RequestHeader String token, @RequestParam String id) {
+        logger.info("AdminController.userFullInfo(), 入参:account={}, token={}, id={}", account, token, id);
+        return adminService.getUserFullInfo(id);
+    }
 }
