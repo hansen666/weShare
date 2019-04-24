@@ -199,8 +199,8 @@ public class AdminController {
      * @return
      */
     @GetMapping("/userSold")
-    public ResultResponse userSold(@RequestParam String id) {
-        logger.info("AdminController.userSold(), 入参:id={}", id);
+    public ResultResponse userSold(@RequestHeader String account, @RequestHeader String token, @RequestParam String id) {
+        logger.info("AdminController.userSold(), 入参:account={},token={},id={}", account, token, id);
         return adminService.userSold(id);
     }
 
@@ -211,8 +211,8 @@ public class AdminController {
      * @return
      */
     @GetMapping("/userWanted")
-    public ResultResponse userWanted(@RequestParam String id) {
-        logger.info("AdminController.userWanted(), 入参:id={}", id);
+    public ResultResponse userWanted(@RequestHeader String account, @RequestHeader String token, @RequestParam String id) {
+        logger.info("AdminController.userWanted(), 入参:account={},token={},id={}", account, token, id);
         return adminService.userWanted(id);
     }
 
@@ -223,8 +223,8 @@ public class AdminController {
      * @return
      */
     @GetMapping("/userPublish")
-    public ResultResponse userPublish(@RequestParam String id) {
-        logger.info("AdminController.userPublish(), 入参:id={}", id);
+    public ResultResponse userPublish(@RequestHeader String account, @RequestHeader String token, @RequestParam String id) {
+        logger.info("AdminController.userPublish(), 入参:account={},token={},id={}", account, token, id);
         return adminService.userPublish(id);
     }
 
@@ -235,8 +235,8 @@ public class AdminController {
      * @return
      */
     @GetMapping("/userCollections")
-    public ResultResponse userCollections(@RequestParam String id) {
-        logger.info("AdminController.userCollections(), 入参:id={}", id);
+    public ResultResponse userCollections(@RequestHeader String account, @RequestHeader String token, @RequestParam String id) {
+        logger.info("AdminController.userCollections(), 入参:account={},token={},id={}", account, token, id);
         return adminService.userCollections(id);
     }
 }
