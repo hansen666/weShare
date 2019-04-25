@@ -2,7 +2,9 @@ package cn.compusshare.weshare.service.impl;
 
 import cn.compusshare.weshare.constant.Common;
 import cn.compusshare.weshare.repository.RequestBody.AddUserRequest;
+import cn.compusshare.weshare.repository.entity.Feedback;
 import cn.compusshare.weshare.repository.entity.User;
+import cn.compusshare.weshare.repository.mapper.FeedbackMapper;
 import cn.compusshare.weshare.repository.mapper.UserMapper;
 import cn.compusshare.weshare.service.LoginService;
 import cn.compusshare.weshare.service.UserService;
@@ -34,6 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private FeedbackMapper feedbackMapper;
 
     @Autowired
     private LoginService loginService;
@@ -205,5 +210,24 @@ public class UserServiceImpl implements UserService {
         Map<String,String> result = new HashMap<>(1);
         result.put("avatarUrl",userMapper.selectAvatarUrl(openID));
         return result;
+    }
+
+    /**
+     * 发送反馈
+     * @param token
+     * @param content
+     * @return
+     */
+    @Override
+    public ResultResponse sendFeedback(String token, String content) {
+        String userId = loginService.getIDFromToken(token, tokenKey, "openID");
+        Feedback feedback = new Feedback();
+        feedback.setUserId(userId);
+        feedback.setContent(content);
+        int result = feedbackMapper.insertSelective(feedback);
+        if (result == 0) {
+            return ResultUtil.fail(Common.FAIL, Common.DATABASE_OPERATION_FAIL);
+        }
+        return ResultUtil.success();
     }
 }

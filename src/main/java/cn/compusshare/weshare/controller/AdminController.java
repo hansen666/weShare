@@ -274,4 +274,17 @@ public class AdminController {
         logger.info("AdminController.goodsDetail(),入参：account={},token={},id={},flag={}", account, token, id, flag);
         return adminService.goodsDetail(id, flag);
     }
+
+    /**
+     * 获取反馈
+     * @param account
+     * @param token
+     * @param currentPage
+     * @return
+     */
+    @GetMapping("/getFeedback")
+    public ResultResponse getFeedback(@RequestHeader String account, @RequestHeader String token, @RequestParam Integer currentPage) {
+        logger.info("AdminController.getFeedback(),入参：account={}.token={},currentPage={}", account, token, currentPage);
+        return adminService.getFeedback(currentPage);
+    }
 }

@@ -3,6 +3,7 @@ package cn.compusshare.weshare.service.impl;
 import cn.compusshare.weshare.constant.Common;
 import cn.compusshare.weshare.repository.RequestBody.AdminGoodsRequest;
 import cn.compusshare.weshare.repository.entity.Admin;
+import cn.compusshare.weshare.repository.entity.Feedback;
 import cn.compusshare.weshare.repository.entity.User;
 import cn.compusshare.weshare.repository.mapper.*;
 import cn.compusshare.weshare.service.AdminService;
@@ -20,6 +21,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -39,7 +41,7 @@ public class AdminServiceImpl implements AdminService {
     private LoginService loginService;
 
     @Autowired
-    private GoodsService goodsService;
+    private FeedbackMapper feedbackMapper;
 
     @Autowired
     private AdminMapper adminMapper;
@@ -525,8 +527,25 @@ public class AdminServiceImpl implements AdminService {
             resultMap.put("goodsDetail", goodsDetail);
         } else {
             Map<String, Object> goodsDetail = publishGoodsMapper.showGoodsDetail(id);
+            goodsDetail.put("pubTime",CommonUtil.timeFromNow((Date)goodsDetail.get("pubTime")));
             resultMap.put("goodsDetail", goodsDetail);
         }
+        return ResultUtil.success(resultMap);
+    }
+
+    /**
+     * 获取反馈
+     * @param currentPage
+     * @return
+     */
+    @Override
+    public ResultResponse getFeedback(int currentPage) {
+        int count = feedbackMapper.selectCount();
+        List<Map<String, Object>> feedbackList = feedbackMapper.selectFeedback(currentPage * 7);
+        feedbackList.forEach(feedback -> feedback.put("pubTime",CommonUtil.timeFromNow((Date)feedback.get("pubTime"))));
+        Map<String, Object> resultMap = new HashMap<>(2);
+        resultMap.put("count", count);
+        resultMap.put("feedbackList", feedbackList);
         return ResultUtil.success(resultMap);
     }
 }

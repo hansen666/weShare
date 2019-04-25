@@ -44,4 +44,6 @@ public interface AdminService {
     ResultResponse getUserFullInfo(String id);
 
     ResultResponse goodsDetail(int id, int flag);
+
+    ResultResponse getFeedback(int currentPage);
 }

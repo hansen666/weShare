@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Map;
 
 
 /**
@@ -116,6 +117,18 @@ public class UserController {
     public ResultResponse myAvatarUrl(@RequestHeader String token) {
         logger.info("UserController.myAvatarUrl(),入参:token={}", token);
         return ResultUtil.success(userService.getAvatarUrlByToken(token));
+    }
+
+    /**
+     * 发送反馈
+     * @param token
+     * @param param
+     * @return
+     */
+    @PostMapping("/sendFeedback")
+    public ResultResponse seedFeedback(@RequestHeader String token, @RequestBody Map<String, String> param) {
+        logger.info("UserController.sendFeedback(),入参：token={},param={}", token, param.toString());
+        return userService.sendFeedback(token, param.get("content"));
     }
 
 

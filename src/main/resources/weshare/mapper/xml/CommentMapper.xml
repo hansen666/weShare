@@ -36,6 +36,7 @@
 
   <select id="selectByGoodsID" parameterType="java.lang.Integer" resultType="java.util.Map">
     SELECT
+    comment.id as id,
     sender_id as senderID,
     receiver_id as receiverID,
     context,
