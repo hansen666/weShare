@@ -105,9 +105,9 @@
     id, want_buyer_id, name, label, pic_url, description, price, browse_count, phone,
     status, pub_time, longitude, latitude
   </sql>
-  
+
   <sql id="Base_Column_List">
-    id, want_buyer_id, name, label, pic_url, description, price, browse_count, phone, 
+    id, want_buyer_id, name, label, pic_url, description, price, browse_count, phone,
     status, pub_time, longitude, latitude, create_time, update_time
   </sql>
 
@@ -125,7 +125,7 @@
     from want_goods,user
     where want_goods.want_buyer_id = user.id and want_goods.id = #{id,jdbcType=INTEGER}
   </select>
-  
+
   <select id="selectWantGoods" resultMap="WantGoodsMap">
     select
     <include refid="Want_Goods_List" />
@@ -182,10 +182,10 @@
       <if test="nickname !=null and nickname !=''">
         and  user.nickname = #{nickname} and
       </if>
-      <if test="label !=null">
+      <if test="label !=null and label!=0">
         and  label = #{label}
       </if>
-      <if test="status !=null">
+      <if test="status !=null and status!=3">
         and  status = #{status}
       </if>
       <if test="startDate !=null and startDate != '' and endDate !=null and endDate != ''">
@@ -231,7 +231,7 @@
 
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from want_goods
     where id = #{id,jdbcType=INTEGER}
@@ -241,16 +241,16 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.WantGoods">
-    insert into want_goods (id, want_buyer_id, name, 
-      label, pic_url, description, 
-      price, browse_count, phone, 
-      status, pub_time, longitude, 
+    insert into want_goods (id, want_buyer_id, name,
+      label, pic_url, description,
+      price, browse_count, phone,
+      status, pub_time, longitude,
       latitude, create_time, update_time
       )
-    values (#{id,jdbcType=INTEGER}, #{wantBuyerId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{label,jdbcType=TINYINT}, #{picUrl,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{price,jdbcType=REAL}, #{browseCount,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{pubTime,jdbcType=TIMESTAMP}, #{longitude,jdbcType=DOUBLE}, 
+    values (#{id,jdbcType=INTEGER}, #{wantBuyerId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{label,jdbcType=TINYINT}, #{picUrl,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+      #{price,jdbcType=REAL}, #{browseCount,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, #{pubTime,jdbcType=TIMESTAMP}, #{longitude,jdbcType=DOUBLE},
       #{latitude,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>

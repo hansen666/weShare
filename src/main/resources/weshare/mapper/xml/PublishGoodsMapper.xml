@@ -152,10 +152,10 @@
             <if test="nickname !=null and nickname !=''">
                 and  user.nickname = #{nickname}
             </if>
-            <if test="label !=null">
+            <if test="label !=null and label!=0">
                 and  label = #{label}
             </if>
-            <if test="status !=null">
+            <if test="status !=null and status!=3">
                 and  status = #{status}
             </if>
             <if test="startDate !=null and startDate != '' and endDate !=null and endDate != ''">
