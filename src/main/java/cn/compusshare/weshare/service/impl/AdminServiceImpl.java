@@ -57,6 +57,9 @@ public class AdminServiceImpl implements AdminService {
     private CollectionMapper collectionMapper;
 
     @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
     private Environment environment;
 
     /**
@@ -426,18 +429,27 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public ResultResponse goodsRecord(AdminGoodsRequest request) {
         List<Map<String, Object>> result;
+        int count;
         if (request.getFlag() == 1) {
             result = wantGoodsMapper.selectAdminGoods(request.getGoodsName(), request.getNickname(),
                     request.getLabel(), request.getStatus(), request.getStartDate(), request.getEndDate(),
-                    request.getSchoolName(), request.getCurrentPage() * 10);
+                    request.getSchoolName(), request.getCurrentPage() * 7);
+            count = wantGoodsMapper.selectAdminCount(request.getGoodsName(), request.getNickname(),
+                    request.getLabel(), request.getStatus(), request.getStartDate(), request.getEndDate(),
+                    request.getSchoolName());
         }else {
             result = publishGoodsMapper.selectAdminGoods(request.getGoodsName(), request.getNickname(),
                     request.getLabel(), request.getStatus(), request.getStartDate(), request.getEndDate(),
-                    request.getSchoolName(), request.getCurrentPage() * 10);
+                    request.getSchoolName(), request.getCurrentPage() * 7);
+            count = publishGoodsMapper.selectAdminCount(request.getGoodsName(), request.getNickname(),
+                    request.getLabel(), request.getStatus(), request.getStartDate(), request.getEndDate(),
+                    request.getSchoolName());
         }
         result.forEach(map -> map.put("pubTime",CommonUtil.timeFromNow((Date)map.get("pubTime"))));
-
-        return ResultUtil.success(result);
+        Map<String, Object> resultMap = new HashMap<>(2);
+        resultMap.put("count", count);
+        resultMap.put("goodsList", result);
+        return ResultUtil.success(resultMap);
 
     }
 
@@ -499,10 +511,22 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public ResultResponse goodsDetail(int id, int flag) {
+        Map<String, Object> resultMap = new HashMap<>(2);
         if (flag == 1) {
-            return goodsService.showWishDetail(id);
+            Map<String, Object> goodsDetail = wantGoodsMapper.showGoodsDetail(id);
+            goodsDetail.put("pubTime",CommonUtil.timeFromNow((Date)goodsDetail.get("pubTime")));
+            //查评论
+            List<Map<String, Object>> commentList = commentMapper.selectByGoodsID(id);
+            commentList.forEach(comment -> {
+                comment.put("pubTime",CommonUtil.timeFromNow((Date)comment.get("pubTime")));
+                comment.remove("create_time");
+            });
+            resultMap.put("commentList", commentList);
+            resultMap.put("goodsDetail", goodsDetail);
         } else {
-            return goodsService.showHomeDetail(id);
+            Map<String, Object> goodsDetail = publishGoodsMapper.showGoodsDetail(id);
+            resultMap.put("goodsDetail", goodsDetail);
         }
+        return ResultUtil.success(resultMap);
     }
 }

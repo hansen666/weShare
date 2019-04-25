@@ -147,7 +147,7 @@
         from publish_goods,`user`
         <where>
             <if test="goodsName!=null and goodsName !=''">
-            and name like '%${goodsName}%'
+               and name like '%${goodsName}%'
             </if>
             <if test="nickname !=null and nickname !=''">
                 and  user.nickname = #{nickname}
@@ -168,7 +168,34 @@
         </where>
 
         order by pub_time DESC
-        limit #{currentIndex},10
+        limit #{currentIndex},7
+    </select>
+
+    <select id="selectAdminCount" resultType="java.lang.Integer">
+        select
+        COUNT(*)
+        from publish_goods,`user`
+        <where>
+            <if test="goodsName!=null and goodsName !=''">
+                and name like '%${goodsName}%'
+            </if>
+            <if test="nickname !=null and nickname !=''">
+                and  user.nickname = #{nickname}
+            </if>
+            <if test="label !=null">
+                and  label = #{label}
+            </if>
+            <if test="status !=null">
+                and  status = #{status}
+            </if>
+            <if test="startDate !=null and startDate != '' and endDate !=null and endDate != ''">
+                and  publish_goods.create_time &gt;= #{startDate} and publish_goods.create_time &lt;= #{endDate}
+            </if>
+            <if test="schoolName !=null and schoolName !=''">
+                and  `user`.school_name = #{schoolName}
+            </if>
+            and publish_goods.publisher_id = `user`.id
+        </where>
     </select>
 
     <select id="selectSoldGoods" resultMap="SoldGoodsMap">
