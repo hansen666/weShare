@@ -13,6 +13,7 @@
   <resultMap id="AdminResultMap" type="java.util.Map">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="read" jdbcType="TINYINT" property="read" />
     <result column="create_time" jdbcType="TIMESTAMP" property="pubTime" />
@@ -23,7 +24,7 @@
   </sql>
 
   <sql id="admin_Column_List">
-    id, user_id, content, `read`, create_time
+    feedback.id, user_id, nickname, content, `read`, feedback.create_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -37,8 +38,9 @@
   <select id="selectFeedback" parameterType="java.lang.Integer" resultMap="AdminResultMap">
     select
     <include refid="admin_Column_List" />
-    from feedback
-    order by create_time DESC
+    from feedback, user
+    where feedback.user_id = user.id
+    order by feedback.create_time DESC
     limit #{currentIndex}, 7
   </select>
 
