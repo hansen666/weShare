@@ -73,7 +73,7 @@ public class AdminController {
      * @param year
      * @return
      */
-    @GetMapping("/monthlyPublishGoodsQuantity")
+    @GetMapping("/monthlyGoodsQuantity")
     public ResultResponse monthlyPublishGoodsQuantity(@RequestHeader String account, @RequestHeader String token,
                                                       @RequestParam Integer year, @RequestParam Integer flag) {
         logger.info("AdminController.monthlyPublishGoodsQuantity(),入参：account={},token={},year={},flag={}",
@@ -90,7 +90,7 @@ public class AdminController {
      * @param month
      * @return
      */
-    @GetMapping("/dailyPublishGoodsQuantity")
+    @GetMapping("/dailyGoodsQuantity")
     public ResultResponse dailyPublishGoodsQuantity(@RequestHeader String account, @RequestHeader String token,
                                                     @RequestParam Integer year, @RequestParam Integer month, @RequestParam Integer flag) {
         logger.info("AdminController.dailyPublishGoodsQuantity(),入参：account={},token={},year={},month={},flag={}",
