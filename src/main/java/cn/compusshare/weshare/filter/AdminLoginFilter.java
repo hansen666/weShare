@@ -43,7 +43,7 @@ public class AdminLoginFilter implements Filter {
 
     //需要拦截的路径
     private String[] needCheckPathPrefix = {
-           // "/admin",
+           "/admin",
     };
 
 

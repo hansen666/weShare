@@ -137,7 +137,7 @@ public class AdminServiceImpl implements AdminService {
      */
     private String refreshToken(String account, String key, String claim) {
         String token = loginService.adminToken(key, claim);
-        cacheService.set(account, token, Long.valueOf(environment.getProperty("overdueTime")), TimeUnit.MINUTES);
+        cacheService.set(account, token, Long.valueOf(environment.getProperty("overdueTime")), TimeUnit.SECONDS);
         return token;
     }
 
