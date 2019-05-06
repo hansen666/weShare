@@ -156,9 +156,9 @@ public class AdminController {
      */
     @PostMapping("/changeGoodsStatus")
     public ResultResponse changeGoodsStatus(@RequestHeader String account, @RequestHeader String token,
-                                            @RequestBody Map<String, Object> param) {
+                                            @RequestBody Map<String, String> param) {
         logger.info("AdminController.changeGoodsStatus(),入参：account={},token={}，param={}", account, token, param.toString());
-        return adminService.changeGoodsStatus(((Integer) param.get("id")), (Byte) param.get("status"), (Integer) param.get("flag"));
+        return adminService.changeGoodsStatus((Integer.valueOf(param.get("id"))), Byte.valueOf(param.get("status")), Integer.valueOf(param.get("flag")));
     }
 
     /**
