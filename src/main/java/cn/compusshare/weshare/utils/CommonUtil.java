@@ -5,19 +5,26 @@ import com.baidu.aip.contentcensor.EImgType;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+import java.util.PropertyPermission;
 
 /**
  * @Author: LZing
  * @Date: 2019/3/7
  * 通用工具类
  */
+@Component
 public class CommonUtil {
+
+    @Autowired
+    private static Environment environment;
 
     /**
      * 空字符串判断
@@ -85,10 +92,11 @@ public class CommonUtil {
 
     /**
      * 获取yyyy/MM/dd HH:mm:ss格式的日期和时间
+     *
      * @param date
      * @return
      */
-    public static String getFormatDate(Date date){
+    public static String getFormatDate(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         String dateString = formatter.format(date);
         return dateString;
@@ -143,10 +151,16 @@ public class CommonUtil {
      * @return
      */
     public static Boolean imageCensor(String fileNames, String path) {
+        Properties prop = new Properties();
+        try {
+            prop.load(new FileInputStream("src\\main\\resources\\application.properties"));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         String[] files = fileNames.split(",");
         AipContentCensor censor = new AipContentCensor("15804398", "cSzAUuAAbF3ZaIdMhlwDvpoM", "LyG0XwGzWaiiUcrMAoNcQlNQwincbSqg");
         for (String file : files) {
-            String filePath = "/www/weshare/" + path + File.separator + file;
+            String filePath = prop.getProperty("image.path") + path + File.separator + file;
             JSONObject result = censor.imageCensorUserDefined(filePath, EImgType.FILE, null);
             if (result.has("error_code")) {
                 return null;
