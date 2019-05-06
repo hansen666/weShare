@@ -1,8 +1,11 @@
 package cn.compusshare.weshare.utils;
 
+import cn.compusshare.weshare.controller.AdminController;
 import com.baidu.aip.contentcensor.AipContentCensor;
 import com.baidu.aip.contentcensor.EImgType;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -22,6 +25,8 @@ import java.util.PropertyPermission;
  */
 @Component
 public class CommonUtil {
+
+    private final static Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 
     @Autowired
     private static Environment environment;
@@ -151,17 +156,12 @@ public class CommonUtil {
      * @return
      */
     public static Boolean imageCensor(String fileNames, String path) {
-        Properties prop = new Properties();
-        try {
-            prop.load(new FileInputStream("src\\main\\resources\\application.properties"));
-        } catch (IOException e){
-            e.printStackTrace();
-        }
         String[] files = fileNames.split(",");
         AipContentCensor censor = new AipContentCensor("15804398", "cSzAUuAAbF3ZaIdMhlwDvpoM", "LyG0XwGzWaiiUcrMAoNcQlNQwincbSqg");
         for (String file : files) {
-            String filePath = prop.getProperty("image.path") + path + File.separator + file;
+            String filePath = "/www/static/" + path + File.separator + file;
             JSONObject result = censor.imageCensorUserDefined(filePath, EImgType.FILE, null);
+            logger.info("图片路径"+ filePath);
             if (result.has("error_code")) {
                 return null;
             }
