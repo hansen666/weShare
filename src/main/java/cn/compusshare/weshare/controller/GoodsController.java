@@ -11,10 +11,8 @@ import cn.compusshare.weshare.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.util.Map;
 
 @RestController
@@ -26,9 +24,6 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
-    @Autowired
-    private Environment environment;
-
 
     /**
      * 发布物品
@@ -39,11 +34,7 @@ public class GoodsController {
      */
     @PostMapping("/publish")
     public ResultResponse publish(@RequestHeader String token, @RequestBody GoodsRequest goodsRequest) {
-        logger.info("GoodsController.publish(),入参：token={}，goodsName={},label={},picUrl={},description={},price={}," +
-                        "phone={},longitude={},latitude={}", token, goodsRequest.getName(),
-                goodsRequest.getLabel(), goodsRequest.getPicUrl(), goodsRequest.getDescription(),
-                goodsRequest.getPrice(), goodsRequest.getPhone(), goodsRequest.getLongitude(),
-                goodsRequest.getLatitude());
+        logger.info("GoodsController.publish(),入参：token={}，goodsRequest={}", token, goodsRequest.toString());
         return goodsService.publishGoods(token, goodsRequest);
     }
 
@@ -57,11 +48,7 @@ public class GoodsController {
      */
     @PostMapping("/want")
     public ResultResponse want(@RequestHeader String token, @RequestBody GoodsRequest goodsRequest) {
-        logger.info("GoodsController.publish(),入参：token={}，goodsName={},label={},picUrl={},description={},price={}," +
-                        "phone={},longitude={},latitude={}", token, goodsRequest.getName(),
-                goodsRequest.getLabel(), goodsRequest.getPicUrl(), goodsRequest.getDescription(),
-                goodsRequest.getPrice(), goodsRequest.getPhone(), goodsRequest.getLongitude(),
-                goodsRequest.getLatitude());
+        logger.info("GoodsController.publish(),入参：token={}，goodsRequest={}", token, goodsRequest.toString());
         return goodsService.wantGoods(token, goodsRequest);
     }
 
@@ -220,9 +207,7 @@ public class GoodsController {
      */
     @GetMapping("/showHomeGoods")
     public ResultResponse showHomeGoods(@RequestHeader String token, ShowGoodsRequest showGoodsRequest) {
-        logger.info("GoodsController.showHomeGoods(),入参:token={},currentPage={},label={},keyword={},pubTime={}", token,
-                showGoodsRequest.getCurrentPage(), showGoodsRequest.getLabel(), showGoodsRequest.getKeyword(),
-                showGoodsRequest.getCurrentPage());
+        logger.info("GoodsController.showHomeGoods(),入参:token={}, showGoodsRequest={}", token, showGoodsRequest.toString());
         return goodsService.showHomeGoods(token, showGoodsRequest.getCurrentPage(), showGoodsRequest.getLabel(),
                 showGoodsRequest.getKeyword(), showGoodsRequest.getCurrentTime());
     }

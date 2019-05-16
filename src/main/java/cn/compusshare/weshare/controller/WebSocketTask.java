@@ -11,15 +11,13 @@ import cn.compusshare.weshare.utils.EncryptionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
-import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -41,6 +39,9 @@ public class WebSocketTask {
     @Autowired
     private Environment environment;
 
+    @Value("${tokenKey}")
+    private String tokenKey;
+
     private Session session;
 
     private String userID;
@@ -50,7 +51,7 @@ public class WebSocketTask {
     @OnOpen
     public void onOpen(Session session) {
         String token=session.getRequestParameterMap().get("token").get(0);
-        this.userID = loginService.getOpenIDFromToken(token);
+        this.userID = loginService.getIDFromToken(token, tokenKey, "openID");
         this.session = session;
         webSocketSet.add(this);
         logger.info(userID+"连接成功");

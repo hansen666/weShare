@@ -14,6 +14,7 @@ public class Common {
     public final static int TOKEN_INVALID = -4;  //token失效
     public final static int TOKEN_NULL = -3;  //token为空
     public final static int CODE_INVALID = -2;  //code无效
+    public final static int PARAM_INVALID = -5;  //参数非法
 
     //图片审核
     public final static int CENSOR_FAIL = 1; //审核未通过
@@ -29,7 +30,18 @@ public class Common {
     public final static String DATABASE_OPERATION_FAIL = "数据库操作失败";
     public final static String CENSOR_TIMES_LIMIT_MSG = "审核次数受限";
     public final static String CENSOR_FAIL_MSG = "审核未通过";
+    public final static String PARAM_INVALID_MSG = "参数非法";
+
+    //管理员登录相关
+    public final static int ACCOUNT_OR_PASSWORD_ERROR = -1;
+    public final static int LOGIN_ALREADY = 1;
+    public final static int TOKEN_OR_ACCOUNT_EMPTY = -3;
+    public final static int TOKEN_INVALID_OR_ACCOUNT_ERROR = -4;
 
 
+    public final static String ACCOUNT_OR_PASSWORD_ERROR_MSG = "账号或密码错误";
+    public final static String LOGIN_ALREADY_MSG = "异地登录账号被迫下线";
+    public final static String TOKEN_OR_ACCOUNT_EMPTY_MSG = "token或account为空";
+    public final static String TOKEN_INVALID_OR_ACCOUNT_ERROR_MSG = "token无效或account错误";
 
 }

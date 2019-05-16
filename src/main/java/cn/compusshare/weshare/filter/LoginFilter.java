@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -24,20 +25,24 @@ import java.io.PrintWriter;
 @WebFilter(urlPatterns = "/*", filterName = "login")
 public class LoginFilter implements Filter {
 
-    private final static Logger logger = LoggerFactory.getLogger(Logger.class);
+    private final static Logger logger = LoggerFactory.getLogger(LoginFilter.class);
 
     //不需要拦截的路径
     private String[] unNeedCheckPathPrefix = {
             "/login",
             "/test/",
-            "/customerService"
+            "/customerService",
+            "/admin"
     };
 
     @Autowired
     private LoginService loginService;
 
+    @Value("${tokenKey}")
+    private String tokenKey;
+
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         logger.info("初始化loginFilter");
     }
 
@@ -48,6 +53,7 @@ public class LoginFilter implements Filter {
         //如果是需要检查登录态的路径
         if (needCheck(request.getRequestURL().toString())) {
             logger.info("loginFilter拦截：" + request.getRequestURL().toString());
+
             String token = request.getHeader("token");
             //token为空
             if (CommonUtil.isEmpty(token)) {
@@ -55,7 +61,7 @@ public class LoginFilter implements Filter {
                 output(response, Common.TOKEN_NULL, Common.TOKEN_NULL_MSG);
                 return;
             }
-            String openID = loginService.getOpenIDFromToken(token);
+            String openID = loginService.getIDFromToken(token, tokenKey, "openID");
             //openID为空，说明token失效
             if (CommonUtil.isEmpty(openID)) {
                 logger.error(Common.TOKEN_INVALID_MSG);
@@ -99,7 +105,7 @@ public class LoginFilter implements Filter {
             return;
 
         } catch (IOException e) {
-            logger.error("response error", e);
+            logger.error("loginFilter error", e);
             return;
         } finally {
             if (writer != null)
@@ -109,5 +115,6 @@ public class LoginFilter implements Filter {
 
     @Override
     public void destroy() {
+        logger.info("loginFilter destroy");
     }
 }

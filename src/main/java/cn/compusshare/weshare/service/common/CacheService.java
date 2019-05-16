@@ -98,20 +98,31 @@ public class CacheService {
         return key == null ? null : redisTemplate.opsForValue().get(key);
     }
 
+    /**
+     * 根据key获取String类型的value
+     * @param key
+     * @return
+     */
+    public String getString(String key) {
+        return key == null ? null : (String) redisTemplate.opsForValue().get(key);
+    }
+
+
 
 
     /**
      * 删除一个或多个缓存
      * @param key
      */
-    public void del(String... key) {
+    public boolean del(String... key) {
         if (key != null && key.length > 0) {
             if (key.length == 1) {
-                redisTemplate.delete(key[0]);
+                return redisTemplate.delete(key[0]);
             } else {
-                redisTemplate.delete(CollectionUtils.arrayToList(key));
+                return redisTemplate.delete(CollectionUtils.arrayToList(key)) == 0 ?false:true;
             }
         }
+        return false;
     }
 
      //===================List=======================

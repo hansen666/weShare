@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -28,7 +29,7 @@ import java.util.*;
 @Component
 public class LoginServiceImpl implements LoginService {
 
-    private final static Logger logger= LoggerFactory.getLogger(Logger.class);
+    private final static Logger logger= LoggerFactory.getLogger(LoginService.class);
 
     @Autowired
     private Environment environment;
@@ -64,24 +65,25 @@ public class LoginServiceImpl implements LoginService {
     }
 
     /**
-     * 从token中解析出openID
+     * 从token中解析出ID
      * @param token
+     * @param key
+     * @param IdName
      * @return
      */
     @Override
-    public String getOpenIDFromToken(String token) {
+    public String getIDFromToken(String token, String key, String IdName) {
         JWTVerifier verifier=null;
         DecodedJWT jwt=null;
         try {
-             verifier = JWT.require(Algorithm.HMAC256(environment.getProperty("tokenKey"))).build();
+             verifier = JWT.require(Algorithm.HMAC256(key)).build();
              jwt=verifier.verify(token);
         }catch (Exception e){
-            e.printStackTrace();
-            logger.info(e.getMessage());
+            logger.info("token解析错误"+e.getMessage());
             return null;
         }
-        String openID=jwt.getClaims().get("openID").asString();
-        return openID;
+        String ID=jwt.getClaims().get(IdName).asString();
+        return ID;
     }
 
     /**
@@ -140,5 +142,39 @@ public class LoginServiceImpl implements LoginService {
     public List<String> allSchoolName() {
 
         return schoolMapper.selectAllName();
+    }
+
+
+    /**
+     * 生成管理员token
+     * @param sessionId
+     * @Param key
+     * @return
+     */
+    @Override
+    public String adminToken(String key, String sessionId) {
+        Calendar now=Calendar.getInstance();
+        //签发时间
+        Date date=now.getTime();
+        //过期时间
+        //now .add(Calendar.MINUTE,60);
+        // Date expireDate=now.getTime();
+        //密钥
+
+        Map<String,Object> header=new HashMap<>();
+        header.put("alg","HS256");
+        header.put("type","JWT");
+
+        String token = null;
+        try {
+            token= JWT.create()
+                    .withHeader(header)
+                    .withClaim("sessionId",sessionId)
+                    .withIssuedAt(date)
+                    .sign(Algorithm.HMAC256(key));
+        } catch (UnsupportedEncodingException e) {
+            logger.error(e.getMessage());
+        }
+        return token;
     }
 }

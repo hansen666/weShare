@@ -5,12 +5,14 @@ import cn.compusshare.weshare.repository.entity.User;
 import cn.compusshare.weshare.service.UserService;
 import cn.compusshare.weshare.utils.ResultResponse;
 import cn.compusshare.weshare.utils.ResultUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Map;
 
 
 /**
@@ -36,8 +38,7 @@ public class UserController {
      */
     @PostMapping("/addUser")
     public ResultResponse addUser(@RequestHeader String token, @RequestBody AddUserRequest addUserRequest) {
-        logger.info("UserController.addUser(),入参:token={},schoolName={},nickName={},avatarUrl={}",
-                token, addUserRequest.getSchoolName(), addUserRequest.getNickname(), addUserRequest.getAvatarUrl());
+        logger.info("UserController.addUser(),入参:token={}, addUserRequest={}", token, addUserRequest.toString());
         return userService.addUser(token, addUserRequest);
     }
 
@@ -116,6 +117,18 @@ public class UserController {
     public ResultResponse myAvatarUrl(@RequestHeader String token) {
         logger.info("UserController.myAvatarUrl(),入参:token={}", token);
         return ResultUtil.success(userService.getAvatarUrlByToken(token));
+    }
+
+    /**
+     * 发送反馈
+     * @param token
+     * @param param
+     * @return
+     */
+    @PostMapping("/sendFeedback")
+    public ResultResponse seedFeedback(@RequestHeader String token, @RequestBody Map<String, String> param) {
+        logger.info("UserController.sendFeedback(),入参：token={},param={}", token, param.toString());
+        return userService.sendFeedback(token, param.get("content"));
     }
 
 

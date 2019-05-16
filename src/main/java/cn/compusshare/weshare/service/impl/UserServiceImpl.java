@@ -2,7 +2,9 @@ package cn.compusshare.weshare.service.impl;
 
 import cn.compusshare.weshare.constant.Common;
 import cn.compusshare.weshare.repository.RequestBody.AddUserRequest;
+import cn.compusshare.weshare.repository.entity.Feedback;
 import cn.compusshare.weshare.repository.entity.User;
+import cn.compusshare.weshare.repository.mapper.FeedbackMapper;
 import cn.compusshare.weshare.repository.mapper.UserMapper;
 import cn.compusshare.weshare.service.LoginService;
 import cn.compusshare.weshare.service.UserService;
@@ -15,6 +17,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -35,10 +38,16 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Autowired
+    private FeedbackMapper feedbackMapper;
+
+    @Autowired
     private LoginService loginService;
 
     @Autowired
     private Environment environment;
+
+    @Value("${tokenKey}")
+    private String tokenKey;
 
     /**
      * 新增用户
@@ -49,7 +58,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResultResponse addUser(String token, AddUserRequest addUserRequest) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         if (isUserExist(openID)) {
             return ResultUtil.fail(Common.FAIL, Common.DATABASE_OPERATION_FAIL);
         }
@@ -75,7 +84,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResultResponse modify(String token, User user) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         user.setId(openID);
         int result = userMapper.updateByPrimaryKeySelective(user);
         if (result == 0) {
@@ -104,7 +113,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Map<String, Byte> queryIdentifiedType(String token) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         byte type = userMapper.selectIdentifiedType(openID);
         Map<String, Byte> result = new HashMap<>();
         result.put("identifiedType", type);
@@ -119,7 +128,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Map<String, Object> information(String token) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         Map<String, Object> result = userMapper.selectUserInfo(openID);
         return result;
     }
@@ -133,7 +142,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResultResponse studentCertify(String token, String onlineCode) throws IOException {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         HashMap<String, String> result = new HashMap<>();
         String url = "https://www.chsi.com.cn/xlcx/bg.do";
         Connection con = Jsoup.connect(url).data("vcode", onlineCode);
@@ -197,9 +206,28 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Map<String,String> getAvatarUrlByToken(String token) {
-        String openID = loginService.getOpenIDFromToken(token);
+        String openID = loginService.getIDFromToken(token, tokenKey, "openID");
         Map<String,String> result = new HashMap<>(1);
         result.put("avatarUrl",userMapper.selectAvatarUrl(openID));
         return result;
+    }
+
+    /**
+     * 发送反馈
+     * @param token
+     * @param content
+     * @return
+     */
+    @Override
+    public ResultResponse sendFeedback(String token, String content) {
+        String userId = loginService.getIDFromToken(token, tokenKey, "openID");
+        Feedback feedback = new Feedback();
+        feedback.setUserId(userId);
+        feedback.setContent(content);
+        int result = feedbackMapper.insertSelective(feedback);
+        if (result == 0) {
+            return ResultUtil.fail(Common.FAIL, Common.DATABASE_OPERATION_FAIL);
+        }
+        return ResultUtil.success();
     }
 }

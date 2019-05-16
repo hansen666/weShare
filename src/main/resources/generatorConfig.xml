@@ -62,12 +62,12 @@
 
 
         <!--生成mapper示例-->
-        <!--<table tableName="publish_goods" domainObjectName="PublishGoods"
+        <!--<table tableName="feedback" domainObjectName="Feedback"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
-        </table>
-        <table tableName="want_goods" domainObjectName="WantGoods"
+        </table>-->
+        <!--<table tableName="want_goods" domainObjectName="WantGoods"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

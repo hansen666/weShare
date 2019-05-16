@@ -1,84 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.compusshare.weshare.repository.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="cn.compusshare.weshare.repository.entity.User">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
-    <result column="real_name" jdbcType="VARCHAR" property="realName" />
-    <result column="identified_type" jdbcType="TINYINT" property="identifiedType" />
-    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
-    <result column="wx_number" jdbcType="VARCHAR" property="wxNumber" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
-    <result column="degree" jdbcType="VARCHAR" property="degree" />
-    <result column="major" jdbcType="VARCHAR" property="major" />
-    <result column="department" jdbcType="VARCHAR" property="department" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="cn.compusshare.weshare.repository.entity.User">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="identified_type" jdbcType="TINYINT" property="identifiedType"/>
+        <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl"/>
+        <result column="wx_number" jdbcType="VARCHAR" property="wxNumber"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="school_name" jdbcType="VARCHAR" property="schoolName"/>
+        <result column="degree" jdbcType="VARCHAR" property="degree"/>
+        <result column="major" jdbcType="VARCHAR" property="major"/>
+        <result column="department" jdbcType="VARCHAR" property="department"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
 
-  <resultMap id="userInfo" type="java.util.Map">
-    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
-    <result column="real_name" jdbcType="VARCHAR" property="realName" />
-    <result column="identified_type" jdbcType="TINYINT" property="identifiedType" />
-    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
-    <result column="wx_number" jdbcType="VARCHAR" property="wxNumber" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
-  </resultMap>
+    <resultMap id="userInfo" type="java.util.Map">
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="identified_type" jdbcType="TINYINT" property="identifiedType"/>
+        <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl"/>
+        <result column="wx_number" jdbcType="VARCHAR" property="wxNumber"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="school_name" jdbcType="VARCHAR" property="schoolName"/>
+    </resultMap>
 
-  <resultMap id="nicknameAndAvatarMap" type="java.util.Map">
-    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
-    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
-  </resultMap>
+    <resultMap id="userInfoByType" type="java.util.Map">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="identified_type" jdbcType="TINYINT" property="identifiedType"/>
+        <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl"/>
+        <result column="school_name" jdbcType="VARCHAR" property="schoolName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
 
-  <sql id="userInfo_Column_List">
+    <resultMap id="nicknameAndAvatarMap" type="java.util.Map">
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl"/>
+    </resultMap>
+
+    <sql id="userInfo_Column_List">
     nickname, real_name, identified_type, avatar_url, wx_number, phone, school_name
   </sql>
 
+    <sql id="userInfoByType_Column_List">
+    id, nickname, real_name, identified_type, avatar_url, school_name, update_time
+  </sql>
 
-  <sql id="Base_Column_List">
+
+    <sql id="Base_Column_List">
     id, nickname, real_name, identified_type, avatar_url, wx_number, phone, school_name, 
     degree, major, department, create_time, update_time
   </sql>
 
+    <select id="selectUserByType" resultMap="userInfoByType">
+        select
+        <include refid="userInfoByType_Column_List"/>
+        from user
+        where 1 = 1
+        <if test="type!=2">and identified_type = #{type}</if>
+        <if test="nickname!='' and nickname!=null">and nickname like '%${nickname}%'</if>
+        limit #{currentPage},7
+    </select>
 
-  <select id="isUserExist" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <select id="isUserExist" parameterType="java.lang.String" resultType="java.lang.Integer">
     select case when
     EXISTS(select 1 from `user` where `id`=#{userID,jdbcType=VARCHAR})
     then 1 else 0 end as result
   </select>
-  <select id="selectIdentifiedType" parameterType="java.lang.String" resultType="java.lang.Byte">
+    <select id="selectIdentifiedType" parameterType="java.lang.String" resultType="java.lang.Byte">
     SELECT identified_type
     FROM user
     WHERE id = #{userID}
   </select>
 
+    <select id="userQueryCount" resultType="java.lang.Integer">
+        SELECT count(*)
+        from user
+        where 1 = 1
+        <if test="type!=2">and identified_type = #{type}</if>
+        <if test="nickname!='' and nickname!=null">and nickname like '%${nickname}%'</if>
+    </select>
 
-  <select id="selectUserInfo" parameterType="java.lang.String" resultMap="userInfo">
-    select
-    <include refid="userInfo_Column_List" />
-    from user
-    where id = #{userID,jdbcType=VARCHAR}
-  </select>
 
-  <select id="selectNicknameAndAvatar" parameterType="java.lang.String" resultMap="nicknameAndAvatarMap">
+    <select id="selectUserInfo" parameterType="java.lang.String" resultMap="userInfo">
+        select
+        <include refid="userInfo_Column_List"/>
+        from user
+        where id = #{userID,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectNicknameAndAvatar" parameterType="java.lang.String" resultMap="nicknameAndAvatarMap">
     select
     nickname,avatar_url
     from user
     where id = #{userID,jdbcType=VARCHAR}
   </select>
 
-  <select id="selectAvatarUrl" parameterType="java.lang.String" resultType="java.lang.String">
+    <select id="selectAvatarUrl" parameterType="java.lang.String" resultType="java.lang.String">
     select avatar_url
     from user
     where id = #{id,jdbcType=VARCHAR}
   </select>
 
+    <select id="monthlyQuantity" parameterType="java.lang.Integer" resultType="java.util.Map">
+        select
+        month(create_time) 'month' ,count(id) 'count'
+        from user
+        where year(create_time)= #{year}
+        group by month(create_time)
+    </select>
 
+    <select id="dailyQuantity" resultType="java.util.Map">
+        select
+        day(create_time) 'day' ,count(id) 'count'
+        from user
+        where year(create_time)= #{year} and month(create_time)=#{month}
+        group by day(create_time)
+    </select>
 
-  
-  <update id="certify">
+    <update id="certify">
     update user
     set
     identified_type = #{type},
@@ -89,18 +133,18 @@
     where id = #{userID,jdbcType=VARCHAR}
 
   </update>
-  
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from user
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from user
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.User">
+    <insert id="insert" parameterType="cn.compusshare.weshare.repository.entity.User">
     insert into user (id, nickname, real_name, 
       identified_type, avatar_url, wx_number, 
       phone, school_name, degree, 
@@ -112,134 +156,134 @@
       #{major,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="cn.compusshare.weshare.repository.entity.User">
-    insert into user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="nickname != null">
-        nickname,
-      </if>
-      <if test="realName != null">
-        real_name,
-      </if>
-      <if test="identifiedType != null">
-        identified_type,
-      </if>
-      <if test="avatarUrl != null">
-        avatar_url,
-      </if>
-      <if test="wxNumber != null">
-        wx_number,
-      </if>
-      <if test="phone != null">
-        phone,
-      </if>
-      <if test="schoolName != null">
-        school_name,
-      </if>
-      <if test="degree != null">
-        degree,
-      </if>
-      <if test="major != null">
-        major,
-      </if>
-      <if test="department != null">
-        department,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="nickname != null">
-        #{nickname,jdbcType=VARCHAR},
-      </if>
-      <if test="realName != null">
-        #{realName,jdbcType=VARCHAR},
-      </if>
-      <if test="identifiedType != null">
-        #{identifiedType,jdbcType=TINYINT},
-      </if>
-      <if test="avatarUrl != null">
-        #{avatarUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="wxNumber != null">
-        #{wxNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="schoolName != null">
-        #{schoolName,jdbcType=VARCHAR},
-      </if>
-      <if test="degree != null">
-        #{degree,jdbcType=VARCHAR},
-      </if>
-      <if test="major != null">
-        #{major,jdbcType=VARCHAR},
-      </if>
-      <if test="department != null">
-        #{department,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.compusshare.weshare.repository.entity.User">
-    update user
-    <set>
-      <if test="nickname != null">
-        nickname = #{nickname,jdbcType=VARCHAR},
-      </if>
-      <if test="realName != null">
-        real_name = #{realName,jdbcType=VARCHAR},
-      </if>
-      <if test="identifiedType != null">
-        identified_type = #{identifiedType,jdbcType=TINYINT},
-      </if>
-      <if test="avatarUrl != null">
-        avatar_url = #{avatarUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="wxNumber != null">
-        wx_number = #{wxNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="schoolName != null">
-        school_name = #{schoolName,jdbcType=VARCHAR},
-      </if>
-      <if test="degree != null">
-        degree = #{degree,jdbcType=VARCHAR},
-      </if>
-      <if test="major != null">
-        major = #{major,jdbcType=VARCHAR},
-      </if>
-      <if test="department != null">
-        department = #{department,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.compusshare.weshare.repository.entity.User">
+    <insert id="insertSelective" parameterType="cn.compusshare.weshare.repository.entity.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="nickname != null">
+                nickname,
+            </if>
+            <if test="realName != null">
+                real_name,
+            </if>
+            <if test="identifiedType != null">
+                identified_type,
+            </if>
+            <if test="avatarUrl != null">
+                avatar_url,
+            </if>
+            <if test="wxNumber != null">
+                wx_number,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="schoolName != null">
+                school_name,
+            </if>
+            <if test="degree != null">
+                degree,
+            </if>
+            <if test="major != null">
+                major,
+            </if>
+            <if test="department != null">
+                department,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="identifiedType != null">
+                #{identifiedType,jdbcType=TINYINT},
+            </if>
+            <if test="avatarUrl != null">
+                #{avatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="wxNumber != null">
+                #{wxNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="schoolName != null">
+                #{schoolName,jdbcType=VARCHAR},
+            </if>
+            <if test="degree != null">
+                #{degree,jdbcType=VARCHAR},
+            </if>
+            <if test="major != null">
+                #{major,jdbcType=VARCHAR},
+            </if>
+            <if test="department != null">
+                #{department,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.compusshare.weshare.repository.entity.User">
+        update user
+        <set>
+            <if test="nickname != null">
+                nickname = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                real_name = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="identifiedType != null">
+                identified_type = #{identifiedType,jdbcType=TINYINT},
+            </if>
+            <if test="avatarUrl != null">
+                avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="wxNumber != null">
+                wx_number = #{wxNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="schoolName != null">
+                school_name = #{schoolName,jdbcType=VARCHAR},
+            </if>
+            <if test="degree != null">
+                degree = #{degree,jdbcType=VARCHAR},
+            </if>
+            <if test="major != null">
+                major = #{major,jdbcType=VARCHAR},
+            </if>
+            <if test="department != null">
+                department = #{department,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.compusshare.weshare.repository.entity.User">
     update user
     set nickname = #{nickname,jdbcType=VARCHAR},
       real_name = #{realName,jdbcType=VARCHAR},
@@ -256,7 +300,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
-  <update id="updateAvatarUrl">
+    <update id="updateAvatarUrl">
     update user
     set avatar_url = #{avatarUrl}
     WHERE id = #{id};

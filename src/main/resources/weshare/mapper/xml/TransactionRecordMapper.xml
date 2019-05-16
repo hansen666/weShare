@@ -24,6 +24,23 @@
   </select>
 
 
+  <select id="monthlyQuantity" parameterType="java.lang.Integer" resultType="java.util.Map">
+    select
+    month(create_time) 'month' ,count(id) 'count'
+    from transaction_record
+    where year(create_time)= #{year}
+    group by month(create_time)
+  </select>
+
+  <select id="dailyQuantity" resultType="java.util.Map">
+    select
+    day(create_time) 'day' ,count(id) 'count'
+    from transaction_record
+    where year(create_time)= #{year} and month(create_time)=#{month}
+    group by day(create_time)
+  </select>
+
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from transaction_record

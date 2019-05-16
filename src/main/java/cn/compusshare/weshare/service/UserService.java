@@ -32,4 +32,6 @@ public interface UserService {
     Map<String,String> getAvatarUrlById(String userId);
 
     Map<String,String> getAvatarUrlByToken(String token);
+
+    ResultResponse sendFeedback(String token, String content);
 }
